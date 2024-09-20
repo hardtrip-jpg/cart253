@@ -11,7 +11,7 @@
  * Define canvas 
 */
 function setup() {
-    createCanvas(640, 480)
+    createCanvas(640, 480);
 }
 
 
@@ -19,8 +19,9 @@ function setup() {
  * Draws different drawings based on functions
 */
 function draw() {
-    background(102, 178, 255)
-    drawFlag()
+    background(102, 178, 255);
+    drawPyramidArt();
+
 }
 
 
@@ -28,23 +29,54 @@ function draw() {
  * Draws 3 different rectangles to create a flag
  */
 function drawFlag() {
-    noStroke()
+    noStroke();
 
     //Green Rect
-    push()
-    fill(100, 200, 100)
+    push();
+    fill(0, 100, 0);
     rect(130, 100, 130, 280);
-    pop()
+    pop();
 
     //White rect
-    push()
+    push();
     rect(260, 100, 130, 280);
-    pop()
+    pop();
 
     //Red rect
-    push()
-    fill(255, 0, 0)
+    push();
+    fill(255, 0, 0);
     rect((260 + 130), 100, 130, 280);
-    pop()
+    pop();
 }
 
+/**
+ * Functions for Pyramid function
+ */
+function drawPyramidArt() {
+    noStroke();
+    drawSand();
+}
+
+// Draws the base sand
+function drawSand() {
+    //Main drawing group declared
+    push();
+    fill(255, 200, 0);
+
+    //Sand Left
+    ellipse(0, 360, 800, 150);
+
+    //Base floor drawing group
+    push();
+    fill(255, 210, 0);
+    ellipseMode(RADIUS);
+    ellipse(0, 480, 800, 130);
+    pop();
+
+    //Sand Right
+    ellipse(640, 380, 800, 130);
+
+
+
+    pop();
+}
