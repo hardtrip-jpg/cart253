@@ -15,7 +15,7 @@ let level_select = [
     new MainMenu,
     new Eyes,
 ]
-let current_level = 0
+let current_level = 1
 
 
 /**
@@ -48,4 +48,11 @@ function mousePressed(){
 function go_to(levelID){
     current_level = levelID
     level_select[current_level].game_setup()
+}
+
+function keyPressed() {
+    
+    if (key === 'c') {
+      level_select[current_level].show_collisions = !level_select[current_level].show_collisions
+    }
 }
