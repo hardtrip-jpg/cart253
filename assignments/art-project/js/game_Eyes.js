@@ -52,6 +52,12 @@ class Eyes extends Base{
 }
 
 class EyeObject {
+
+    constructor(base_pos_x, base_pos_y){
+        this.base_pos_x = base_pos_x;
+        this.base_pos_y = base_pos_y;
+    }
+
     
 
 }
