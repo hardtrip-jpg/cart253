@@ -14,8 +14,9 @@
 let level_select = [
     new MainMenu,
     new Eyes,
+    new Yard,
 ]
-let current_level = 1
+let current_level = 2
 
 
 /**

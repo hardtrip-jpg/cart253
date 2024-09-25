@@ -12,7 +12,7 @@ class MainMenu extends Base{
 
     //define collisions
     collision_1 = new LevelButton(10,10,100,100, 1)
-    collision_2 = new LevelButton(200,200,100,100,1)
+    collision_2 = new LevelButton(200,200,100,100,2)
 
     collision_array = [this.collision_1, this.collision_2]
 
@@ -33,7 +33,7 @@ class MainMenu extends Base{
             let loc_x = this.collision_array[i].location_x
             let loc_y = this.collision_array[i].location_y
             let wid = this.collision_array[i].size_x
-            let hei = this.collision_array[i].size_x
+            let hei = this.collision_array[i].size_y
             //check mouse location to current collision
             if (
                 (mouseX > loc_x && mouseX < (loc_x + wid))
