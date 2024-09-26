@@ -34,14 +34,11 @@ class Yard extends Base {
 
         for (let i = 0; i < this.yard_objects.length; i++) {
             if (this.yard_objects[i].cleaned_up == false) {
-                let loc_x = this.yard_objects[i].collision.location_x
-                let loc_y = this.yard_objects[i].collision.location_y
-                let wid = this.yard_objects[i].collision.size_x
-                let hei = this.yard_objects[i].collision.size_y
+                let col = this.yard_objects[i].collision
 
                 push();
                 fill("000000");
-                rect(loc_x, loc_y, wid, hei);
+                rect(col.location_x, col.location_y, col.size_x, col.size_y);
                 pop();
             }
 
@@ -52,41 +49,21 @@ class Yard extends Base {
     //if mouse pressed, check if over collision location and act accordingly
 
     game_mousePressed() {
-        for (let i = 0; i < this.collision_array.length; i++) {
-            //grab properties from current collision
-            let loc_x = this.collision_array[i].location_x
-            let loc_y = this.collision_array[i].location_y
-            let wid = this.collision_array[i].size_x
-            let hei = this.collision_array[i].size_x
-            //check mouse location to current collision
-            if (
-                (mouseX > loc_x && mouseX < (loc_x + wid))
-                &&
-                (mouseY > loc_y && mouseY < (loc_y + hei))
-            ) {
-                go_to(this.collision_array[i].levelID)
-            }
-        }
+        super.game_mousePressed();
 
         let current_length = this.yard_objects.length;
         let check_cleaned = 0;
         for (let i = 0; i < current_length; i++) {
-            //grab properties from current collision
-            let loc_x = this.yard_objects[i].collision.location_x
-            let loc_y = this.yard_objects[i].collision.location_y
-            let wid = this.yard_objects[i].collision.size_x
-            let hei = this.yard_objects[i].collision.size_x
-            //check mouse location to current collision
             if (
-                (mouseX > loc_x && mouseX < (loc_x + wid))
-                &&
-                (mouseY > loc_y && mouseY < (loc_y + hei))
+                check_collisions(this.yard_objects[i].collision)
             ) {
                 this.yard_objects[i].cleaned_up = true;
             }
+
             if (this.yard_objects[i].cleaned_up) {
                 check_cleaned++;
             }
+
             if (check_cleaned >= current_length) {
                 console.log("All clean")
             }

@@ -30,6 +30,14 @@ class Base {
 
     game_mousePressed() {
 
+        for (let i = 0; i < this.collision_array.length; i++) {
+            if (
+                check_collisions(this.collision_array[i])
+            ) {
+                go_to(this.collision_array[i].levelID)
+            }
+        }
+
     };
 
     collision_array = [];
@@ -51,6 +59,27 @@ class LevelButton extends Collision {
     constructor(location_x, location_y, size_x, size_y, levelID) {
         super(location_x, location_y, size_x, size_y);
         this.levelID = levelID;
+    }
+
+}
+
+function check_collisions(col) {
+    let loc_x = col.location_x
+    let loc_y = col.location_y
+    let wid = col.size_x
+    let hei = col.size_y
+    //check mouse location to current collision
+    if (
+        (mouseX > loc_x && mouseX < (loc_x + wid))
+        &&
+        (mouseY > loc_y && mouseY < (loc_y + hei))
+    ) {
+        return true;
+        console.log("true");
+    }
+    else {
+        return false;
+        console.log("false");
     }
 
 }

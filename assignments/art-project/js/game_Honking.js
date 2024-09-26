@@ -41,37 +41,15 @@ class Honk extends Base {
     };
 
     game_mousePressed() {
+        super.game_mousePressed();
+
         for (let i = 0; i < this.interactables.length; i++) {
-            let loc_x = this.interactables[i].location_x
-            let loc_y = this.interactables[i].location_y
-            let wid = this.interactables[i].size_x
-            let hei = this.interactables[i].size_y
             //check mouse location to current collision
             if (
-                (mouseX > loc_x && mouseX < (loc_x + wid))
-                &&
-                (mouseY > loc_y && mouseY < (loc_y + hei))
+                check_collisions(this.interactables[i])
             ) {
                 this.interactables[i].do()
             }
-        }
-
-        for (let i = 0; i < this.collision_array.length; i++) {
-            //grab properties from currewnt collision
-            let loc_x = this.collision_array[i].location_x
-            let loc_y = this.collision_array[i].location_y
-            let wid = this.collision_array[i].size_x
-            let hei = this.collision_array[i].size_y
-            //check mouse location to current collision
-            if (
-                (mouseX > loc_x && mouseX < (loc_x + wid))
-                &&
-                (mouseY > loc_y && mouseY < (loc_y + hei))
-            ) {
-                console.log("clicked collision")
-                go_to(this.collision_array[i].levelID)
-            }
-
         }
     }
 

@@ -7,17 +7,17 @@
 
 "use strict";
 
-/**
- * OH LOOK I DIDN'T DESCRIBE SETUP!!
-*/
-function setup() {
-
-}
 
 
 /**
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
 */
-function draw() {
-
+class Guitar extends Base {
+    game_draw() {
+        background("#FF00FF")
+        noFill();
+        stroke(0);
+        strokeWeight(5);
+        bezier(100, 100, mouseX, mouseY, mouseX, mouseY, 540, 380);
+    }
 }

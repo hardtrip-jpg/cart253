@@ -16,6 +16,7 @@ let level_select = [
     new Eyes,
     new Yard,
     new Honk,
+    new Guitar,
 ]
 let current_level = 0
 

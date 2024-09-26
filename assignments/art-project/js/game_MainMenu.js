@@ -30,16 +30,8 @@ class MainMenu extends Base {
 
     game_mousePressed() {
         for (let i = 0; i < this.collision_array.length; i++) {
-            //grab properties from currewnt collision
-            let loc_x = this.collision_array[i].location_x
-            let loc_y = this.collision_array[i].location_y
-            let wid = this.collision_array[i].size_x
-            let hei = this.collision_array[i].size_y
-            //check mouse location to current collision
             if (
-                (mouseX > loc_x && mouseX < (loc_x + wid))
-                &&
-                (mouseY > loc_y && mouseY < (loc_y + hei))
+                check_collisions(this.collision_array[i])
             ) {
                 console.log("clicked collision")
                 go_to(this.collision_array[i].levelID)
