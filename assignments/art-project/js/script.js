@@ -15,8 +15,9 @@ let level_select = [
     new MainMenu,
     new Eyes,
     new Yard,
+    new Honk,
 ]
-let current_level = 2
+let current_level = 0
 
 
 /**
@@ -38,7 +39,7 @@ function draw() {
 /**
  * Calls current levels mouse_pressed function
 */
-function mousePressed(){
+function mousePressed() {
     level_select[current_level].game_mousePressed()
 }
 
@@ -46,14 +47,14 @@ function mousePressed(){
 /**
  * Changes current level and calls new level setup function
 */
-function go_to(levelID){
+function go_to(levelID) {
     current_level = levelID
     level_select[current_level].game_setup()
 }
 
 function keyPressed() {
-    
+
     if (key === 'c') {
-      level_select[current_level].show_collisions = !level_select[current_level].show_collisions
+        level_select[current_level].show_collisions = !level_select[current_level].show_collisions
     }
 }
