@@ -27,7 +27,7 @@ class Yard extends Base {
 
     //draw basic background and text
     game_draw() {
-        background("#FFFF00");
+        background("#00FF00");
         text("yard", 320, 240);
 
         super.game_draw();

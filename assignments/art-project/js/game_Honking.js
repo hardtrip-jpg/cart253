@@ -13,7 +13,7 @@ class Honk extends Base {
 
     interactables = [new BumperHonk(100, 300, 100, 100), new Radiohonk(500, 300, 100, 100)];
 
-    collision_array = [this.collision_1, this.interactables[0], this.interactables[1]]
+    collision_array = [this.collision_1]
 
 
 
@@ -24,10 +24,20 @@ class Honk extends Base {
 
     game_draw() {
 
-        background("#FFFF00");
+        background("#0000FF");
         text("honk", 320, 240);
 
         super.game_draw();
+
+        if (this.show_collisions) {
+            for (let i = 0; i < this.interactables.length; i++) {
+                push()
+                rect(this.interactables[i].location_x, this.interactables[i].location_y, this.interactables[i].size_x, this.interactables[i].size_y)
+                pop()
+            }
+        }
+
+
     };
 
     game_mousePressed() {
@@ -46,10 +56,29 @@ class Honk extends Base {
             }
         }
 
-    };
+        for (let i = 0; i < this.collision_array.length; i++) {
+            //grab properties from currewnt collision
+            let loc_x = this.collision_array[i].location_x
+            let loc_y = this.collision_array[i].location_y
+            let wid = this.collision_array[i].size_x
+            let hei = this.collision_array[i].size_y
+            //check mouse location to current collision
+            if (
+                (mouseX > loc_x && mouseX < (loc_x + wid))
+                &&
+                (mouseY > loc_y && mouseY < (loc_y + hei))
+            ) {
+                console.log("clicked collision")
+                go_to(this.collision_array[i].levelID)
+            }
+
+        }
+    }
+
+};
 
 
-}
+
 
 class InteractableHonk extends Collision {
 
