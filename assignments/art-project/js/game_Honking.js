@@ -9,9 +9,12 @@
 
 class Honk extends Base {
 
+    collision_1 = new LevelButton(10, 10, 100, 100, 0)
 
     interactables = [new BumperHonk(100, 300, 100, 100), new Radiohonk(500, 300, 100, 100)];
-    collision_array = [this.interactables[0], this.interactables[1]]
+
+    collision_array = [this.collision_1, this.interactables[0], this.interactables[1]]
+
 
 
 
@@ -58,6 +61,9 @@ class InteractableHonk extends Collision {
 class BumperHonk extends InteractableHonk {
     do() {
         console.log("Bumper")
+        if ((Math.floor(Math.random() * 12)) > 8) {
+            console.log("SHUT UP")
+        }
     }
 }
 
