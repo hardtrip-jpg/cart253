@@ -14,8 +14,9 @@ class MainMenu extends Base {
     collision_1 = new LevelButton(10, 10, 100, 100, 1)
     collision_2 = new LevelButton(200, 200, 100, 100, 2)
     collision_3 = new LevelButton(400, 400, 100, 100, 3)
+    collision_4 = new LevelButton(400, 100, 100, 100, 4)
 
-    collision_array = [this.collision_1, this.collision_2, this.collision_3]
+    collision_array = [this.collision_1, this.collision_2, this.collision_3, this.collision_4]
 
     //draw basic background and text
     game_draw() {
@@ -29,14 +30,7 @@ class MainMenu extends Base {
     //if mouse pressed, check if over collision location and act accordingly
 
     game_mousePressed() {
-        for (let i = 0; i < this.collision_array.length; i++) {
-            if (
-                check_collisions(this.collision_array[i])
-            ) {
-                console.log("clicked collision")
-                go_to(this.collision_array[i].levelID)
-            }
-        }
+        super.game_mousePressed();
     }
 
 
