@@ -18,9 +18,12 @@ class Guitar extends Base {
 
     collision_array = [this.collision_1]
 
+    game_preload(){
+        super.game_preload();
+        this.collision_1.img = this.back_button;
+    }
+
     game_draw() {
-
-
         background("#FF00FF");
         super.game_draw();
 

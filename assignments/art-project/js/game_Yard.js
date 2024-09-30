@@ -19,6 +19,11 @@ class Yard extends Base {
     object_2 = new YardObject(400, 300, 100, 100)
     yard_objects = [this.object_1, this.object_2,]
 
+    game_preload(){
+        super.game_preload();
+        this.collision_1.img = this.back_button;
+    }
+
     game_setup() {
         for (let i = 0; i < this.yard_objects.length; i++) {
             this.yard_objects[i].cleaned_up = false;

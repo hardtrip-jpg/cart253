@@ -13,7 +13,7 @@ class Base {
     };
 
     game_preload(){
-
+        this.back_button = loadImage('assets/images/back-arrow.png');
     };
 
     game_setup() {
@@ -21,15 +21,20 @@ class Base {
     };
 
     game_draw() {
+        imageMode(CORNER);
         //debug show collisions option
-        if (this.show_collisions) {
             for (let i = 0; i < this.collision_array.length; i++) {
-                push()
-                fill("#000000")
-                rect(this.collision_array[i].location_x, this.collision_array[i].location_y, this.collision_array[i].size_x, this.collision_array[i].size_y)
-                pop()
+                if (this.show_collisions) {
+                push();
+                fill("#000000");
+                rect(this.collision_array[i].location_x, this.collision_array[i].location_y, this.collision_array[i].size_x, this.collision_array[i].size_y);
+                pop();
+                }
+                if (this.collision_array[i].img){
+                    image(this.collision_array[i].img, this.collision_array[i].location_x, this.collision_array[i].location_y)
+                }
             }
-        }
+        imageMode(CENTER);
     };
 
     game_mousePressed() {
@@ -46,7 +51,7 @@ class Base {
 
     collision_array = [];
 
-    show_collisions = true;
+    show_collisions = false;
 }
 
 class Collision {
@@ -60,9 +65,10 @@ class Collision {
 }
 
 class LevelButton extends Collision {
-    constructor(location_x, location_y, size_x, size_y, levelID) {
+    constructor(location_x, location_y, size_x, size_y, levelID, img) {
         super(location_x, location_y, size_x, size_y);
         this.levelID = levelID;
+        this.img = img;
     }
 
 }

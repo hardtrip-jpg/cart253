@@ -18,20 +18,23 @@ class Eyes extends Base {
     eye_4 = new EyeObject(540, 310)
     eye_5 = new EyeObject(40, 360)
 
-    collision_array = [this.collision_1,]
+    collision_array = [this.collision_1]
     eyes_array = [this.eye_1, this.eye_2, this.eye_3, this.eye_4, this.eye_5]
 
     game_preload(){
-        this.fence_img = loadImage('assets/images/fence.png')
-        this.eye_img = loadImage('assets/images/eye.png')
-        this.lids_img = loadImage('assets/images/lids.png')
-        this.shut_lids_img = loadImage('assets/images/shut_lids.png')
+        super.game_preload();
+        this.fence_img = loadImage('assets/images/fence.png');
+        this.eye_img = loadImage('assets/images/eye.png');
+        this.lids_img = loadImage('assets/images/lids.png');
+        this.shut_lids_img = loadImage('assets/images/shut_lids.png');
+        this.eyes_bg_img = loadImage('assets/images/eyes_bg.jpeg');
+        this.collision_1.img = this.back_button;
     }
 
     game_draw() {
-        imageMode(CENTER);
+        
         //define basic background
-        background("#FF0000");
+        image(this.eyes_bg_img, 320, 240);
         text("eyes", 100, 200);
 
         //for collision debugs
@@ -91,8 +94,8 @@ class EyeObject {
 
         let dir = createVector((mouse_pos.x - this.base_pos_x), (mouse_pos.y - this.base_pos_y))
         let dir_normed = p5.Vector.normalize(dir);
-        this.pupil_pos_x = this.base_pos_x + (dir_normed.x * 20)
-        this.pupil_pos_y = this.base_pos_y + (dir_normed.y * 10 - 5)
+        this.pupil_pos_x = this.base_pos_x + ((dir_normed.x * 15) - 2.5)
+        this.pupil_pos_y = this.base_pos_y + ((dir_normed.y * 10) - 5)
     }
 
 

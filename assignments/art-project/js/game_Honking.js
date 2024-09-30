@@ -15,8 +15,10 @@ class Honk extends Base {
 
     collision_array = [this.collision_1]
 
-
-
+    game_preload(){
+        super.game_preload();
+        this.collision_1.img = this.back_button;
+    };
 
     game_setup() {
 

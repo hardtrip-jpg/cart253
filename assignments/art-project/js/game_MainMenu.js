@@ -18,6 +18,10 @@ class MainMenu extends Base {
 
     collision_array = [this.collision_1, this.collision_2, this.collision_3, this.collision_4]
 
+    game_preload(){
+        super.game_preload()
+    }
+
     //draw basic background and text
     game_draw() {
         background("#FFFF00");
