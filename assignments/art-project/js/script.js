@@ -18,7 +18,7 @@ let level_select = [
     new Honk,
     new Guitar,
 ]
-let current_level = 0;
+let current_level = 1;
 
 
 function preload(){
