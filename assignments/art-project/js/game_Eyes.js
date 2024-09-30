@@ -18,6 +18,12 @@ class Eyes extends Base {
     collision_array = [this.collision_1,]
     eyes_array = [this.eye_1, this.eye_2,]
 
+    fence_img
+
+    game_preload(){
+        this.fence_img = loadImage('assets/images/fence.png')
+    }
+
     game_draw() {
         //define basic background
         background("#FF0000");
@@ -48,6 +54,8 @@ class Eyes extends Base {
 
 
         }
+
+        image(this.fence_img, 0, 0)
 
 
 

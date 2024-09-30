@@ -12,6 +12,10 @@ class Base {
 
     };
 
+    game_preload(){
+
+    };
+
     game_setup() {
 
     };

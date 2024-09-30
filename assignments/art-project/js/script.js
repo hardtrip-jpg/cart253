@@ -18,8 +18,15 @@ let level_select = [
     new Honk,
     new Guitar,
 ]
-let current_level = 0
+let current_level = 0;
 
+
+function preload(){
+   for (let i = 0; i < level_select.length; i++){
+       level_select[i].game_preload();
+    }
+
+}
 
 /**
  * Creats basic canvas
