@@ -32,9 +32,10 @@ class Eyes extends Base {
     }
 
     game_draw() {
-        
+        let bg_position = get_3D_effect(320, 240, 1);
+
         //define basic background
-        image(this.eyes_bg_img, 320, 240);
+        image(this.eyes_bg_img, bg_position[0], bg_position[1]);
         text("eyes", 100, 200);
 
         //for collision debugs
@@ -62,7 +63,8 @@ class Eyes extends Base {
             }
             
         }
-        image(this.fence_img, 320, 240)
+        let fence_position = get_3D_effect(320,240,5)
+        image(this.fence_img, fence_position[0], fence_position[1])
 
 
 
@@ -72,6 +74,8 @@ class Eyes extends Base {
     game_mousePressed() {
         super.game_mousePressed();
     }
+
+
 }
 
 //
@@ -90,9 +94,7 @@ class EyeObject {
 
     get_pupil_pos() {
 
-        let mouse_pos = createVector(mouseX, mouseY)
-
-        let dir = createVector((mouse_pos.x - this.base_pos_x), (mouse_pos.y - this.base_pos_y))
+        let dir = createVector((mouseX - this.base_pos_x), (mouseY - this.base_pos_y))
         let dir_normed = p5.Vector.normalize(dir);
         this.pupil_pos_x = this.base_pos_x + ((dir_normed.x * 15) - 2.5)
         this.pupil_pos_y = this.base_pos_y + ((dir_normed.y * 10) - 5)
@@ -101,3 +103,4 @@ class EyeObject {
 
 
 }
+

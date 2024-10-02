@@ -37,6 +37,7 @@ class MainMenu extends Base {
         super.game_mousePressed();
     }
 
+    show_collisions = true;
 
 
 }

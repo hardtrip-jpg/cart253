@@ -93,3 +93,13 @@ function check_collisions(col) {
     }
 
 }
+
+function get_3D_effect(cur_x, cur_y, weight){
+        
+
+    let dir = createVector((mouseX - cur_x), (mouseY - cur_y))
+    let dir_normed = p5.Vector.normalize(dir);
+    let new_x = cur_x - (((dir.x/cur_x) * weight))
+    let new_y = cur_y - (((dir.y/cur_y) * weight))
+    return [new_x, new_y]
+}
