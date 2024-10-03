@@ -1,26 +1,34 @@
 /**
- * Museum of Housing
+ * Museum of Housing - Eyes
  * Jeremy Dumont
  * 
- * A collection of short pieces that reflect the home owner experience.
+ * Eyes follow player wherever they go.
  */
 
 "use strict";
-
+/**
+ * Define Eye class.
+ */
 class Eyes extends Base {
 
+    //Define level button
     collision_1 = new LevelButton(10, 10, 100, 100, 0)
 
+    //Define all the eye object positions
     eye_1 = new EyeObject(400, 210)
     eye_2 = new EyeObject(160, 300)
     eye_3 = new EyeObject(360, 370)
     eye_4 = new EyeObject(540, 310)
     eye_5 = new EyeObject(40, 360)
 
+    //Holders for eyes and button
     collision_array = [this.collision_1]
     eyes_array = [this.eye_1, this.eye_2, this.eye_3, this.eye_4, this.eye_5]
 
-    game_preload(){
+    /**
+     * Preload all required resources
+     */
+    game_preload() {
         super.game_preload();
 
         //load images
@@ -36,14 +44,21 @@ class Eyes extends Base {
 
     }
 
-    game_setup(){
+    /**
+     * Stop current audio, play this levels background audio
+     */
+    game_setup() {
         main_audio.stop();
         main_audio = this.bg_sound
         main_audio.loop();
-        
+
     }
 
+    /**
+     * Draws all components such as eyes, background, and foreground elements.
+     */
     game_draw() {
+        //BACKGROUND
         let bg_position = get_3D_effect(320, 240, 0.1);
 
         //define basic background
@@ -53,29 +68,37 @@ class Eyes extends Base {
         //for collision debugs
         super.game_draw();
 
-        ellipseMode(CENTER)
 
+        //EYES
         //cycle through eyes in eye array
         for (let i = 0; i < this.eyes_array.length; i++) {
+
+            //calculate the pupil position based on mouse
             this.eyes_array[i].get_pupil_pos();
-            //draw white of eyes
-            
+
+            //if mouse is hovering eye, draw it closed
             if (
                 check_collisions(this.eyes_array[i].hover_col)
-            ) { push();
+            ) {
+                push();
                 image(this.shut_lids_img, this.eyes_array[i].base_pos_x, this.eyes_array[i].base_pos_y)
-                pop();}
+                pop();
+            }
+            //if mouse isnt hovering, draw full eye and pupil.
             else {
                 push();
-                image(this.eye_img,this.eyes_array[i].pupil_pos_x,this.eyes_array[i].pupil_pos_y)
+                image(this.eye_img, this.eyes_array[i].pupil_pos_x, this.eyes_array[i].pupil_pos_y)
                 pop();
                 push();
                 image(this.lids_img, this.eyes_array[i].base_pos_x, this.eyes_array[i].base_pos_y)
                 pop();
             }
-            
+
         }
-        let fence_position = get_3D_effect(320,240,3)
+
+        //FOREGROUND
+        //get 3d position for fence and calculate
+        let fence_position = get_3D_effect(320, 240, 3)
         image(this.fence_img, fence_position[0], fence_position[1])
 
 
@@ -83,6 +106,7 @@ class Eyes extends Base {
 
     }
 
+    //used only for back button in the level
     game_mousePressed() {
         super.game_mousePressed();
     }
@@ -90,20 +114,26 @@ class Eyes extends Base {
 
 }
 
-//
+/**
+ * Defines Eye object.
+ */
 class EyeObject {
 
+    //pupil position to be manipulated
     pupil_pos_x = 0
     pupil_pos_y = 0
 
 
-
+    //constructor
     constructor(base_pos_x, base_pos_y) {
         this.base_pos_x = base_pos_x
         this.base_pos_y = base_pos_y
         this.hover_col = new Collision(this.base_pos_x - 40, this.base_pos_y - 30, 80, 50)
     }
 
+    /**
+     * Creates direction based on mouse position and current position. Offsets current position based on direction.
+     */
     get_pupil_pos() {
 
         let dir = createVector((mouseX - this.base_pos_x), (mouseY - this.base_pos_y))

@@ -1,5 +1,5 @@
 /**
- * Museum of Housing Yard
+ * Museum of Housing - Yard
  * Jeremy Dumont
  * 
  * Clean up your yard. Kill all the wildlife and become normal.
@@ -7,7 +7,9 @@
 
 "use strict";
 
-//define menu class
+/**
+ * Define Yard Class
+ */
 class Yard extends Base {
 
     //define level button collisions
@@ -29,7 +31,7 @@ class Yard extends Base {
     /**
      * Load up all the required resources
      */
-    game_preload(){
+    game_preload() {
         //set back button
         super.game_preload();
         this.collision_1.img = this.back_button;
@@ -55,9 +57,9 @@ class Yard extends Base {
         this.bg_sound_1 = loadSound('assets/sounds/yard_ambience.ogg');
         this.bg_sound_2 = loadSound('assets/sounds/yard_music.ogg');
     }
-    
+
     /**
-     * Reset level to its init state
+     * Reset level to its init state & play level music
      */
     game_setup() {
         for (let i = 0; i < this.yard_objects.length; i++) {
@@ -72,15 +74,17 @@ class Yard extends Base {
      * Draw the yard objects that havent been cleaned up and additional backgrounds
      */
     game_draw() {
+        //BACKGROUND
         //sky image
         image(this.yard_sky_img, 320, 240);
 
         super.game_draw();
-        
+
         //calculate fence and ground paralax and then draw fence and ground
         this.bg_position = get_3D_effect(320, 240, 5);
         image(this.yard_img, 320, this.bg_position[1]);
 
+        //YARD OBJECTS
         //cycle through objects and draw them
         push();
         imageMode(CORNER);
@@ -95,12 +99,12 @@ class Yard extends Base {
 
                 //get paralax position for object
                 let new_pos = get_3D_effect(col.location_x, col.location_y, this.yard_objects[i].weight)
-                
+
                 //if object has image, draw image. else, draw the collision.
-                if (this.yard_objects[i].img){
+                if (this.yard_objects[i].img) {
                     image(this.yard_objects[i].img, col.location_x, new_pos[1])
                 }
-                else{
+                else {
                     rect(col.location_x, new_pos[1], col.size_x, col.size_y);
                 }
                 pop();
@@ -111,9 +115,9 @@ class Yard extends Base {
 
     }
 
-    
+
     /**
-     * if mouse pressed, check if current mouse pos matches collisions
+     * If mouse pressed, check if current mouse pos matches collisions
      */
     game_mousePressed() {
         super.game_mousePressed();
@@ -127,22 +131,27 @@ class Yard extends Base {
 
         //cycle through all collision positions and react accordingly
         for (let i = current_length - 1; i > -1; i--) {
-            
+
+            //if object is already cleaned, add to check cleaned
             if (this.yard_objects[i].cleaned_up) {
                 check_cleaned++;
             }
+            //check if collision hasnt already been clicked. if not, check if mouse hovering current object
             else if (
                 !col_clicked && check_collisions(this.yard_objects[i].collision)
             ) {
+                //indicate site is cleaned & play objects appropriate sound
                 this.yard_objects[i].cleaned_up = true;
                 check_cleaned++;
+
                 col_clicked = true;
-                if (this.yard_objects[i].sound){
+
+                if (this.yard_objects[i].sound) {
                     this.yard_objects[i].sound.play();
                 }
             }
 
-
+            //if all objects clean, change background audio
             if (check_cleaned >= current_length) {
                 main_audio.stop();
                 main_audio = this.bg_sound_2;

@@ -12,7 +12,20 @@ A collection of short pieces that reflect the home owner experience.
 This project uses [p5.js](https://p5js.org).
 
 ## Attribution
+~ NONE OF THE IMAGES USED ARE MY OWN ~
 
-This bit should attribute any assets or other elements used taken from other sources. For example:
+Images Used:
+    https://www.freeiconspng.com/img/42316
+    https://officialpsds.com/eyeball-psd-7kv1jv
+    https://www.pngarts.com/ko/explore/232153
+    https://pluspng.com/png-19863.html
+    http://www.clker.com/clipart-back-arrow-2.html
+    https://pngimg.com/image/57339
+    https://www.freeiconspng.com/images/bushes-png
+    https://www.thisoldhouse.com/walls/22215480/remove-mold-on-drywall
+    https://www.arrigosawgrass.com/2016-jeep-wrangler-unlimited-fort-lauderdale.htm
+    https://bajuradesigns.blogspot.com/2021/06/free-digital-photo-frames-or-borders.html
 
-The fish images were sourced from the [Creative Commons image "Georgia Aquarium Fish"](https://search.creativecommons.org/photos/96f6f770-eac1-488c-8abb-16bee7bcc874) by Mike Johnston which is licensed with CC BY 2.0. To view a copy of this license, visit https://creativecommons.org/licenses/by/2.0/.
+    Some image attribution might be missing or depracicated.
+
+Some sounds were sourced from https://freesound.org/

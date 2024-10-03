@@ -1,8 +1,9 @@
 /**
- * Museum of Housing MAIN SCRIPT
+ * Museum of Housing - Main
  * Jeremy Dumont
  * 
  * A collection of short pieces that reflect the home owner experience.
+ * 
  * This script runs the global logic for the game.
  */
 
@@ -22,10 +23,10 @@ let current_level = 0;
 let main_audio;
 
 
-function preload(){
+function preload() {
     main_audio = loadSound('assets/sounds/menu.ogg');
-    for (let i = 0; i < level_select.length; i++){
-       level_select[i].game_preload();
+    for (let i = 0; i < level_select.length; i++) {
+        level_select[i].game_preload();
     }
 
 }

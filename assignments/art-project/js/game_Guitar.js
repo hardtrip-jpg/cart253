@@ -1,8 +1,8 @@
 /**
- * Museum of Housing
+ * THIS SCRIPT IS DECRAPICATED
  * Jeremy Dumont
  * 
- * A collection of short pieces that reflect the home owner experience.
+ * Guitar game was intended, but was out of scope.
  */
 
 "use strict";
@@ -10,7 +10,7 @@
 
 
 /**
- * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
+ * Guitar level. Bezier curve that moves based on mouse.
 */
 class Guitar extends Base {
 
@@ -18,7 +18,7 @@ class Guitar extends Base {
 
     collision_array = [this.collision_1]
 
-    game_preload(){
+    game_preload() {
         super.game_preload();
         this.collision_1.img = this.back_button;
     }
