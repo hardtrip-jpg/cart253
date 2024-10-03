@@ -32,7 +32,7 @@ class Eyes extends Base {
     }
 
     game_draw() {
-        let bg_position = get_3D_effect(320, 240, 1);
+        let bg_position = get_3D_effect(320, 240, 0.1);
 
         //define basic background
         image(this.eyes_bg_img, bg_position[0], bg_position[1]);
@@ -63,7 +63,7 @@ class Eyes extends Base {
             }
             
         }
-        let fence_position = get_3D_effect(320,240,5)
+        let fence_position = get_3D_effect(320,240,3)
         image(this.fence_img, fence_position[0], fence_position[1])
 
 

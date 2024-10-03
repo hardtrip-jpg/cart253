@@ -15,22 +15,28 @@ class Yard extends Base {
     collision_array = [this.collision_1];
 
     //define yard objects
-    object_1 = new YardObject(250, 250, 100, 100, 3);
-    object_2 = new YardObject(400, 300, 100, 100, 3);
     tree_object = new YardObject(30, 40, 233, 420, 1);
-    yard_objects = [this.object_1, this.object_2, this.tree_object];
+    bush_1_object = new YardObject(200, 200, 150, 153, 4);
+    bush_2_object = new YardObject(80, 330, 120, 85, 7);
+    bush_3_object = new YardObject(290, 300, 400, 131, 6);
+    bush_front_object = new YardObject(1, 1, 640, 480, 0.01);
+    monkey_object = new YardObject(260, 260, 75, 75, 6);
+    squirel_object = new YardObject(500, 260, 50, 53, 5);
+    
+    yard_objects = [this.monkey_object, this.squirel_object, this.bush_1_object, this.bush_2_object, this.bush_3_object, this.tree_object, this.bush_front_object];
 
     game_preload(){
         super.game_preload();
         this.collision_1.img = this.back_button;
         this.yard_sky_img = loadImage('assets/images/yard-sky.jpg');
         this.yard_img = loadImage('assets/images/yard.png');
-        this.bush_1_img = loadImage('assets/images/yard_objects/bush_1.png');
-        this.bush_2_img = loadImage('assets/images/yard_objects/bush_2.png');
-        this.bush_3_img = loadImage('assets/images/yard_objects/bush_3.png');
+        this.bush_1_object.img = loadImage('assets/images/yard_objects/bush_1.png');
+        this.bush_2_object.img = loadImage('assets/images/yard_objects/bush_2.png');
+        this.bush_3_object.img = loadImage('assets/images/yard_objects/bush_3.png');
         this.tree_object.img = loadImage('assets/images/yard_objects/tree.png');
-        this.squirel_img = loadImage('assets/images/yard_objects/squirel.png');
-        this.monkey_img = loadImage('assets/images/yard_objects/monkey.png');
+        this.squirel_object.img = loadImage('assets/images/yard_objects/squirel.png');
+        this.monkey_object.img = loadImage('assets/images/yard_objects/monkey.png');
+        this.bush_front_object.img = loadImage('assets/images/yard_objects/bush_front.png')
     }
     
 
@@ -48,7 +54,7 @@ class Yard extends Base {
         super.game_draw();
 
         this.bg_position = get_3D_effect(320, 240, 5);
-        image(this.yard_img, this.bg_position[0], this.bg_position[1]);
+        image(this.yard_img, 320, this.bg_position[1]);
         push();
         imageMode(CORNER);
         for (let i = 0; i < this.yard_objects.length; i++) {
@@ -59,10 +65,10 @@ class Yard extends Base {
                 fill("000000");
                 let new_pos = get_3D_effect(col.location_x, col.location_y, this.yard_objects[i].weight)
                 if (this.yard_objects[i].img){
-                    image(this.yard_objects[i].img, new_pos[0], new_pos[1])
+                    image(this.yard_objects[i].img, col.location_x, new_pos[1])
                 }
                 else{
-                    rect(new_pos[0], new_pos[1], col.size_x, col.size_y);
+                    rect(col.location_x, new_pos[1], col.size_x, col.size_y);
                 }
                 pop();
             }
@@ -79,17 +85,22 @@ class Yard extends Base {
 
         let current_length = this.yard_objects.length;
         let check_cleaned = 0;
-        for (let i = 0; i < current_length; i++) {
-            if (
-                check_collisions(this.yard_objects[i].collision)
-            ) {
-                this.yard_objects[i].cleaned_up = true;
-                i = current_length;
-            }
+        let col_clicked = false;
+        for (let i = current_length - 1; i > -1; i--) {
+            console.log(i)
+            
 
             if (this.yard_objects[i].cleaned_up) {
                 check_cleaned++;
             }
+            else if (
+                !col_clicked && check_collisions(this.yard_objects[i].collision)
+            ) {
+                this.yard_objects[i].cleaned_up = true;
+                check_cleaned++;
+                col_clicked = true;
+            }
+
 
             if (check_cleaned >= current_length) {
                 console.log("All clean")
