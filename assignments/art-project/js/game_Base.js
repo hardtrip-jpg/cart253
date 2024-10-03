@@ -13,7 +13,9 @@ class Base {
     };
 
     game_preload(){
+        soundFormats('ogg');
         this.back_button = loadImage('assets/images/back-arrow.png');
+        this.button_sound = loadSound('assets/sounds/button.ogg');
     };
 
     game_setup() {
@@ -43,7 +45,8 @@ class Base {
             if (
                 check_collisions(this.collision_array[i])
             ) {
-                go_to(this.collision_array[i].levelID)
+                go_to(this.collision_array[i].levelID);
+                this.button_sound.play();
             }
         }
 

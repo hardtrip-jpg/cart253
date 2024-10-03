@@ -16,13 +16,15 @@ let level_select = [
     new Eyes,
     new Yard,
     new Honk,
-    new Guitar,
 ]
 let current_level = 0;
 
+let main_audio;
+
 
 function preload(){
-   for (let i = 0; i < level_select.length; i++){
+    main_audio = loadSound('assets/sounds/menu.ogg');
+    for (let i = 0; i < level_select.length; i++){
        level_select[i].game_preload();
     }
 
@@ -60,6 +62,9 @@ function go_to(levelID) {
     level_select[current_level].game_setup()
 }
 
+/**
+ * Debug setting to see and hide collisions
+ */
 function keyPressed() {
 
     if (key === 'c') {

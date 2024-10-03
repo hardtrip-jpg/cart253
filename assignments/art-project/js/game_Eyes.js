@@ -11,7 +11,6 @@ class Eyes extends Base {
 
     collision_1 = new LevelButton(10, 10, 100, 100, 0)
 
-
     eye_1 = new EyeObject(400, 210)
     eye_2 = new EyeObject(160, 300)
     eye_3 = new EyeObject(360, 370)
@@ -23,12 +22,25 @@ class Eyes extends Base {
 
     game_preload(){
         super.game_preload();
+
+        //load images
         this.fence_img = loadImage('assets/images/fence.png');
         this.eye_img = loadImage('assets/images/eye.png');
         this.lids_img = loadImage('assets/images/lids.png');
         this.shut_lids_img = loadImage('assets/images/shut_lids.png');
         this.eyes_bg_img = loadImage('assets/images/eyes_bg.jpeg');
         this.collision_1.img = this.back_button;
+
+        //load sounds
+        this.bg_sound = loadSound('assets/sounds/eyes_music.ogg');
+
+    }
+
+    game_setup(){
+        main_audio.stop();
+        main_audio = this.bg_sound
+        main_audio.loop();
+        
     }
 
     game_draw() {
