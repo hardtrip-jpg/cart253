@@ -1,7 +1,7 @@
 # Museum of Housing
 by: hardtrip
 
-[View this project online](URL_FOR_THE_RUNNING_PROJECT)
+[View this project online](https://hardtrip-jpg.github.io/cart253/assignments/art-project/)
 
 ## Description
 
