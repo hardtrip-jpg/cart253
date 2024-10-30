@@ -1,3 +1,38 @@
+//tounge
+// Our frog
+const frog = {
+    // The frog's body has a position and size
+    body: {
+        x: 320,
+        y: 520,
+        size: 150
+    },
+    // The frog's tongue has a position, size, speed, and state
+    tongue: {
+        x: undefined,
+        y: 480,
+        size: 20,
+        speed: 20,
+        // Determines how the tongue moves each frame
+        state: "idle" // State can be: idle, outbound, inbound
+    }
+};
+// Our fly
+// Has a position, size, and speed of horizontal movement
+const fly = {
+    x: 0,
+    y: 200, // Will be random
+    size: 10,
+    speed: 3
+};
+
+const shopButton = new
+ button(15,15,50,50,() => {
+    changeState('Shop');
+});
+let toungeStateButtons = [shopButton,]
+
+
 /**
  * Moves the fly according to its speed
  * Resets the fly if it gets all the way to the right
@@ -49,7 +84,7 @@ function moveTongue() {
     }
     // If the tongue is outbound, it moves up
     else if (frog.tongue.state === "outbound") {
-        frog.tongue.y += -frog.tongue.speed;
+        frog.tongue.y += -curInventory.toungeSpeed;
         // The tongue bounces back if it hits the top
         if (frog.tongue.y <= 0) {
             frog.tongue.state = "inbound";
@@ -57,7 +92,7 @@ function moveTongue() {
     }
     // If the tongue is inbound, it moves down
     else if (frog.tongue.state === "inbound") {
-        frog.tongue.y += frog.tongue.speed;
+        frog.tongue.y += curInventory.toungeSpeed;
         // The tongue stops if it hits the bottom
         if (frog.tongue.y >= height) {
             frog.tongue.state = "idle";
@@ -96,7 +131,7 @@ function drawMoney(){
     color("#000000");
     textAlign(RIGHT)
     textSize(30);
-    text("$ " + str(money), 620, 40);
+    text("$ " + str(curInventory.money), 620, 40);
     pop();
 }
 
@@ -126,7 +161,7 @@ function ateFly(){
     // Bring back the tongue
     frog.tongue.state = "inbound";
     //Add to money
-    money += 1;
+    curInventory.money++;
 }
 
 function toungeDraw(){
