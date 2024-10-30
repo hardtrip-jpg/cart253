@@ -40,6 +40,7 @@ class button{
 
 let state;
 
+//tounge
 // Our frog
 const frog = {
     // The frog's body has a position and size
@@ -58,7 +59,6 @@ const frog = {
         state: "idle" // State can be: idle, outbound, inbound
     }
 };
-
 // Our fly
 // Has a position, size, and speed of horizontal movement
 const fly = {
@@ -71,13 +71,21 @@ const fly = {
 const shopButton = new button(15,15,50,50,() => {
     changeState('Shop');
 });
+let toungeStateButtons = [shopButton,]
+
+//shop
+const exitShopButton = new button(15,15,50,50,() => {
+    changeState('Tounge');
+})
+
+let shopStateButtons = [exitShopButton,]
 
 
 let money = 0;
 let rebirths = 0;
 
 
-let toungeStateButtons = [shopButton,]
+
 
 /**
  * Creates the canvas and initializes the fly
@@ -100,13 +108,17 @@ function draw() {
  * Main state machine controller with all the different states
  */
 function stateMachine(){
+    console.log(state);
     switch (state){
         case 'Tounge':
             toungeDraw();
+            break;
         case 'Shop':
-            return;
+            shopDraw();
+            break;
         case 'Menu':
             return;
+            break;
     }
 }
 
@@ -123,10 +135,13 @@ function endState(){
     switch (state){
         case 'Tounge':
             return;
+            break;
         case 'Shop':
             return;
+            break;
         case 'Menu':
             return;
+            break;
     }
 }
 
@@ -135,10 +150,13 @@ function startState(){
     switch (state){
         case 'Tounge':
             return;
+            break;
         case 'Shop':
-            return;
+            shopStart();
+            break;
         case 'Menu':
             return;
+            break;
     }
 }
 
@@ -151,10 +169,13 @@ function mousePressed() {
     switch (state){
         case 'Tounge':
             toungMousePress();
+            break;
         case 'Shop':
-            return;
+            shopMousePress();
+            break;
         case 'Menu':
             return;
+            break;
     }
 
 }

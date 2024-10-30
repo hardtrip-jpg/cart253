@@ -130,6 +130,7 @@ function ateFly(){
 }
 
 function toungeDraw(){
+    push();
     background("#87ceeb");
     moveFly();
     drawFly();
@@ -143,6 +144,7 @@ function toungeDraw(){
         rect(toungeStateButtons[i].x,toungeStateButtons[i].y,toungeStateButtons[i].width,toungeStateButtons[i].height)
         pop();
     }
+    pop();
 }
 
 function toungMousePress(){
