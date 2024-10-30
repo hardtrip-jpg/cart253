@@ -27,9 +27,9 @@ const fly = {
 };
 
 const shopButton = new
- button(15,15,50,50,() => {
-    changeState('Shop');
-});
+    button(15, 15, 50, 50, () => {
+        changeState('Shop');
+    });
 let toungeStateButtons = [shopButton,]
 
 
@@ -126,7 +126,7 @@ function drawFrog() {
     pop();
 }
 
-function drawMoney(){
+function drawMoney() {
     push();
     color("#000000");
     textAlign(RIGHT)
@@ -135,7 +135,7 @@ function drawMoney(){
     pop();
 }
 
-function drawShopButton(){
+function drawShopButton() {
     push();
     rect(shopButton.col.x, shopButton.col.y, shopButton.col.width, shopButton.col.height);
     pop();
@@ -148,14 +148,14 @@ function checkTongueFlyOverlap() {
     // Get distance from tongue to fly
     const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
     // Check if it's an overlap
-    const eaten = (d < frog.tongue.size/2 + fly.size/2);
+    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
     if (eaten) {
         ateFly();
     }
 }
 
 
-function ateFly(){
+function ateFly() {
     // Reset the fly
     resetFly();
     // Bring back the tongue
@@ -164,7 +164,7 @@ function ateFly(){
     curInventory.money++;
 }
 
-function toungeDraw(){
+function toungeDraw() {
     push();
     background("#87ceeb");
     moveFly();
@@ -174,17 +174,17 @@ function toungeDraw(){
     drawFrog();
     drawMoney();
     checkTongueFlyOverlap();
-    for (let i = 0; i < toungeStateButtons.length; i++){
+    for (let i = 0; i < toungeStateButtons.length; i++) {
         push();
-        rect(toungeStateButtons[i].col.x,toungeStateButtons[i].col.y,toungeStateButtons[i].col.width,toungeStateButtons[i].col.height)
+        rect(toungeStateButtons[i].col.x, toungeStateButtons[i].col.y, toungeStateButtons[i].col.width, toungeStateButtons[i].col.height)
         pop();
     }
     pop();
 }
 
-function toungMousePress(){
-    for (let i = 0; i < toungeStateButtons.length; i++){
-        if (toungeStateButtons[i].checkMouseCollision()){
+function toungMousePress() {
+    for (let i = 0; i < toungeStateButtons.length; i++) {
+        if (toungeStateButtons[i].checkMouseCollision()) {
             return;
         }
     }
@@ -192,5 +192,5 @@ function toungMousePress(){
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
     }
-    
+
 }

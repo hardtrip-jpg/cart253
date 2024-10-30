@@ -1,22 +1,22 @@
 
 "use strict";
 
-function collision(x, y, width, height){
+function collision(x, y, width, height) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
 }
 
-class button{
+class button {
 
     constructor(x, y, width, height, notify) {
-        this.col = new collision(x,y,width,height)
+        this.col = new collision(x, y, width, height)
         this.notify = notify;
     }
 
 
-    checkMouseCollision(){
+    checkMouseCollision() {
         if (
             (mouseX > this.col.x && mouseX < (this.col.x + this.col.width))
             &&
@@ -25,13 +25,13 @@ class button{
             this.notify();
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
 }
 
-class baseValueInventory{
+class baseValueInventory {
     money = 0;
     toungeSpeed = 5;
     flySpeed = 1;

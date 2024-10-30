@@ -39,8 +39,8 @@ function draw() {
 /**
  * Main state machine controller with all the different states
  */
-function stateMachine(){
-    switch (state){
+function stateMachine() {
+    switch (state) {
         case 'Tounge':
             toungeDraw();
             break;
@@ -53,17 +53,17 @@ function stateMachine(){
     }
 }
 
-function changeState(newState){
-    if (newState != state){
+function changeState(newState) {
+    if (newState != state) {
         endState();
         state = newState;
         startState();
     }
 }
 
-function endState(){
+function endState() {
     console.log("End: " + state);
-    switch (state){
+    switch (state) {
         case 'Tounge':
             return;
             break;
@@ -76,9 +76,9 @@ function endState(){
     }
 }
 
-function startState(){
+function startState() {
     console.log("Start: " + state);
-    switch (state){
+    switch (state) {
         case 'Tounge':
             return;
             break;
@@ -97,7 +97,7 @@ function startState(){
  * Launch the tongue on click (if it's not launched yet)
  */
 function mousePressed() {
-    switch (state){
+    switch (state) {
         case 'Tounge':
             toungMousePress();
             break;
