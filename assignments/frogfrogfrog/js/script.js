@@ -15,6 +15,37 @@
 
 "use strict";
 
+function collision(x, y, width, height){
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+
+    function checkMouseCollision(){
+        if (
+            (mouseX > this.x && mouseX < (this.x + this.width))
+            &&
+            (mouseY > this.y && mouseY < (this.y + this.height))
+        ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+const shopButton = {
+    col: new collision(100,100,100,100),
+    checkButton: function() {
+        if (this.col.checkMouseCollision()){
+
+        }
+    },
+
+
+}
+
 // Our frog
 const frog = {
     // The frog's body has a position and size
@@ -43,6 +74,11 @@ const fly = {
     speed: 3
 };
 
+let money = 0;
+let rebirths = 0;
+
+let state = 'Tounge';
+
 /**
  * Creates the canvas and initializes the fly
  */
@@ -54,13 +90,58 @@ function setup() {
 }
 
 function draw() {
-    background("#87ceeb");
-    moveFly();
-    drawFly();
-    moveFrog();
-    moveTongue();
-    drawFrog();
-    checkTongueFlyOverlap();
+    stateMachine();
+}
+
+
+function stateMachine(){
+    switch (state){
+        case 'Tounge':
+            background("#87ceeb");
+            moveFly();
+            drawFly();
+            moveFrog();
+            moveTongue();
+            drawFrog();
+            drawMoney();
+            checkTongueFlyOverlap();
+        case 'Shop':
+            return;
+        case 'Menu':
+            return;
+    }
+}
+
+function changeState(newState){
+    if (newState != state){
+        endState();
+        state = newState;
+        startState();
+    }
+}
+
+function endState(){
+    console.log("end state for " + state);
+    switch (state){
+        case 'Tounge':
+            return;
+        case 'Shop':
+            return;
+        case 'Menu':
+            return;
+    }
+}
+
+function startState(){
+    console.log("start state for " + state);
+    switch (state){
+        case 'Tounge':
+            return;
+        case 'Shop':
+            return;
+        case 'Menu':
+            return;
+    }
 }
 
 /**
@@ -156,6 +237,15 @@ function drawFrog() {
     pop();
 }
 
+function drawMoney(){
+    push();
+    color("#000000");
+    textAlign(RIGHT)
+    textSize(30);
+    text("$ " + str(money), 620, 40);
+    pop();
+}
+
 /**
  * Handles the tongue overlapping the fly
  */
@@ -165,10 +255,7 @@ function checkTongueFlyOverlap() {
     // Check if it's an overlap
     const eaten = (d < frog.tongue.size/2 + fly.size/2);
     if (eaten) {
-        // Reset the fly
-        resetFly();
-        // Bring back the tongue
-        frog.tongue.state = "inbound";
+        ateFly();
     }
 }
 
@@ -179,4 +266,14 @@ function mousePressed() {
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
     }
+}
+
+
+function ateFly(){
+    // Reset the fly
+    resetFly();
+    // Bring back the tongue
+    frog.tongue.state = "inbound";
+    //Add to money
+    money += 1;
 }
