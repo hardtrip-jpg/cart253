@@ -9,7 +9,7 @@ function shopDraw(){
     rect(25,25,600,400);
     for (let i = 0; i < shopStateButtons.length; i++){
         push();
-        rect(shopStateButtons[i].x,shopStateButtons[i].y,shopStateButtons[i].width,shopStateButtons[i].height)
+        rect(shopStateButtons[i].col.x,shopStateButtons[i].col.y,shopStateButtons[i].col.width,shopStateButtons[i].col.height)
         pop();
     }
     pop();

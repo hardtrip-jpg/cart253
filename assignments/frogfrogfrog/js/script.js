@@ -15,28 +15,35 @@
 
 "use strict";
 
+function collision(x, y, width, height){
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+}
+
 class button{
 
     constructor(x, y, width, height, notify) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+        this.col = new collision(x,y,width,height)
         this.notify = notify;
     }
 
 
     checkMouseCollision(){
         if (
-            (mouseX > this.x && mouseX < (this.x + this.width))
+            (mouseX > this.col.x && mouseX < (this.col.x + this.col.width))
             &&
-            (mouseY > this.y && mouseY < (this.y + this.height))
+            (mouseY > this.col.y && mouseY < (this.col.y + this.col.height))
         ) {
             this.notify();
+            return true;
+        }
+        else{
+            return false;
         }
     }
 }
-
 
 let state;
 
@@ -79,6 +86,7 @@ const exitShopButton = new button(15,15,50,50,() => {
 })
 
 let shopStateButtons = [exitShopButton,]
+
 
 
 let money = 0;

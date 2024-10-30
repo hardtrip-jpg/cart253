@@ -141,17 +141,21 @@ function toungeDraw(){
     checkTongueFlyOverlap();
     for (let i = 0; i < toungeStateButtons.length; i++){
         push();
-        rect(toungeStateButtons[i].x,toungeStateButtons[i].y,toungeStateButtons[i].width,toungeStateButtons[i].height)
+        rect(toungeStateButtons[i].col.x,toungeStateButtons[i].col.y,toungeStateButtons[i].col.width,toungeStateButtons[i].col.height)
         pop();
     }
     pop();
 }
 
 function toungMousePress(){
+    for (let i = 0; i < toungeStateButtons.length; i++){
+        if (toungeStateButtons[i].checkMouseCollision()){
+            return;
+        }
+    }
+
     if (frog.tongue.state === "idle") {
         frog.tongue.state = "outbound";
     }
-    for (let i = 0; i < toungeStateButtons.length; i++){
-        toungeStateButtons[i].checkMouseCollision();
-    }
+    
 }
