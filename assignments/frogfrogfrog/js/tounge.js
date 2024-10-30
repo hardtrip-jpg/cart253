@@ -26,9 +26,8 @@ const baseFly = {
     speed: 3
 };
 
-let fly1 = structuredClone(baseFly);
 
-let flyHolder = [fly1,]
+let flyHolder = [structuredClone(baseFly),]
 
 const shopButton = new
     button(15, 15, 50, 50, () => {
@@ -173,10 +172,17 @@ function checkTongueFlyOverlap() {
 function ateFly(fly) {
     // Reset the fly
     resetFly(fly);
-    // Bring back the tongue
-    frog.tongue.state = "inbound";
+
     //Add to money
     curInventory.money++;
+
+
+    if (curInventory.cannotPass) {
+        // Bring back the tongue
+        frog.tongue.state = "inbound";
+    }
+
+
 }
 
 function toungeDraw() {
@@ -197,7 +203,7 @@ function toungeDraw() {
     pop();
 }
 
-function toungMousePress() {
+function toungeMousePress() {
     for (let i = 0; i < toungeStateButtons.length; i++) {
         if (toungeStateButtons[i].checkMouseCollision()) {
             return;

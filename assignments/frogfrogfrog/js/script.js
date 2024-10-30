@@ -99,7 +99,7 @@ function startState() {
 function mousePressed() {
     switch (state) {
         case 'Tounge':
-            toungMousePress();
+            toungeMousePress();
             break;
         case 'Shop':
             shopMousePress();

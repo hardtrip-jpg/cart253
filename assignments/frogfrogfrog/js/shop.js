@@ -53,12 +53,29 @@ let toungeSpeedUpgrade = new shopUpgradeButton(
 );
 
 let flySpawnUpgrade = new shopUpgradeButton(
-    new upgrade(1, 2, 1.8, 5, 37),
-    () => { },
+    new upgrade(1, 2, 1.3, 1, 55),
+    () => {
+        if (checkMoney(flySpawnUpgrade.upgrade.price)) {
+            flySpawnUpgrade.upgrade.price = getNewPrice(flySpawnUpgrade.upgrade);
+
+            flyHolder.push(structuredClone(baseFly));
+            flyHolder[flySpawnUpgrade.upgrade.currentValue].speed = random(2, 3);
+            flyHolder[flySpawnUpgrade.upgrade.currentValue].x = random(0, 600);
+            flySpawnUpgrade.upgrade.currentValue++;
+            curInventory.flyAmount = flySpawnUpgrade.upgrade.currentValue;
+
+            console.log("New Fly Amount: " + str(curInventory.flyAmount))
+            flySpawnUpgrade.upgrade.level++;
+
+            if (flySpawnUpgrade.upgrade.currentValue >= flySpawnUpgrade.upgrade.maxValue) {
+                flySpawnUpgrade.upgrade.is_active = false;
+            }
+        }
+    },
     new button(200, 400, 50, 50, () => { }),
 )
 
-let shopUpgradesArray = [toungeSpeedUpgrade,];
+let shopUpgradesArray = [toungeSpeedUpgrade, flySpawnUpgrade];
 
 function shopStart() {
     background('#D6D6D6');
