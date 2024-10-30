@@ -176,8 +176,7 @@ function ateFly(fly) {
     //Add to money
     curInventory.money++;
 
-
-    if (curInventory.cannotPass) {
+    if (curInventory.cannotPass == true) {
         // Bring back the tongue
         frog.tongue.state = "inbound";
     }

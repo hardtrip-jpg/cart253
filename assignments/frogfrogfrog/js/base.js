@@ -36,7 +36,7 @@ class baseValueInventory {
     toungeSpeed = 5;
     flySpeed = 1;
     flyAmount = 1;
-    canPassthrough = false;
+    cannotPass = true;
 }
 
 let curInventory = new baseValueInventory;

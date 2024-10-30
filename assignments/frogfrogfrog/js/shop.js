@@ -53,7 +53,7 @@ let toungeSpeedUpgrade = new shopUpgradeButton(
 );
 
 let flySpawnUpgrade = new shopUpgradeButton(
-    new upgrade(1, 2, 1.3, 1, 55),
+    new upgrade(1, 2, 1.3, 1, 23),
     () => {
         if (checkMoney(flySpawnUpgrade.upgrade.price)) {
             flySpawnUpgrade.upgrade.price = getNewPrice(flySpawnUpgrade.upgrade);
@@ -61,6 +61,7 @@ let flySpawnUpgrade = new shopUpgradeButton(
             flyHolder.push(structuredClone(baseFly));
             flyHolder[flySpawnUpgrade.upgrade.currentValue].speed = random(2, 3);
             flyHolder[flySpawnUpgrade.upgrade.currentValue].x = random(0, 600);
+            flyHolder[flySpawnUpgrade.upgrade.currentValue].y = random(0, 400)
             flySpawnUpgrade.upgrade.currentValue++;
             curInventory.flyAmount = flySpawnUpgrade.upgrade.currentValue;
 
@@ -75,7 +76,19 @@ let flySpawnUpgrade = new shopUpgradeButton(
     new button(200, 400, 50, 50, () => { }),
 )
 
-let shopUpgradesArray = [toungeSpeedUpgrade, flySpawnUpgrade];
+let passThroughUpgrade = new shopUpgradeButton(
+    new upgrade(1, 50, 0, 0, 1),
+    () => {
+        if (checkMoney(passThroughUpgrade.upgrade.price)) {
+            curInventory.cannotPass = false;
+            passThroughUpgrade.upgrade.is_active = false;
+            console.log("Pass Through Activated");
+        }
+    },
+    new button(300, 400, 50, 50, () => { }),
+)
+
+let shopUpgradesArray = [toungeSpeedUpgrade, flySpawnUpgrade, passThroughUpgrade];
 
 function shopStart() {
     background('#D6D6D6');
@@ -89,10 +102,10 @@ function shopDraw() {
     for (let i = 0; i < shopUpgradesArray.length; i++) {
         push();
         if (shopUpgradesArray[i].upgrade.is_active) {
-            color('#DADADA');
+            fill('#00FF00');
         }
         else {
-            color('#FF0000');
+            fill('#FF0000');
         }
         rect(shopUpgradesArray[i].button.col.x, shopUpgradesArray[i].button.col.y, shopUpgradesArray[i].button.col.width, shopUpgradesArray[i].button.col.height)
         pop();
@@ -117,7 +130,6 @@ function resetUpgrades() {
 }
 
 function checkMoney(price) {
-    console.log("Current Price: " + str(price))
     if (curInventory.money >= price) {
         curInventory.money -= price;
         return true;
