@@ -24,7 +24,7 @@ function setup() {
     createCanvas(640, 480);
 
     // Give the fly its first random position
-    resetFly();
+    resetFly(flyHolder[0]);
 
     changeState('Tounge');
     curInventory.money = 5000;

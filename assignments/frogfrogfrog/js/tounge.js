@@ -19,12 +19,16 @@ const frog = {
 };
 // Our fly
 // Has a position, size, and speed of horizontal movement
-const fly = {
+const baseFly = {
     x: 0,
     y: 200, // Will be random
     size: 10,
     speed: 3
 };
+
+let fly1 = structuredClone(baseFly);
+
+let flyHolder = [fly1,]
 
 const shopButton = new
     button(15, 15, 50, 50, () => {
@@ -38,29 +42,37 @@ let toungeStateButtons = [shopButton,]
  * Resets the fly if it gets all the way to the right
  */
 function moveFly() {
-    // Move the fly
-    fly.x += fly.speed;
-    // Handle the fly going off the canvas
-    if (fly.x > width) {
-        resetFly();
+
+    for (let i = 0; i < flyHolder.length; i++) {
+        // Move the fly
+        flyHolder[i].x += flyHolder[i].speed;
+        // Handle the fly going off the canvas
+        if (flyHolder[i].x > width) {
+            resetFly(flyHolder[i]);
+        }
     }
+
 }
 
 /**
  * Draws the fly as a black circle
  */
 function drawFly() {
-    push();
-    noStroke();
-    fill("#000000");
-    ellipse(fly.x, fly.y, fly.size);
-    pop();
+
+    for (let i = 0; i < flyHolder.length; i++) {
+        push();
+        noStroke();
+        fill("#000000");
+        ellipse(flyHolder[i].x, flyHolder[i].y, flyHolder[i].size);
+        pop();
+    }
+
 }
 
 /**
  * Resets the fly to the left with a random y
  */
-function resetFly() {
+function resetFly(fly) {
     fly.x = 0;
     fly.y = random(0, 300);
 }
@@ -146,18 +158,21 @@ function drawShopButton() {
  */
 function checkTongueFlyOverlap() {
     // Get distance from tongue to fly
-    const d = dist(frog.tongue.x, frog.tongue.y, fly.x, fly.y);
-    // Check if it's an overlap
-    const eaten = (d < frog.tongue.size / 2 + fly.size / 2);
-    if (eaten) {
-        ateFly();
+    for (let i = 0; i < flyHolder.length; i++) {
+        const d = dist(frog.tongue.x, frog.tongue.y, flyHolder[i].x, flyHolder[i].y);
+        // Check if it's an overlap
+        const eaten = (d < frog.tongue.size / 2 + flyHolder[i].size / 2);
+        if (eaten) {
+            ateFly(flyHolder[i]);
+        }
     }
 }
 
 
-function ateFly() {
+
+function ateFly(fly) {
     // Reset the fly
-    resetFly();
+    resetFly(fly);
     // Bring back the tongue
     frog.tongue.state = "inbound";
     //Add to money
