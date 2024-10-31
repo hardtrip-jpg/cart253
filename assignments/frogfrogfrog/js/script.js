@@ -28,7 +28,7 @@ function setup() {
 
     changeState('Tounge');
     curInventory.money = 5000;
-    resetUpgrades()
+    resetUpgrades();
 }
 
 function draw() {

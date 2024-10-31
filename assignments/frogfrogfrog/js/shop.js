@@ -48,7 +48,7 @@ let toungeSpeedUpgrade = new shopUpgradeButton(
             }
         }
     },
-    new button(100, 400, 50, 50, () => { }),
+    new button(60, 350, 80, 50, () => { }),
 
 );
 
@@ -73,7 +73,7 @@ let flySpawnUpgrade = new shopUpgradeButton(
             }
         }
     },
-    new button(200, 400, 50, 50, () => { }),
+    new button(180, 350, 80, 50, () => { }),
 )
 
 let passThroughUpgrade = new shopUpgradeButton(
@@ -85,7 +85,7 @@ let passThroughUpgrade = new shopUpgradeButton(
             console.log("Pass Through Activated");
         }
     },
-    new button(300, 400, 50, 50, () => { }),
+    new button(300, 350, 80, 50, () => { }),
 )
 
 let shopUpgradesArray = [toungeSpeedUpgrade, flySpawnUpgrade, passThroughUpgrade];
@@ -99,15 +99,25 @@ function shopDraw() {
     //background('#D6D6D6');
     rect(25, 25, 600, 400);
     rect(exitShopButton.col.x, exitShopButton.col.y, exitShopButton.col.width, exitShopButton.col.height);
+
+
+
+
     for (let i = 0; i < shopUpgradesArray.length; i++) {
+        let price_text = "X"
         push();
         if (shopUpgradesArray[i].upgrade.is_active) {
             fill('#00FF00');
+            price_text = "$" + str(shopUpgradesArray[i].upgrade.price);
         }
         else {
             fill('#FF0000');
         }
-        rect(shopUpgradesArray[i].button.col.x, shopUpgradesArray[i].button.col.y, shopUpgradesArray[i].button.col.width, shopUpgradesArray[i].button.col.height)
+        rect(shopUpgradesArray[i].button.col.x, shopUpgradesArray[i].button.col.y, shopUpgradesArray[i].button.col.width, shopUpgradesArray[i].button.col.height);
+        fill("#000000");
+        textAlign(CENTER);
+        textSize(20);
+        text(price_text, shopUpgradesArray[i].button.col.x + 40, shopUpgradesArray[i].button.col.y + 32);
         pop();
     }
 
@@ -127,6 +137,8 @@ function shopMousePress() {
 
 function resetUpgrades() {
     toungeSpeedUpgrade.upgrade = new upgrade(1, 2, 1.8, 5, 37);
+    flySpawnUpgrade.upgrade = new upgrade(1, 2, 1.3, 1, 23);
+    passThroughUpgrade.upgrade = new upgrade(1, 50, 0, 0, 1);
 }
 
 function checkMoney(price) {
