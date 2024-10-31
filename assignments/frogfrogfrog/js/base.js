@@ -33,7 +33,7 @@ class button {
 
 class baseValueInventory {
     money = 0;
-    toungeSpeed = 5;
+    toungeSpeed = 2;
     flySpeed = 1;
     flyAmount = 1;
     cannotPass = true;

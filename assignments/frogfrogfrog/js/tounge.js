@@ -1,4 +1,14 @@
 //tounge
+const tongue = {
+    x: undefined,
+    y: 480,
+    size: 20,
+    speed: 1,
+    distance: 0,
+    tongueState: "idle",
+    // Determines how the tongue moves each frame
+}
+
 // Our frog
 const frog = {
     // The frog's body has a position and size
@@ -8,14 +18,7 @@ const frog = {
         size: 150
     },
     // The frog's tongue has a position, size, speed, and state
-    tongue: {
-        x: undefined,
-        y: 480,
-        size: 20,
-        speed: 20,
-        // Determines how the tongue moves each frame
-        state: "idle" // State can be: idle, outbound, inbound
-    }
+    tongueArray: [structuredClone(tongue)],
 };
 // Our fly
 // Has a position, size, and speed of horizontal movement
@@ -88,25 +91,28 @@ function moveFrog() {
  */
 function moveTongue() {
     // Tongue matches the frog's x
-    frog.tongue.x = frog.body.x;
-    // If the tongue is idle, it doesn't do anything
-    if (frog.tongue.state === "idle") {
-        // Do nothing
-    }
-    // If the tongue is outbound, it moves up
-    else if (frog.tongue.state === "outbound") {
-        frog.tongue.y += -curInventory.toungeSpeed;
-        // The tongue bounces back if it hits the top
-        if (frog.tongue.y <= 0) {
-            frog.tongue.state = "inbound";
+    for (let i = 0; i < frog.tongueArray.length; i++) {
+
+        frog.tongueArray[i].x = frog.body.x + frog.tongueArray[i].distance;
+        // If the tongue is idle, it doesn't do anything
+        if (frog.tongueArray[i].tongueState === "idle") {
+            // Do nothing
         }
-    }
-    // If the tongue is inbound, it moves down
-    else if (frog.tongue.state === "inbound") {
-        frog.tongue.y += curInventory.toungeSpeed;
-        // The tongue stops if it hits the bottom
-        if (frog.tongue.y >= height) {
-            frog.tongue.state = "idle";
+        // If the tongue is outbound, it moves up
+        else if (frog.tongueArray[i].tongueState === "outbound") {
+            frog.tongueArray[i].y += -curInventory.toungeSpeed;
+            // The tongue bounces back if it hits the top
+            if (frog.tongueArray[i].y <= 0) {
+                frog.tongueArray[i].tongueState = "inbound";
+            }
+        }
+        // If the tongue is inbound, it moves down
+        else if (frog.tongueArray[i].tongueState === "inbound") {
+            frog.tongueArray[i].y += curInventory.toungeSpeed;
+            // The tongue stops if it hits the bottom
+            if (frog.tongueArray[i].y >= height) {
+                frog.tongueArray[i].tongueState = "idle";
+            }
         }
     }
 }
@@ -115,19 +121,23 @@ function moveTongue() {
  * Displays the tongue (tip and line connection) and the frog (body)
  */
 function drawFrog() {
-    // Draw the tongue tip
-    push();
-    fill("#ff0000");
-    noStroke();
-    ellipse(frog.tongue.x, frog.tongue.y, frog.tongue.size);
-    pop();
 
-    // Draw the rest of the tongue
-    push();
-    stroke("#ff0000");
-    strokeWeight(frog.tongue.size);
-    line(frog.tongue.x, frog.tongue.y, frog.body.x, frog.body.y);
-    pop();
+    for (let i = 0; i < frog.tongueArray.length; i++) {
+        // Draw the tongue tip
+        push();
+        fill("#ff0000");
+        noStroke();
+        ellipse(frog.tongueArray[i].x, frog.tongueArray[i].y, frog.tongueArray[i].size);
+        pop();
+
+        // Draw the rest of the tongue
+        push();
+        stroke("#ff0000");
+        strokeWeight(frog.tongueArray[i].size);
+        line(frog.tongueArray[i].x, frog.tongueArray[i].y, frog.body.x, frog.body.y);
+        pop();
+    }
+
 
     // Draw the frog's body
     push();
@@ -158,11 +168,13 @@ function drawShopButton() {
 function checkTongueFlyOverlap() {
     // Get distance from tongue to fly
     for (let i = 0; i < flyHolder.length; i++) {
-        const d = dist(frog.tongue.x, frog.tongue.y, flyHolder[i].x, flyHolder[i].y);
-        // Check if it's an overlap
-        const eaten = (d < frog.tongue.size / 2 + flyHolder[i].size / 2);
-        if (eaten) {
-            ateFly(flyHolder[i]);
+        for (let e = 0; e < frog.tongueArray.length; e++) {
+            const d = dist(frog.tongueArray[e].x, frog.tongueArray[e].y, flyHolder[i].x, flyHolder[i].y);
+            // Check if it's an overlap
+            const eaten = (d < frog.tongueArray[e].size / 2 + flyHolder[i].size / 2);
+            if (eaten) {
+                ateFly(flyHolder[i]);
+            }
         }
     }
 }
@@ -178,7 +190,9 @@ function ateFly(fly) {
 
     if (curInventory.cannotPass == true) {
         // Bring back the tongue
-        frog.tongue.state = "inbound";
+        for (let i = 0; i < frog.tongueArray.length; i++) {
+            frog.tongueArray[i].tongueState = "inbound";
+        }
     }
 
 
@@ -209,8 +223,11 @@ function toungeMousePress() {
         }
     }
 
-    if (frog.tongue.state === "idle") {
-        frog.tongue.state = "outbound";
+    for (let e = 0; e < frog.tongueArray.length; e++) {
+        if (frog.tongueArray[e].tongueState === "idle") {
+            frog.tongueArray[e].tongueState = "outbound";
+        }
     }
+
 
 }
