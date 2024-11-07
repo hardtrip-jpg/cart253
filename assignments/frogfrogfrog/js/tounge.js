@@ -32,11 +32,15 @@ const baseFly = {
 
 let flyHolder = [structuredClone(baseFly),]
 
-const shopButton = new
-    button(15, 15, 50, 50, () => {
-        changeState('Shop');
-    });
-let toungeStateButtons = [shopButton,]
+const shopButton = new button(15, 15, 50, 50, () => {
+    changeState('Shop');
+});
+
+const cheatButton = new button(15, 15, 620, 40, () => {
+    curInventory.money += 9999;
+});
+
+let toungeStateButtons = [shopButton, cheatButton];
 
 
 /**
@@ -215,11 +219,6 @@ function toungeDraw() {
     drawMoney();
     drawShopButton();
     checkTongueFlyOverlap();
-    // for (let i = 0; i < toungeStateButtons.length; i++) {
-    //     push();
-    //     rect(toungeStateButtons[i].col.x, toungeStateButtons[i].col.y, toungeStateButtons[i].col.width, toungeStateButtons[i].col.height)
-    //     pop();
-    // }
     pop();
 }
 

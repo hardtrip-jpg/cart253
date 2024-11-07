@@ -50,6 +50,8 @@ let exitImage;
 let flyImage;
 let cartImage;
 
+let winImage;
+
 let mainFont;
 let shopFont;
 
@@ -60,6 +62,8 @@ function preload() {
     exitImage = loadImage("assets/images/xbutton.png");
     flyImage = loadImage("assets/images/fly.png");
     cartImage = loadImage("assets/images/cart.png");
+
+    winImage = loadImage("assets/images/giphy-562340133.gif");
 
     mainFont = loadFont("assets/fonts/AlteHaasGroteskRegular.ttf");
     shopFont = loadFont("assets/fonts/Eastwood.ttf");

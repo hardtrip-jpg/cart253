@@ -27,7 +27,7 @@ function setup() {
     resetFly(flyHolder[0]);
 
     changeState('Tounge');
-    curInventory.money = 5000;
+    // curInventory.money = 5000;
     resetUpgrades();
 
     textFont(mainFont);
@@ -52,6 +52,9 @@ function stateMachine() {
         case 'Menu':
             return;
             break;
+        case 'Win':
+            winDraw();
+            break;
     }
 }
 
@@ -75,6 +78,9 @@ function endState() {
         case 'Menu':
             return;
             break;
+        case 'Win':
+            return;
+            break;
     }
 }
 
@@ -88,6 +94,9 @@ function startState() {
             shopStart();
             break;
         case 'Menu':
+            return;
+            break;
+        case 'Win':
             return;
             break;
     }

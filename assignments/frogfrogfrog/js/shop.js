@@ -114,8 +114,19 @@ let addTongueUpgrade = new shopUpgradeButton(
     new button(500, 370, 80, 50, () => { }),
 )
 
+let winUpgrade = new shopUpgradeButton(
+    new upgrade(1, 450, 0, 0, 1),
+    () => {
+        if (checkMoney(winUpgrade.upgrade.price)) {
+            winUpgrade.upgrade.is_active = false;
+            changeState('Win');
+        }
+    },
+    new button(280, 30, 80, 50, () => { }),
+)
 
-let shopUpgradesArray = [toungeSpeedUpgrade, flySpawnUpgrade, passThroughUpgrade, addTongueUpgrade];
+
+let shopUpgradesArray = [toungeSpeedUpgrade, flySpawnUpgrade, passThroughUpgrade, addTongueUpgrade, winUpgrade];
 
 function shopStart() {
     background('#D6D6D6');
