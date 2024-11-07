@@ -42,3 +42,22 @@ class baseValueInventory {
 let curInventory = new baseValueInventory;
 
 let state;
+
+let backgroundImage;
+let frogheadImage;
+let shopImage;
+let exitImage;
+let flyImage;
+let cartImage;
+
+
+function preload() {
+    backgroundImage = loadImage("assets/images/swamp.png");
+    frogheadImage = loadImage("assets/images/frog_head.png");
+    shopImage = loadImage("assets/images/shop-sign.png");
+    exitImage = loadImage("assets/images/xbutton.png");
+    flyImage = loadImage("assets/images/fly.png");
+    cartImage = loadImage("assets/images/cart.png");
+
+
+};

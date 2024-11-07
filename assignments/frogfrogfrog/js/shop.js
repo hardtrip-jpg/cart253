@@ -103,12 +103,13 @@ let addTongueUpgrade = new shopUpgradeButton(
                     frog.tongueArray[2].distance = 50;
                     break;
             }
+            addTongueUpgrade.upgrade.currentValue++;
+            if (addTongueUpgrade.upgrade.currentValue >= 3) {
+                addTongueUpgrade.upgrade.is_active = false;
+            }
+            console.log(frog.tongueArray)
         }
-        addTongueUpgrade.upgrade.currentValue++;
-        if (addTongueUpgrade.upgrade.currentValue >= 3) {
-            addTongueUpgrade.upgrade.is_active = false;
-        }
-        console.log(frog.tongueArray)
+
     },
     new button(420, 350, 80, 50, () => { }),
 )
@@ -123,10 +124,14 @@ function shopStart() {
 function shopDraw() {
     push();
     //background('#D6D6D6');
-    rect(25, 25, 600, 400);
-    rect(exitShopButton.col.x, exitShopButton.col.y, exitShopButton.col.width, exitShopButton.col.height);
+    // rect(25, 25, 600, 400);
+    image(backgroundImage, 0, 0);
+    image(shopImage, 0, 0);
+    // rect(exitShopButton.col.x, exitShopButton.col.y, exitShopButton.col.width, exitShopButton.col.height);
+    image(exitImage, exitShopButton.col.x, exitShopButton.col.y);
     textSize(20);
     textAlign(CENTER);
+    fill("#FFFFFF");
 
     let upgrade1text = "Increase the speed of your tounge";
     let upgrade2text = "Increase amount of flies you can eat";
@@ -135,6 +140,8 @@ function shopDraw() {
     text(upgrade1text, 70, 90, 68);
     text(upgrade2text, 190, 90, 68);
     text(upgrade3text, 310, 90, 68);
+
+    fill("#000000");
 
 
     for (let i = 0; i < shopUpgradesArray.length; i++) {

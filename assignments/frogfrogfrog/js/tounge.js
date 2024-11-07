@@ -63,9 +63,10 @@ function drawFly() {
 
     for (let i = 0; i < flyHolder.length; i++) {
         push();
-        noStroke();
-        fill("#000000");
-        ellipse(flyHolder[i].x, flyHolder[i].y, flyHolder[i].size);
+        // noStroke();
+        // fill("#000000");
+        // ellipse(flyHolder[i].x, flyHolder[i].y, flyHolder[i].size);
+        image(flyImage, flyHolder[i].x - 10, flyHolder[i].y - 7)
         pop();
     }
 
@@ -125,15 +126,15 @@ function drawFrog() {
     for (let i = 0; i < frog.tongueArray.length; i++) {
         // Draw the tongue tip
         push();
-        fill("#ff0000");
+        fill("#ea93d7");
         noStroke();
         ellipse(frog.tongueArray[i].x, frog.tongueArray[i].y, frog.tongueArray[i].size);
         pop();
 
         // Draw the rest of the tongue
         push();
-        stroke("#ff0000");
-        strokeWeight(frog.tongueArray[i].size);
+        stroke("#ea93d7");
+        strokeWeight(frog.tongueArray[i].size - 10);
         line(frog.tongueArray[i].x, frog.tongueArray[i].y, frog.body.x, frog.body.y);
         pop();
     }
@@ -141,15 +142,16 @@ function drawFrog() {
 
     // Draw the frog's body
     push();
-    fill("#00ff00");
-    noStroke();
-    ellipse(frog.body.x, frog.body.y, frog.body.size);
+    // fill("#00ff00");
+    // noStroke();
+    // ellipse(frog.body.x, frog.body.y, frog.body.size);
+    image(frogheadImage, frog.body.x - 73, frog.body.y - 100);
     pop();
 }
 
 function drawMoney() {
     push();
-    color("#000000");
+    fill("#FFFFFF");
     textAlign(RIGHT)
     textSize(30);
     text("$ " + str(curInventory.money), 620, 40);
@@ -158,7 +160,8 @@ function drawMoney() {
 
 function drawShopButton() {
     push();
-    rect(shopButton.col.x, shopButton.col.y, shopButton.col.width, shopButton.col.height);
+    // rect(shopButton.col.x, shopButton.col.y, shopButton.col.width, shopButton.col.height);
+    image(cartImage, shopButton.col.x, shopButton.col.y);
     pop();
 }
 
@@ -201,18 +204,20 @@ function ateFly(fly) {
 function toungeDraw() {
     push();
     background("#87ceeb");
+    image(backgroundImage, 0, 0);
     moveFly();
     drawFly();
     moveFrog();
     moveTongue();
     drawFrog();
     drawMoney();
+    drawShopButton();
     checkTongueFlyOverlap();
-    for (let i = 0; i < toungeStateButtons.length; i++) {
-        push();
-        rect(toungeStateButtons[i].col.x, toungeStateButtons[i].col.y, toungeStateButtons[i].col.width, toungeStateButtons[i].col.height)
-        pop();
-    }
+    // for (let i = 0; i < toungeStateButtons.length; i++) {
+    //     push();
+    //     rect(toungeStateButtons[i].col.x, toungeStateButtons[i].col.y, toungeStateButtons[i].col.width, toungeStateButtons[i].col.height)
+    //     pop();
+    // }
     pop();
 }
 
