@@ -50,6 +50,8 @@ let exitImage;
 let flyImage;
 let cartImage;
 
+let mainFont;
+let shopFont;
 
 function preload() {
     backgroundImage = loadImage("assets/images/swamp.png");
@@ -58,6 +60,10 @@ function preload() {
     exitImage = loadImage("assets/images/xbutton.png");
     flyImage = loadImage("assets/images/fly.png");
     cartImage = loadImage("assets/images/cart.png");
+
+    mainFont = loadFont("assets/fonts/AlteHaasGroteskRegular.ttf");
+    shopFont = loadFont("assets/fonts/Eastwood.ttf");
+
 
 
 };

@@ -27,8 +27,10 @@ function setup() {
     resetFly(flyHolder[0]);
 
     changeState('Tounge');
-    // curInventory.money = 5000;
+    curInventory.money = 5000;
     resetUpgrades();
+
+    textFont(mainFont);
 }
 
 function draw() {

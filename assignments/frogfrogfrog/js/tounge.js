@@ -151,6 +151,8 @@ function drawFrog() {
 
 function drawMoney() {
     push();
+    stroke(0);
+    strokeWeight(5);
     fill("#FFFFFF");
     textAlign(RIGHT)
     textSize(30);

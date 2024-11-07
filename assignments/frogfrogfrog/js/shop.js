@@ -34,7 +34,7 @@ class shopUpgradeButton {
 
 
 let toungeSpeedUpgrade = new shopUpgradeButton(
-    new upgrade(1, 2, 1.8, 5, 37),
+    new upgrade(1, 2, 1.8, 2, 37),
     () => {
         if (checkMoney(toungeSpeedUpgrade.upgrade.price)) {
             toungeSpeedUpgrade.upgrade.price = getNewPrice(toungeSpeedUpgrade.upgrade);
@@ -48,7 +48,7 @@ let toungeSpeedUpgrade = new shopUpgradeButton(
             }
         }
     },
-    new button(60, 350, 80, 50, () => { }),
+    new button(500, 100, 80, 50, () => { }),
 
 );
 
@@ -73,7 +73,7 @@ let flySpawnUpgrade = new shopUpgradeButton(
             }
         }
     },
-    new button(180, 350, 80, 50, () => { }),
+    new button(500, 190, 80, 50, () => { }),
 )
 
 let passThroughUpgrade = new shopUpgradeButton(
@@ -85,7 +85,7 @@ let passThroughUpgrade = new shopUpgradeButton(
             console.log("Pass Through Activated");
         }
     },
-    new button(300, 350, 80, 50, () => { }),
+    new button(500, 280, 80, 50, () => { }),
 )
 
 let addTongueUpgrade = new shopUpgradeButton(
@@ -111,7 +111,7 @@ let addTongueUpgrade = new shopUpgradeButton(
         }
 
     },
-    new button(420, 350, 80, 50, () => { }),
+    new button(500, 370, 80, 50, () => { }),
 )
 
 
@@ -129,20 +129,54 @@ function shopDraw() {
     image(shopImage, 0, 0);
     // rect(exitShopButton.col.x, exitShopButton.col.y, exitShopButton.col.width, exitShopButton.col.height);
     image(exitImage, exitShopButton.col.x, exitShopButton.col.y);
+
     textSize(20);
-    textAlign(CENTER);
+
+    push();
+
+
+    textFont(shopFont);
+    stroke(0);
+    strokeWeight(5);
     fill("#FFFFFF");
 
     let upgrade1text = "Increase the speed of your tounge";
     let upgrade2text = "Increase amount of flies you can eat";
-    let upgrade3text = "Tounge can pass through flies while still eating them"
+    let upgrade3text = "Tounge can pass through flies";
+    let upgrade4text = "Increase amount of tounges";
 
-    text(upgrade1text, 70, 90, 68);
-    text(upgrade2text, 190, 90, 68);
-    text(upgrade3text, 310, 90, 68);
+    text(upgrade1text, 40, 130);
+    text(upgrade2text, 40, 220);
+    text(upgrade3text, 40, 310);
+    text(upgrade4text, 40, 400);
+
+    pop();
+
+    push();
+
+    textFont(shopFont);
+    stroke(0);
+    strokeWeight(5);
+    fill("#FFFFFF");
+
+    let upgrade1value = str(toungeSpeedUpgrade.upgrade.currentValue);
+    let upgrade2value = str(flySpawnUpgrade.upgrade.currentValue);
+    let upgrade4value = str(addTongueUpgrade.upgrade.currentValue);
+
+    text(upgrade1value, 460, 130);
+    text(upgrade2value, 460, 220);
+    text(upgrade4value, 460, 400);
+
+
+
+    pop();
+
+    push();
 
     fill("#000000");
 
+    textFont(mainFont);
+    textAlign(CENTER);
 
     for (let i = 0; i < shopUpgradesArray.length; i++) {
         let buttonCol = shopUpgradesArray[i].button.col
@@ -162,6 +196,7 @@ function shopDraw() {
         text(price_text, buttonCol.x + 40, buttonCol.y + 32);
         pop();
     }
+    pop();
 
     pop();
     drawMoney();
@@ -178,7 +213,7 @@ function shopMousePress() {
 
 
 function resetUpgrades() {
-    toungeSpeedUpgrade.upgrade = new upgrade(1, 2, 1.8, 5, 37);
+    toungeSpeedUpgrade.upgrade = new upgrade(1, 2, 1.8, 2, 37);
     flySpawnUpgrade.upgrade = new upgrade(1, 2, 1.5, 1, 23);
     passThroughUpgrade.upgrade = new upgrade(1, 50, 0, 0, 1);
 }
