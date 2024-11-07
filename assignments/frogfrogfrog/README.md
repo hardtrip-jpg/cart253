@@ -1,4 +1,4 @@
-# Museum of Housing
+# FrogFrogFrog
 by: hardtrip
 
 [View this project online](https://hardtrip-jpg.github.io/cart253/assignments/frogfrogfrog/)
