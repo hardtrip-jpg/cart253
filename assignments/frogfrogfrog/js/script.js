@@ -1,13 +1,16 @@
 /**
  * Frogfrogfrog
- * Pippin Barr
+ * Jeremy Dumont
  * 
  * A game of catching flies with your frog-tongue
  * 
  * Instructions:
  * - Move the frog with your mouse
  * - Click to launch the tongue
- * - Catch flies
+ * - Catch flies and gain money
+ * - Click the shop icon to access shop
+ * - Buy upgrades to increase speed and efficiancy of fly catching
+ * - Save up and maybe you can unlock the mysterious 450$ upgrade?
  * 
  * Made with p5
  * https://p5js.org/
@@ -18,7 +21,7 @@
 
 
 /**
- * Creates the canvas and initializes the fly
+ * Creates the canvas and set all basic variables
  */
 function setup() {
     createCanvas(640, 480);
@@ -26,38 +29,47 @@ function setup() {
     // Give the fly its first random position
     resetFly(flyHolder[0]);
 
+    // Makes sure game is on frog screen at the start
     changeState('Tounge');
-    // curInventory.money = 5000;
+
+    // Sets upgrades to their base values
     resetUpgrades();
 
     textFont(mainFont);
 }
 
+/**
+ * Only calls state machine. State machine does heavy lifting.
+ */
 function draw() {
     stateMachine();
 }
 
 
 /**
- * Main state machine controller with all the different states
+ * Main state machine controller with all the different states. Will draw according to which state currently in.
  */
 function stateMachine() {
     switch (state) {
+        // This draws the main gameplay with the frog, flies, and tounge.
         case 'Tounge':
             toungeDraw();
             break;
+        // This draws the main shop screen with buttons and all.
         case 'Shop':
             shopDraw();
             break;
-        case 'Menu':
-            return;
-            break;
+        // This draws the main win screen when the win upgrade is purchased.
         case 'Win':
             winDraw();
             break;
     }
 }
 
+/**
+ * This function is called when ever the main game state needs to change. 
+ * This makes sure the state is change correctly and start and end state functions can be called.
+ */
 function changeState(newState) {
     if (newState != state) {
         endState();
@@ -66,6 +78,10 @@ function changeState(newState) {
     }
 }
 
+
+/**
+ * Calls end state functions for corresponding states.
+ */
 function endState() {
     console.log("End: " + state);
     switch (state) {
@@ -75,15 +91,15 @@ function endState() {
         case 'Shop':
             return;
             break;
-        case 'Menu':
-            return;
-            break;
         case 'Win':
             return;
             break;
     }
 }
 
+/**
+ * Calls start state functions for corresponding states.
+ */
 function startState() {
     console.log("Start: " + state);
     switch (state) {
@@ -105,7 +121,7 @@ function startState() {
 
 
 /**
- * Launch the tongue on click (if it's not launched yet)
+ * Calles the mouse pressed function uniquely based on which state currently in.
  */
 function mousePressed() {
     switch (state) {
