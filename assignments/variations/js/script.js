@@ -1,16 +1,7 @@
 /**
- * Frogfrogfrog
+ * It's Terminal
  * Jeremy Dumont
  * 
- * A game of catching flies with your frog-tongue
- * 
- * Instructions:
- * - Move the frog with your mouse
- * - Click to launch the tongue
- * - Catch flies and gain money
- * - Click the shop icon to access shop
- * - Buy upgrades to increase speed and efficiancy of fly catching
- * - Save up and maybe you can unlock the mysterious 450$ upgrade?
  * 
  * Made with p5
  * https://p5js.org/
@@ -44,7 +35,10 @@ function stateMachine() {
     switch (state) {
         
         case 'test':
-            background("#000000")
+            background("#000000");
+
+            toDisplayCheck();
+
             fill("#40FD90");
             textSize(25);
             textFont(terminalFont);
@@ -112,6 +106,9 @@ function mousePressed() {
 
 let test_string = "";
 let all_commands = [];
+let toDisplay = [];
+let bufferLength = 5;
+let displayBuffer = bufferLength;
 
 
 function keyTyped() {
@@ -127,38 +124,50 @@ function keyTyped() {
     if (keyCode === DELETE || keyCode === BACKSPACE){
         test_string = test_string.slice(0, -1);
     }
-
-    
-    
 }
 
 function printTerminalText(text){
     all_commands.push(text);
 
         if (all_commands.length > 15){
-            all_commands.shift()
+            all_commands.shift();
         }
+}
+
+function toDisplayCheck(){
+    if (displayBuffer === bufferLength){
+        if(toDisplay[0]){
+            printTerminalText(toDisplay[0]);
+            toDisplay.shift();
+            bufferLength = 0;
+        }
+    }
+    else(
+        bufferLength++
+    )
+
+    
 }
 
 function parseCommand(text){
     if (text === ''){
-        printTerminalText("ERROR: ENTER VALID COMMAND");
+        toDisplay.push("ERROR: ENTER VALID COMMAND");
         return;
     }
 
     
-    printTerminalText(text);
+    toDisplay.push(text);
     let commands = text.toLowerCase().trim().split(/\s+/);
     //console.log(commands);
     let first_word = commands[0];
 
     switch (first_word){
         case 'hello':
-            printTerminalText("");
-            printTerminalText("Well hello there my friend!");
+            //toDisplay.push("");
+            toDisplay.push("Well hello there my friend!");
             break;
         default:
-            printTerminalText("ERROR: " + first_word + " IS NOT A VALID COMMAND");
+            toDisplay.push("ERROR: " + first_word + " IS NOT A VALID COMMAND");
     }
 
 }
