@@ -56,7 +56,8 @@ let state;
  * This section of the script defines all the assets used in the game.
  */
 
+let terminalFont;
 
 function preload() {
-
+    terminalFont = loadFont("assets/fonts/_decterm.ttf");
 };

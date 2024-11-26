@@ -47,6 +47,7 @@ function stateMachine() {
             background("#000000")
             fill("#40FD90");
             textSize(25);
+            textFont(terminalFont);
 
             let currentHeight = 490;
             for (let i = all_commands.length + 1; i > -1; i--){
@@ -119,6 +120,9 @@ function keyTyped() {
 
     if (keyCode === ENTER){
         all_commands.push(test_string);
+        if (all_commands.length > 15){
+            all_commands.shift()
+        }
         test_string = "";
     }
 
@@ -126,6 +130,6 @@ function keyTyped() {
         test_string = test_string.slice(0, -1);
     }
 
-    console.log(test_string);
+    console.log(all_commands);
     
 }
