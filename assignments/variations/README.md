@@ -1,7 +1,7 @@
-# FrogFrogFrog
+# It's Terminal
 by: hardtrip
 
-[View this project online](https://hardtrip-jpg.github.io/cart253/assignments/frogfrogfrog/)
+[View this project online](https://hardtrip-jpg.github.io/cart253/assignments/variations/)
 
 ## Description
 

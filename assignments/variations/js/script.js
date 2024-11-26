@@ -113,16 +113,14 @@ function mousePressed() {
 let test_string = "";
 let all_commands = [];
 
+
 function keyTyped() {
     if (key.length === 1){
         test_string += key;
     }
 
     if (keyCode === ENTER){
-        all_commands.push(test_string);
-        if (all_commands.length > 15){
-            all_commands.shift()
-        }
+        parseCommand(test_string);
         test_string = "";
     }
 
@@ -130,6 +128,37 @@ function keyTyped() {
         test_string = test_string.slice(0, -1);
     }
 
-    console.log(all_commands);
     
+    
+}
+
+function printTerminalText(text){
+    all_commands.push(text);
+
+        if (all_commands.length > 15){
+            all_commands.shift()
+        }
+}
+
+function parseCommand(text){
+    if (text === ''){
+        printTerminalText("ERROR: ENTER VALID COMMAND");
+        return;
+    }
+
+    
+    printTerminalText(text);
+    let commands = text.toLowerCase().trim().split(/\s+/);
+    //console.log(commands);
+    let first_word = commands[0];
+
+    switch (first_word){
+        case 'hello':
+            printTerminalText("");
+            printTerminalText("Well hello there my friend!");
+            break;
+        default:
+            printTerminalText("ERROR: " + first_word + " IS NOT A VALID COMMAND");
+    }
+
 }
