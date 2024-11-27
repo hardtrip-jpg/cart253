@@ -22,6 +22,13 @@ let cookingTerminal = new Terminal(
             changeState('menu');
             break;
         case 'look':
+            if (!second_word){
+                cookingTerminal.print("There is a STOVE to cook things on");
+                cookingTerminal.print("There is a FRIDGE that stores food");
+                cookingTerminal.print("There is a SINK with access to water");
+                cookingTerminal.print("There is a COUNTER with available utilities");
+                return;
+            }
             for (i = 0; i < all_words.length; i++){
                 if (second_word === all_words[i]){
                     eval(second_word + '.look()');
@@ -72,7 +79,7 @@ class cookingItem{
 
 let sink = new cookingPlace([],['off', 'on'], 
     (word) => {
-        placeLooks(counter);
+        placeLooks('SINK',sink);
     },
     (secondWord, thirdWord) => {
 
@@ -84,12 +91,7 @@ let sink = new cookingPlace([],['off', 'on'],
 
 let counter = new cookingPlace([],['normal'], 
     () => {
-        if (counter.items.length > 0){
-            cookingTerminal.print("AAAA");
-        }
-        else{
-            cookingTerminal.print("The COUNTER is empty at the moment");
-        }
+        placeLooks('COUNTER', counter);
     },
     (secondWord, thirdWord) => {
 
@@ -146,34 +148,6 @@ function cookingReset(){
     counter.items = [box]
 }
 
-function lookCommand(location){
-    switch (location){
-        case "sink":
-            sink.look();
-            break;
-        case "counter":
-            counter.look();
-            break;
-        case "stove":
-            cookingTerminal.print("The STOVE off dumbass");
-            break;
-        default:
-            cookingTerminal.print("There is a STOVE to cook things on");
-            cookingTerminal.print("There is a FRIDGE that stores food");
-            cookingTerminal.print("There is a SINK with access to water");
-            cookingTerminal.print("There is a COUNTER with available utilities");
-            break;
-    }
-    
-}
-
 function placeLooks(name, place){
-    let printState = "The 'NAME' is currently 'STATE'"
-    printState = printState.indexOf('NAME', place.state);
-    printState = printState.indexOf('NAME', name);
-
-    let printItems
-
-
-    let item_list = ""
+    cookingTerminal.print("The " + name + " is " + place.active_state);
 }
