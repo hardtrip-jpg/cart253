@@ -71,6 +71,7 @@ function stateMachine() {
         
         case 'cooking':
             cookingTerminal.drawTerminal();
+            drawClock();
             break;
     }
 }
