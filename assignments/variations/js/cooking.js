@@ -1,5 +1,6 @@
 let cookingTerminal = new Terminal(
     (commands) => {
+        cookingTerminal.displayWithBuffer = false;
         currentAngle += 6;
         debugAmount++;
         console.log(debugAmount);
@@ -11,10 +12,14 @@ let cookingTerminal = new Terminal(
 
     switch (first_word){
         case 'hello':
+            cookingTerminal.displayWithBuffer = true;
             cookingTerminal.print("Well hello there my friend!");
             break;
         case 'menu':
             changeState('menu');
+            break;
+        case 'look':
+            look();
             break;
         default:
             cookingTerminal.print("ERROR: " + first_word + " IS NOT VALID");
@@ -31,14 +36,19 @@ let cookingTerminal = new Terminal(
 
 let debugAmount = 0;
 let currentAngle = 0;
+let clock = {
+    x: 575,
+    y: 65,
+}
+
 function drawClock(){
     push();
     stroke("#40FD90");
     fill("#000000")
-    circle(560, 80, 80)
+    circle(clock.x, clock.y, 80)
     angleMode(DEGREES);
     push();
-        translate(560, 80);
+        translate(clock.x, clock.y);
         rotate(currentAngle);
         strokeWeight(2);
         line(0, 0, 0, -50);
@@ -56,5 +66,8 @@ function cookingReset(){
 }
 
 function look(){
-
+    cookingTerminal.print("There is a STOVE to cook things on");
+    cookingTerminal.print("There is a FRIDGE that stores food");
+    cookingTerminal.print("There is a SINK with access to water");
+    cookingTerminal.print("There is a COUNTER with available utilities");
 }

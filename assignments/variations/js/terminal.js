@@ -7,6 +7,9 @@ class Terminal {
     test_string = "";
     all_commands = [];
     toDisplay = [];
+
+    displayWithBuffer = true;
+    bufferDifferential = [1,15];
     bufferLength = 5;
     displayBuffer = this.bufferLength;
 
@@ -53,19 +56,29 @@ printTerminalText(text){
 }
 
 toDisplayCheck(){
-    if (this.displayBuffer === this.bufferLength){
-        if(this.toDisplay[0]){
+    if(this.toDisplay[0]){
+        if(this.displayWithBuffer){
+            if (this.displayBuffer === this.bufferLength){
             this.printTerminalText(this.toDisplay[0]);
             this.toDisplay.shift();
-            this.bufferLength = 0;
+            this.displayBuffer = 0;
+            this.bufferLength = Math.floor(Math.random() * this.bufferDifferential[1]) + this.bufferDifferential[0];
+            console.log(this.bufferLength);
+            }
+            else{
+            this.displayBuffer++;
+            }
         }
+        else{
+            this.printTerminalText(this.toDisplay[0]);
+            this.toDisplay.shift();
+        }
+        
     }
-    else(
-        this.bufferLength++
-    )
 
     
 }
+
 
 
 parseCommand(text){
