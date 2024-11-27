@@ -63,7 +63,6 @@ toDisplayCheck(){
             this.toDisplay.shift();
             this.displayBuffer = 0;
             this.bufferLength = Math.floor(Math.random() * this.bufferDifferential[1]) + this.bufferDifferential[0];
-            console.log(this.bufferLength);
             }
             else{
             this.displayBuffer++;

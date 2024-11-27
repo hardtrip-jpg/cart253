@@ -118,7 +118,12 @@ function startState() {
         case 'cooking':
             cookingTerminal.reset();
             cookingReset();
-            cookingTerminal.print("Welcome to Cooking");
+            cookingTerminal.print("       Welcome to Cooking");
+            cookingTerminal.print("In this game you must cook a bowl of");
+            cookingTerminal.print("  KRAFT DINNER AND SAUSAGE BITS!");
+            cookingTerminal.print(" ");
+            cookingTerminal.print("You can start with the LOOK command");
+            cookingTerminal.print("Type HELP to see the command reference");
             break;
     }
 }
