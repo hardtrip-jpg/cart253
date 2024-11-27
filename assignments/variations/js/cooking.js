@@ -22,14 +22,13 @@ let cookingTerminal = new Terminal(
             changeState('menu');
             break;
         case 'look':
-            switch (second_word){
-                case ('sink' || 'counter' || 'stove'|| 'fridge'|| 'box'):
+            for (i = 0; i < all_words.length; i++){
+                if (second_word === all_words[i]){
                     eval(second_word + '.look()');
-                    break;
-                default:
-                    cookingTerminal.print("You can't seem to find a " + second_word + " anywhere.");
-                    break;
+                    return;
+                }
             }
+            cookingTerminal.print("You can't seem to find a " + second_word + " anywhere.");
             break;
         default:
             cookingTerminal.print("ERROR: " + first_word + " IS NOT VALID");
@@ -43,6 +42,8 @@ let cookingTerminal = new Terminal(
 
     }
 );
+
+let all_words =  ["sink", "counter", "box"]
 
 class cookingPlace{
     constructor (items, states, look, place, use){
