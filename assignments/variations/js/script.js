@@ -10,20 +10,20 @@
 "use strict";
 
 
-let test_terminal = new Terminal(
+let menuTerminal = new Terminal(
     (commands) => {
         let first_word = commands[0];
 
     switch (first_word){
         case 'hello':
             //toDisplay.push("");
-            test_terminal.toDisplay.push("Well hello there my friend!");
+            menuTerminal.toDisplay.push("Well hello there my friend!");
             break;
         case 'cooking':
             changeState('cooking');
             break;
         default:
-            test_terminal.toDisplay.push("ERROR: " + first_word + " IS NOT A VALID COMMAND");
+            menuTerminal.toDisplay.push("ERROR: " + first_word + " IS NOT A VALID COMMAND");
             break;
     }
     }
@@ -36,7 +36,7 @@ let test_terminal = new Terminal(
 function setup() {
     createCanvas(640, 480);
 
-    changeState('menu');
+    changeState('cooking');
 }
 
 /**
@@ -52,12 +52,21 @@ function draw() {
  */
 function stateMachine() {
     switch (state) {
-        case 'menu':
-            background('#FF00FF');
+        case 'title':
+            push();
+            background('#FFFFFF');
+            textAlign(CENTER);
+            textSize(50);
+            text("It's Terminal", 320, 230);
+            push();
+            textSize(25);
+            text("Click to start", 320, 320);
+            pop();
+            pop();
             break;
         
-        case 'test':
-            test_terminal.drawTerminal();
+        case 'menu':
+            menuTerminal.drawTerminal();
             break;
         
         case 'cooking':
@@ -85,7 +94,7 @@ function changeState(newState) {
 function endState() {
     console.log("End: " + state);
     switch (state) {
-        case 'test':
+        case 'menu':
             return;
             break;
     }
@@ -97,10 +106,14 @@ function endState() {
 function startState() {
     console.log("Start: " + state);
     switch (state) {
-        case 'test':
-            test_terminal.toDisplay = [];
-            test_terminal.all_commands = [];
-            test_terminal.toDisplay.push("Welcome to Test");
+        case 'menu':
+            menuTerminal.toDisplay = [];
+            menuTerminal.all_commands = [];
+            menuTerminal.toDisplay.push("   Welcome to the Menu   ");
+            menuTerminal.toDisplay.push("     Available Games:");
+            menuTerminal.toDisplay.push("COOKING - Turn based cooking simulator");
+            menuTerminal.toDisplay.push("RYTHYM - Timing based dungeon crawler");
+            menuTerminal.toDisplay.push("OFFICE - FNAF inspired game");
             return;
             break;
         case 'cooking':
@@ -118,10 +131,8 @@ function startState() {
  */
 function mousePressed() {
     switch (state) {
-        case 'menu':
-            changeState('test');
-            break;
-        case 'test':
+        case 'title':
+            changeState('menu');
             break;
     }
 
@@ -129,11 +140,11 @@ function mousePressed() {
 
 function keyPressed(){
     switch (state) {
-        case 'menu':
-            changeState('test');
+        case 'title':
+            changeState('menu');
             break;
-        case 'test':
-            test_terminal.keyCheck();
+        case 'menu':
+            menuTerminal.keyCheck();
             break;
         case 'cooking':
             cookingTerminal.keyCheck();
