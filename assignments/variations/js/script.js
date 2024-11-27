@@ -35,6 +35,7 @@ function stateMachine() {
     switch (state) {
         
         case 'test':
+            push()
             background("#000000");
 
             toDisplayCheck();
@@ -43,6 +44,8 @@ function stateMachine() {
             textSize(25);
             textFont(terminalFont);
 
+            let text_width = textWidth(test_string)
+
             let currentHeight = 490;
             for (let i = all_commands.length + 1; i > -1; i--){
                 text((all_commands[i]), 10, currentHeight);
@@ -50,6 +53,8 @@ function stateMachine() {
             }
 
             text((test_string), 10, 470);
+            pop();
+            displayCaret(text_width);
             break;
     }
 }
@@ -110,6 +115,10 @@ let toDisplay = [];
 let bufferLength = 5;
 let displayBuffer = bufferLength;
 
+let caretTime = 30;
+let currentCaret = caretTime;
+let caretVisible = false;
+
 
 function keyTyped() {
     if (key.length === 1){
@@ -149,6 +158,7 @@ function toDisplayCheck(){
     
 }
 
+
 function parseCommand(text){
     if (text === ''){
         toDisplay.push("ERROR: ENTER VALID COMMAND");
@@ -169,5 +179,22 @@ function parseCommand(text){
         default:
             toDisplay.push("ERROR: " + first_word + " IS NOT A VALID COMMAND");
     }
+
+}
+
+function displayCaret(pos){
+    if (currentCaret === caretTime){
+        caretVisible = !caretVisible;
+        currentCaret = -1;
+    }
+
+    if (caretVisible){
+        push();
+        stroke("#40FD90");
+        line(12 + pos, 445, 12 + pos, 468);
+        pop();
+    }
+
+    currentCaret++;
 
 }
