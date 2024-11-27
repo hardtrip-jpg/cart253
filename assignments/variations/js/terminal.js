@@ -14,19 +14,33 @@ class Terminal {
     currentCaret = this.caretTime;
     caretVisible = false;
 
+    inputEnabled = true;
+
+reset(){
+    this.all_commands = [];
+    this.toDisplay = [];
+    this.inputEnabled = true;
+}
+
+print(text){
+    this.toDisplay.push(text);
+}
+
 
 keyCheck() {
-    if (key.length === 1){
-        this.test_string += key;
-    }
-
-    if (keyCode === ENTER){
-        this.parseCommand(this.test_string);
-        this.test_string = "";
-    }
-
-    if (keyCode === DELETE || keyCode === BACKSPACE){
-        this.test_string = this.test_string.slice(0, -1);
+    if (this.inputEnabled){
+        if (key.length === 1){
+            this.test_string += key;
+        }
+    
+        if (keyCode === ENTER){
+            this.parseCommand(this.test_string);
+            this.test_string = "";
+        }
+    
+        if (keyCode === DELETE || keyCode === BACKSPACE){
+            this.test_string = this.test_string.slice(0, -1);
+        }
     }
 }
 
@@ -56,7 +70,7 @@ toDisplayCheck(){
 
 parseCommand(text){
     if (text === ''){
-        this.toDisplay.push("ERROR: ENTER VALID COMMAND");
+        this.toDisplay.push("ERROR: ENTER A COMMAND");
         return;
     }
     this.toDisplay.push(text);
@@ -71,7 +85,7 @@ displayCaret(pos){
         this.currentCaret = -1;
     }
 
-    if (this.caretVisible){
+    if (this.caretVisible && this.inputEnabled){
         push();
         stroke("#40FD90");
         line(12 + pos, 445, 12 + pos, 468);
@@ -104,4 +118,5 @@ drawTerminal(){
     pop();
         this.displayCaret(text_width);
 }
+
 }

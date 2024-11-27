@@ -7,19 +7,25 @@ let cookingTerminal = new Terminal(
         let first_word = commands[0];
         let second_word = commands[1];
         let third_word = commands[2];
+    
 
     switch (first_word){
         case 'hello':
-            //toDisplay.push("");
-            cookingTerminal.toDisplay.push("Well hello there my friend!");
+            cookingTerminal.print("Well hello there my friend!");
             break;
         case 'menu':
             changeState('menu');
             break;
         default:
-            cookingTerminal.toDisplay.push("ERROR: " + first_word + " IS NOT A VALID COMMAND");
+            cookingTerminal.print("ERROR: " + first_word + " IS NOT VALID");
             break;
     }
+
+    if (currentAngle >= 360){
+        cookingTerminal.reset();
+        cookingTerminal.print("YOU LOSE");
+    }
+
     }
 );
 
@@ -42,4 +48,13 @@ function drawClock(){
           }
     pop();
     pop();
+}
+
+function cookingReset(){
+    debugAmount = 0;
+    currentAngle = 0;
+}
+
+function look(){
+
 }
