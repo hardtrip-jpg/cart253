@@ -1,4 +1,9 @@
 class Terminal {
+
+    constructor(commandsCheck){
+        this.commandsCheck = commandsCheck;
+    }
+
     test_string = "";
     all_commands = [];
     toDisplay = [];
@@ -54,22 +59,10 @@ parseCommand(text){
         this.toDisplay.push("ERROR: ENTER VALID COMMAND");
         return;
     }
-
-    
     this.toDisplay.push(text);
     let commands = text.toLowerCase().trim().split(/\s+/);
+    this.commandsCheck(commands)
     //console.log(commands);
-    let first_word = commands[0];
-
-    switch (first_word){
-        case 'hello':
-            //toDisplay.push("");
-            this.toDisplay.push("Well hello there my friend!");
-            break;
-        default:
-            this.toDisplay.push("ERROR: " + first_word + " IS NOT A VALID COMMAND");
-    }
-
 }
 
 displayCaret(pos){

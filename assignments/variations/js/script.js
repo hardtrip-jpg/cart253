@@ -10,7 +10,26 @@
 "use strict";
 
 
-let test_terminal = new Terminal
+let test_terminal = new Terminal(
+    (commands) => {
+        let first_word = commands[0];
+
+    switch (first_word){
+        case 'hello':
+            //toDisplay.push("");
+            test_terminal.toDisplay.push("Well hello there my friend!");
+            break;
+        case 'cooking':
+            changeState('cooking');
+            break;
+        default:
+            test_terminal.toDisplay.push("ERROR: " + first_word + " IS NOT A VALID COMMAND");
+            break;
+    }
+    }
+)
+
+
 /**
  * Creates the canvas and set all basic variables
  */
@@ -39,6 +58,10 @@ function stateMachine() {
         
         case 'test':
             test_terminal.drawTerminal();
+            break;
+        
+        case 'cooking':
+            cookingTerminal.drawTerminal();
             break;
     }
 }
@@ -75,7 +98,15 @@ function startState() {
     console.log("Start: " + state);
     switch (state) {
         case 'test':
+            test_terminal.toDisplay = [];
+            test_terminal.all_commands = [];
+            test_terminal.toDisplay.push("Welcome to Test");
             return;
+            break;
+        case 'cooking':
+            cookingTerminal.toDisplay = [];
+            cookingTerminal.all_commands = [];
+            cookingTerminal.toDisplay.push("Welcome to Cooking");
             break;
     }
 }
@@ -88,7 +119,8 @@ function startState() {
 function mousePressed() {
     switch (state) {
         case 'menu':
-            changeState('test')
+            changeState('test');
+            break;
         case 'test':
             break;
     }
@@ -99,8 +131,12 @@ function keyPressed(){
     switch (state) {
         case 'menu':
             changeState('test');
+            break;
         case 'test':
             test_terminal.keyCheck();
+            break;
+        case 'cooking':
+            cookingTerminal.keyCheck();
             break;
     }
 }
