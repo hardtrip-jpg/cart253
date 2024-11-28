@@ -21,6 +21,8 @@ let menuTerminal = new Terminal(
             case 'cooking':
                 changeState('cooking');
                 break;
+            case 'rythym':
+                changeState('rythym');
             default:
                 menuTerminal.print("ERROR: " + first_word + " IS NOT VALID");
                 break;
@@ -35,7 +37,7 @@ let menuTerminal = new Terminal(
 function setup() {
     createCanvas(640, 480);
 
-    changeState('cooking');
+    changeState('title');
 }
 
 /**
@@ -71,6 +73,10 @@ function stateMachine() {
         case 'cooking':
             cookingTerminal.drawTerminal();
             drawClock();
+            break;
+
+        case 'rythym':
+            rythymDraw();
             break;
     }
 }
@@ -125,6 +131,8 @@ function startState() {
             cookingTerminal.print("You can start with the LOOK command");
             cookingTerminal.print("Type HELP to see the command reference");
             break;
+        case 'rythym':
+            rythymReset();
     }
 }
 

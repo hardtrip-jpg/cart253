@@ -58,6 +58,9 @@ let state;
 
 let terminalFont;
 
+let rythymSong;
+
 function preload() {
     terminalFont = loadFont("assets/fonts/_decterm.ttf");
+    rythymSong = loadSound("assets/sounds/houseofwx.ogg")
 };
