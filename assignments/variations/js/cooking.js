@@ -173,15 +173,12 @@ function placeLookItems(place) {
             }
             else {
                 printItems += " a " + place.items[i].name + ",";
-                // if (printItems.length > 50) {
-                //     cookingTerminal.print(printItems);
-                //     printItems = ""
-                // }
             }
         }
         cookingTerminal.print(printItems);
     }
     else {
         cookingTerminal.print("It currently holds nothing");
+        cookingTerminal.print("A AAAAAAAAAAAA  AAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAA       AAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
     }
 }

@@ -19,7 +19,7 @@ class Terminal {
 
     inputEnabled = true;
 
-    displaySize = 50;
+    displaySize = 59;
     reset() {
         this.all_commands = [];
         this.toDisplay = [];
@@ -135,8 +135,9 @@ class Terminal {
             allText += "\n" + currentText;
         }
         push();
+        textWrap(CHAR);
         rectMode(CORNERS);
-        text((allText), 10, 5, 620, 463);
+        text((allText), 13, 5);
         pop();
         text((this.test_string), 10, 470, 620);
         pop();
