@@ -120,13 +120,15 @@ class Terminal {
 
         let text_width = textWidth(this.test_string)
 
-        let currentHeight = 490;
-        for (let i = this.all_commands.length + 1; i > -1; i--) {
-            text((this.all_commands[i]), 10, currentHeight);
-            currentHeight -= 30;
+        let allText = ""
+        for (let i = 0; i < this.all_commands.length; i++) {
+            allText += "\n" + this.all_commands[i]
         }
-
-        text((this.test_string), 10, 470);
+        push();
+        rectMode(CORNERS);
+        text((allText), 10, 5, 620, 460);
+        pop();
+        text((this.test_string), 10, 470, 620);
         pop();
         this.displayCaret(text_width);
     }

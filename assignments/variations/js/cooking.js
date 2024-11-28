@@ -133,7 +133,7 @@ let clock = {
 function drawClock() {
     push();
     stroke("#40FD90");
-    fill("#000000")
+    fill(0, 0, 0, 0)
     circle(clock.x, clock.y, 80)
     angleMode(DEGREES);
     push();
@@ -153,11 +153,15 @@ function cookingReset() {
     debugAmount = 0;
     currentAngle = 0;
 
-    counter.items = [box, box, box];
+    counter.items = [box, box, box, box, box, box, box, box, box, box];
 }
 
 function placeLooks(name, place) {
     cookingTerminal.print("The " + name + " is " + place.active_state);
+    placeLookItems(place);
+}
+
+function placeLookItems(place) {
     let printItems = "It currently has a "
     if (place.items.length > 0) {
         for (i = 0; i < place.items.length; i++) {
@@ -168,7 +172,11 @@ function placeLooks(name, place) {
                 printItems += place.items[i].name;
             }
             else {
-                printItems += ", " + place.items[i].name;
+                printItems += " a " + place.items[i].name + ",";
+                if (printItems.length > 50) {
+                    cookingTerminal.print(printItems);
+                    printItems = ""
+                }
             }
         }
         cookingTerminal.print(printItems);
