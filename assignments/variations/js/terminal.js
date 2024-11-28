@@ -19,6 +19,7 @@ class Terminal {
 
     inputEnabled = true;
 
+    displaySize = 50;
     reset() {
         this.all_commands = [];
         this.toDisplay = [];
@@ -48,11 +49,20 @@ class Terminal {
     }
 
     printTerminalText(text) {
-        this.all_commands.push(text);
+        let pushText = text
+        while (pushText.length > this.displaySize + 1) {
+            let curText = pushText.substr(0, this.displaySize);
+            this.all_commands.push(curText);
+            pushText = pushText.substr(this.displaySize);
+            console.log(pushText.length);
+        }
 
-        if (this.all_commands.length > 15) {
+        this.all_commands.push(pushText);
+
+        while (this.all_commands.length > 14) {
             this.all_commands.shift();
         }
+
     }
 
     toDisplayCheck() {
@@ -88,7 +98,6 @@ class Terminal {
         this.toDisplay.push(text);
         let commands = text.toLowerCase().trim().split(/\s+/);
         this.commandsCheck(commands)
-        //console.log(commands);
     }
 
     displayCaret(pos) {
@@ -118,15 +127,16 @@ class Terminal {
         textSize(25);
         textFont(terminalFont);
 
-        let text_width = textWidth(this.test_string)
+        let text_width = textWidth(this.test_string);
 
         let allText = ""
         for (let i = 0; i < this.all_commands.length; i++) {
-            allText += "\n" + this.all_commands[i]
+            let currentText = this.all_commands[i]
+            allText += "\n" + currentText;
         }
         push();
         rectMode(CORNERS);
-        text((allText), 10, 5, 620, 460);
+        text((allText), 10, 5, 620, 463);
         pop();
         text((this.test_string), 10, 470, 620);
         pop();

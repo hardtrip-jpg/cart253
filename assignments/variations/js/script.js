@@ -35,7 +35,7 @@ let menuTerminal = new Terminal(
 function setup() {
     createCanvas(640, 480);
 
-    changeState('cooking');
+    changeState('title');
 }
 
 /**

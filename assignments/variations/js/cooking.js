@@ -173,10 +173,10 @@ function placeLookItems(place) {
             }
             else {
                 printItems += " a " + place.items[i].name + ",";
-                if (printItems.length > 50) {
-                    cookingTerminal.print(printItems);
-                    printItems = ""
-                }
+                // if (printItems.length > 50) {
+                //     cookingTerminal.print(printItems);
+                //     printItems = ""
+                // }
             }
         }
         cookingTerminal.print(printItems);
