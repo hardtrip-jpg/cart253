@@ -14,17 +14,17 @@ let menuTerminal = new Terminal(
     (commands) => {
         let first_word = commands[0];
 
-    switch (first_word){
-        case 'hello':
-            menuTerminal.print("Well hello there my friend!");
-            break;
-        case 'cooking':
-            changeState('cooking');
-            break;
-        default:
-            menuTerminal.print("ERROR: " + first_word + " IS NOT VALID");
-            break;
-    }
+        switch (first_word) {
+            case 'hello':
+                menuTerminal.print("Well hello there my friend!");
+                break;
+            case 'cooking':
+                changeState('cooking');
+                break;
+            default:
+                menuTerminal.print("ERROR: " + first_word + " IS NOT VALID");
+                break;
+        }
     }
 )
 
@@ -63,11 +63,11 @@ function stateMachine() {
             pop();
             pop();
             break;
-        
+
         case 'menu':
             menuTerminal.drawTerminal();
             break;
-        
+
         case 'cooking':
             cookingTerminal.drawTerminal();
             drawClock();
@@ -142,7 +142,7 @@ function mousePressed() {
 
 }
 
-function keyPressed(){
+function keyPressed() {
     switch (state) {
         case 'title':
             changeState('menu');
