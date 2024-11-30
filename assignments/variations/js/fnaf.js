@@ -14,6 +14,7 @@ let fnafTerminal = new Terminal(
 let fnafState = 'terminal'
 
 
+
 function fnafDraw(){
     switch(fnafState){
         case('terminal'):
@@ -28,13 +29,57 @@ function fnafDraw(){
 
 
 function fnafStart(){
-
+    fnafTerminal.reset();
+    fnafTerminal.print("     Welcome to the Office game ");
+    fnafTerminal.print("When you feel ready, you may look up... ");
 }
 
 function fnafMouseCheck(){
+    switch(fnafState){
+        case('terminal'):
+            break;
+        case('hallway'):
+            break;
+    }
 
 }
 
 function fnafKeyCheck(){
+    switch(fnafState){
+        case('terminal'):
+            break;
+        case('hallway'):
+            break;
+    }
 
+}
+
+
+function fnafEndState(){
+    switch(fnafState){
+        case('terminal'):
+            break;
+        case('hallway'):
+            break;
+    }
+
+}
+
+function fnafStartState(){
+    switch(fnafState){
+        case('terminal'):
+            break;
+        case('hallway'):
+            break;
+    }
+
+}
+
+
+function fnafChangeState(newState) {
+    if (newState != state) {
+        fnafEndState();
+        state = newState;
+        fnafStartState();
+    }
 }
