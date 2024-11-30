@@ -37,7 +37,7 @@ let menuTerminal = new Terminal(
 function setup() {
     createCanvas(640, 480);
 
-    changeState('title');
+    changeState('fnaf');
 }
 
 /**
@@ -78,6 +78,10 @@ function stateMachine() {
         case 'rythym':
             rythymDraw();
             break;
+
+        case 'fnaf':
+            fnafDraw();
+            break;
     }
 }
 
@@ -113,26 +117,18 @@ function startState() {
     console.log("Start: " + state);
     switch (state) {
         case 'menu':
-            menuTerminal.reset();
-            menuTerminal.print("   Welcome to the Menu   ");
-            menuTerminal.print("     Available Games:");
-            menuTerminal.print("COOKING - Turn based cooking simulator");
-            menuTerminal.print("RYTHYM - Timing based dungeon crawler");
-            menuTerminal.print("OFFICE - FNAF inspired game");
+            menuStart();
             return;
             break;
         case 'cooking':
-            cookingTerminal.reset();
-            cookingReset();
-            cookingTerminal.print("       Welcome to Cooking");
-            cookingTerminal.print("In this game you must cook a bowl of");
-            cookingTerminal.print("  KRAFT DINNER AND SAUSAGE BITS!");
-            cookingTerminal.print(" ");
-            cookingTerminal.print("You can start with the LOOK command");
-            cookingTerminal.print("Type HELP to see the command reference");
+            cookingStart();
             break;
         case 'rythym':
             rythymReset();
+            break;
+        case 'fnaf':
+            fnafStart();
+            break;
     }
 }
 
@@ -162,4 +158,13 @@ function keyPressed() {
             cookingTerminal.keyCheck();
             break;
     }
+}
+
+function menuStart(){
+    menuTerminal.reset();
+    menuTerminal.print("   Welcome to the Menu   ");
+    menuTerminal.print("     Available Games:");
+    menuTerminal.print("COOKING - Turn based cooking simulator");
+    menuTerminal.print("RYTHYM - Timing based dungeon crawler");
+    menuTerminal.print("OFFICE - FNAF inspired game");
 }
