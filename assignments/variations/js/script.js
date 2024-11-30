@@ -142,6 +142,9 @@ function mousePressed() {
         case 'title':
             changeState('menu');
             break;
+        case 'fnaf':
+            fnafMouseCheck();
+            break;
     }
 
 }
@@ -157,10 +160,13 @@ function keyPressed() {
         case 'cooking':
             cookingTerminal.keyCheck();
             break;
+        case 'fnaf':
+            fnafKeyCheck();
+            break;
     }
 }
 
-function menuStart(){
+function menuStart() {
     menuTerminal.reset();
     menuTerminal.print("   Welcome to the Menu   ");
     menuTerminal.print("     Available Games:");
