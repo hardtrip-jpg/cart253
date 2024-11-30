@@ -23,6 +23,9 @@ let menuTerminal = new Terminal(
                 break;
             case 'rythym':
                 changeState('rythym');
+                break;
+            case 'office':
+                changeState('fnaf')
             default:
                 menuTerminal.print("ERROR: " + first_word + " IS NOT VALID");
                 break;
@@ -162,6 +165,9 @@ function keyPressed() {
             break;
         case 'fnaf':
             fnafKeyCheck();
+            break;
+        case 'rythym':
+            rythymKeyPress();
             break;
     }
 }
