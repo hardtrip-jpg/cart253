@@ -40,7 +40,7 @@ let menuTerminal = new Terminal(
 function setup() {
     createCanvas(640, 480);
 
-    changeState('fnaf');
+    changeState('title');
 }
 
 /**
@@ -109,6 +109,11 @@ function endState() {
     switch (state) {
         case 'menu':
             return;
+            break;
+        case 'rythym':
+            console.log('test');
+            rythymSong.stop();
+            // rythymEnd();
             break;
     }
 }

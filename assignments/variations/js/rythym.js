@@ -23,20 +23,75 @@ let tickBeat = 0.479;
 let showTick = false;
 let tickValue = 0;
 
-let beatLength = tickBeat / 2;
+let beatLength = 0.2395;
 let beatValue = 0;
 
+let ratingText = "";
+let showRating = false;
+let ratingOpacity = 0;
+let ratingFadeSpeed = 2;
+
+let perfectBuffer = 0.1;
+let goodBuffer = 0.2;
+
+let comboValue = 0;
 
 function rythymDraw() {
     rythymTerminal.drawTerminal();
 
+    drawTick();
+    drawRating();
+
     beatValue += 0.0166666666667;
     tickValue += 0.0166666666667;
     if (beatValue >= beatLength) {
+        
         onBeat = true;
         beatValue -= beatLength;
         // beatValue = 0;
     }
+    
+    
+
+}
+
+function rythymReset() {
+    rythymTerminal.reset();
+    rythymSong.stop();
+    rythymTerminal.caretTime = 0;
+    rythymSong.loop(true);
+    
+    ratingText = "newRating";
+    ratingOpacity = 0;
+    showRating = false;
+}
+
+function rythymKeyPress() {
+    rythymTerminal.keyCheck();
+
+    if(beatValue <= (beatLength + perfectBuffer) && beatValue >= (beatLength - perfectBuffer)){
+        updateRating('perfect');
+        comboValue++;
+    }
+    else if (beatValue <= (beatLength + goodBuffer) && beatValue >= (beatLength - goodBuffer))
+    {
+        updateRating('good');
+        comboValue++;
+    }
+    else{
+        updateRating('miss');
+        comboValue = 0;
+    }
+
+    
+    
+}
+
+function rythymEnd(){
+    rythymSong.stop();
+}
+
+function drawTick(){
     push();
 
     if (tickValue >= (tickBeat)) {
@@ -66,12 +121,31 @@ function rythymDraw() {
 
 }
 
-function rythymReset() {
-    rythymTerminal.caretTime = 0;
-    rythymSong.loop(true);
-    //rythymSong.play();
+function drawCombo(){
+
 }
 
-function rythymKeyPress() {
-    rythymTerminal.keyCheck();
+function drawRating(){
+    if (showRating){
+        if (ratingOpacity <= 0){
+            showRating = false;
+        }
+        else{
+            // console.log(ratingOpacity)
+            push();
+            fill(64, 253, 144, ratingOpacity);
+            textSize(50)
+            text(ratingText, 430, 40);
+            ratingOpacity -= ratingFadeSpeed;
+            pop();
+        }
+    }
+
+}
+
+function updateRating(newRating){
+    ratingText = newRating;
+    ratingOpacity = 255;
+    showRating = true;
+    console.log(ratingText);
 }
