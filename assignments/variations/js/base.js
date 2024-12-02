@@ -21,7 +21,7 @@ function collision(x, y, width, height) {
  * When constructed, buttons are given a unique anonymous function that gets used when button is activated.
 */
 
-class button {
+class Button {
 
     //This constructor recieves a creates a new collision object and recieves a new anonymous function that is later used.
     constructor(x, y, width, height, notify) {
@@ -48,7 +48,7 @@ class button {
 }
 
 
-let state;
+
 
 
 

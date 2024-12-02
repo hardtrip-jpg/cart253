@@ -9,6 +9,7 @@
 
 "use strict";
 
+let state;
 
 let menuTerminal = new Terminal(
     (commands) => {
