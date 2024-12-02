@@ -17,45 +17,48 @@ let fnafState = 'terminal'
 
 let door1 = {
     doorOpen: true,
-    isAttacked: false
+    isAttacked: false,
+    images: [left_closed, left_enemy, left_open],
 }
 let door2 = {
     doorOpen: true,
-    isAttacked: false
+    isAttacked: false,
+    images: [mid_closed, mid_enemy, mid_open],
 }
 let door3 = {
     doorOpen: true,
-    isAttacked: false
+    isAttacked: false,
+    images: [right_closed, right_enemy, right_open],
 }
 
-const doorsHolder = [door1,door2,door3];
+const doorsHolder = [door1, door2, door3];
 
 
-class DoorButton extends Button{
-    
-    constructor(x, y, width, length, door){
-        super(x,y,width,length);
+class DoorButton extends Button {
+
+    constructor(x, y, width, length, door) {
+        super(x, y, width, length);
         this.door = door;
-        this.notify =() => { doorButton(this.door) };
+        this.notify = () => { doorButton(this.door) };
     }
 
-    
+
 }
 
 const officeButtons = [
-    new DoorButton (200, 300, 50, 50, door1),
-    new DoorButton (300, 300, 50, 50, door2),
-    new DoorButton (400, 300, 50, 50, door3),
+    new DoorButton(200, 300, 50, 50, door1),
+    new DoorButton(300, 300, 50, 50, door2),
+    new DoorButton(400, 300, 50, 50, door3),
 ];
 
 
-const changeToOfficeButton = new Button(180, 10, 300, 60, 
+const changeToOfficeButton = new Button(180, 10, 300, 60,
     () => {
         fnafChangeState("hallway");
     }
 );
 
-const changeToTerminalButton = new Button(180, 400, 300, 60, 
+const changeToTerminalButton = new Button(180, 400, 300, 60,
     () => {
         fnafChangeState("terminal");
     }
@@ -68,7 +71,7 @@ const changeToTerminalButton = new Button(180, 400, 300, 60,
 
 
 function fnafDraw() {
-    
+
 
     switch (fnafState) {
         case ('terminal'):
@@ -83,6 +86,7 @@ function fnafDraw() {
         case ('hallway'):
             attackTimer();
             background("#FFFFFF");
+            image(door1[0], 0, 0);
             text("woah youre office", 320, 240);
 
             push();
@@ -91,20 +95,21 @@ function fnafDraw() {
             rect(col2.x, col2.y, col2.width, col2.height);
             pop();
 
-            
-            for(i = 0; i < officeButtons.length; i++){
+
+            for (i = 0; i < officeButtons.length; i++) {
                 push();
+                // image(drawDoor(officeButtons[i].door), 0, 0);
                 const col = officeButtons[i].col
-                if (officeButtons[i].door.doorOpen){
+                if (officeButtons[i].door.doorOpen) {
                     fill("#FF0000");
-                }else{
-                    fill("#00FF00"); 
+                } else {
+                    fill("#00FF00");
                 }
-                
+
                 rect(col.x, col.y, col.width, col.height);
                 pop();
             }
-            
+
             break;
         case 'dead':
             background("#000000");
@@ -128,7 +133,7 @@ function fnafMouseCheck() {
             break;
         case 'hallway':
             changeToTerminalButton.checkMouseCollision();
-            for(i = 0; i < officeButtons.length; i++){
+            for (i = 0; i < officeButtons.length; i++) {
                 officeButtons[i].checkMouseCollision();
             }
             break;
@@ -175,7 +180,7 @@ function fnafChangeState(newState) {
     }
 }
 
-function doorButton(door){
+function doorButton(door) {
     door.doorOpen = !door.doorOpen;
 }
 
@@ -191,22 +196,22 @@ let currentFrame = 0;
 let attackTime = 5;
 let currentDoor;
 
-function attackTimer(){
+function attackTimer() {
     currentFrame += 0.0166667;
     // console.log(currentFrame);
-    if (waiting && (currentFrame >= waitTime.time)){
+    if (waiting && (currentFrame >= waitTime.time)) {
         waiting = false;
         currentFrame = 0;
         currentDoor.isAttacked = true;
         console.log(currentDoor);
     }
-    else if(!waiting && currentFrame >= attackTime){
+    else if (!waiting && currentFrame >= attackTime) {
         checkAttackSuccessful();
     }
 
 }
 
-function resetAttack(){
+function resetAttack() {
     const randomElement = doorsHolder[Math.floor(Math.random() * doorsHolder.length)];
     currentDoor = randomElement;
     waitTime.time = Math.floor(Math.random() * waitTime.low) + waitTime.high;
@@ -214,13 +219,26 @@ function resetAttack(){
     waiting = true;
 }
 
-function checkAttackSuccessful(){
-    if (currentDoor.doorOpen){
+function checkAttackSuccessful() {
+    if (currentDoor.doorOpen) {
         console.log("you died");
         changeState('dead');
     }
-    else{
+    else {
         currentDoor.isAttacked = false;
         resetAttack();
+    }
+}
+
+function drawDoor(door) {
+    //let currentImage = mid_closed;
+    if (door.doorOpen === false) {
+        return door.images[0];
+    }
+    else if (door.isAttacked) {
+        return door.images[1];
+    }
+    else {
+        return door.images[3];
     }
 }

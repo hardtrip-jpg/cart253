@@ -60,8 +60,43 @@ let terminalFont;
 
 let rythymSong;
 
+
+
+let fnafBackground;
+
+let mid_open;
+let mid_closed;
+let mid_enemy;
+
+let left_open;
+let left_closed;
+let left_enemy;
+
+let right_open;
+let right_closed;
+let right_enemy;
+
+let look_up;
+let look_down;
+
 function preload() {
     terminalFont = loadFont("assets/fonts/_decterm.ttf");
     rythymSong = loadSound("assets/sounds/houseofwxloop.ogg");
     rythymSong.playMode('restart');
+
+    fnafBackground = loadImage("assets/images/door_open.png");
+    mid_open = loadImage("assets/images/pngs/mid_open.png");
+    mid_closed = loadImage("assets/images/pngs/mid_closed.png");
+    mid_enemy = loadImage("assets/images/pngs/mid_enemy.png");
+    left_open = loadImage("assets/images/pngs/left_open.png");
+    left_closed = loadImage("assets/images/pngs/left_closed.png");
+    left_enemy = loadImage("assets/images/pngs/left_enemy.png");
+    right_open = loadImage("assets/images/pngs/right_open.png");
+    right_closed = loadImage("assets/images/pngs/right_closed.png");
+    right_enemy = loadImage("assets/images/pngs/right_enemy.png");
+
+    look_up = loadImage("assets/images/look_up_gif.gif");
+    look_down = loadImage("assets/images/look_down_gif.gif");
+
+
 };
