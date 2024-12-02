@@ -28,6 +28,8 @@ let door3 = {
     isAttacked: false
 }
 
+const doorsHolder = [door1,door2,door3];
+
 
 class DoorButton extends Button{
     
@@ -66,8 +68,11 @@ const changeToTerminalButton = new Button(180, 400, 300, 60,
 
 
 function fnafDraw() {
+    
+
     switch (fnafState) {
         case ('terminal'):
+            attackTimer();
             fnafTerminal.drawTerminal();
             push();
             fill(255, 255, 255, 100);
@@ -76,6 +81,7 @@ function fnafDraw() {
             pop();
             break;
         case ('hallway'):
+            attackTimer();
             background("#FFFFFF");
             text("woah youre office", 320, 240);
 
@@ -100,6 +106,9 @@ function fnafDraw() {
             }
             
             break;
+        case 'dead':
+            background("#000000");
+            break;
     }
 
 }
@@ -108,6 +117,7 @@ function fnafStart() {
     fnafTerminal.reset();
     fnafTerminal.print("     Welcome to the Office game ");
     fnafTerminal.print("When you feel ready, you may look up... ");
+    resetAttack();
 }
 
 function fnafMouseCheck() {
@@ -167,5 +177,50 @@ function fnafChangeState(newState) {
 
 function doorButton(door){
     door.doorOpen = !door.doorOpen;
-    console.log(door.doorOpen);
+}
+
+
+
+let waitTime = {
+    low: 5,
+    high: 10,
+    time: 5
+};
+let waiting = true;
+let currentFrame = 0;
+let attackTime = 5;
+let currentDoor;
+
+function attackTimer(){
+    currentFrame += 0.0166667;
+    // console.log(currentFrame);
+    if (waiting && (currentFrame >= waitTime.time)){
+        waiting = false;
+        currentFrame = 0;
+        currentDoor.isAttacked = true;
+        console.log(currentDoor);
+    }
+    else if(!waiting && currentFrame >= attackTime){
+        checkAttackSuccessful();
+    }
+
+}
+
+function resetAttack(){
+    const randomElement = doorsHolder[Math.floor(Math.random() * doorsHolder.length)];
+    currentDoor = randomElement;
+    waitTime.time = Math.floor(Math.random() * waitTime.low) + waitTime.high;
+    currentFrame = 0;
+    waiting = true;
+}
+
+function checkAttackSuccessful(){
+    if (currentDoor.doorOpen){
+        console.log("you died");
+        changeState('dead');
+    }
+    else{
+        currentDoor.isAttacked = false;
+        resetAttack();
+    }
 }
