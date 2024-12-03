@@ -41,7 +41,7 @@ let menuTerminal = new Terminal(
 function setup() {
     createCanvas(640, 480);
 
-    changeState('title');
+    changeState('menu');
 }
 
 /**

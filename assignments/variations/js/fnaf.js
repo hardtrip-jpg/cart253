@@ -7,6 +7,8 @@ const fnafTerminal = new Terminal(
         switch (first_word) {
             case ("menu"):
                 changeState("menu");
+            case ("reset"):
+                fnafStart();
             default:
                 break;
         }
@@ -18,17 +20,17 @@ let fnafState = 'terminal'
 let door1 = {
     doorOpen: true,
     isAttacked: false,
-    images: [left_closed, left_enemy, left_open],
+    id: 1,
 }
 let door2 = {
     doorOpen: true,
     isAttacked: false,
-    images: [mid_closed, mid_enemy, mid_open],
+    id: 2,
 }
 let door3 = {
     doorOpen: true,
     isAttacked: false,
-    images: [right_closed, right_enemy, right_open],
+    id: 3,
 }
 
 const doorsHolder = [door1, door2, door3];
@@ -46,21 +48,21 @@ class DoorButton extends Button {
 }
 
 const officeButtons = [
-    new DoorButton(200, 300, 50, 50, door1),
-    new DoorButton(300, 300, 50, 50, door2),
-    new DoorButton(400, 300, 50, 50, door3),
+    new DoorButton(185, 310, 70, 55, door1),
+    new DoorButton(285, 320, 75, 55, door2),
+    new DoorButton(392, 323, 80, 60, door3),
 ];
 
 
 const changeToOfficeButton = new Button(180, 10, 300, 60,
     () => {
-        fnafChangeState("hallway");
+        fnafChangeState("look_up");
     }
 );
 
 const changeToTerminalButton = new Button(180, 400, 300, 60,
     () => {
-        fnafChangeState("terminal");
+        fnafChangeState("look_down");
     }
 );
 
@@ -68,7 +70,7 @@ const changeToTerminalButton = new Button(180, 400, 300, 60,
 
 
 
-
+let transitionCounter = 0;
 
 function fnafDraw() {
 
@@ -86,8 +88,16 @@ function fnafDraw() {
         case ('hallway'):
             attackTimer();
             background("#FFFFFF");
-            image(door1[0], 0, 0);
+            image(fnafBackground, 0, 0);
             text("woah youre office", 320, 240);
+
+            for (i = 0; i < officeButtons.length; i++) {
+                push();
+                image(drawDoor(officeButtons[i].door), 0, 0);
+                const col = officeButtons[i].col
+                
+                pop();
+            }
 
             push();
             fill(255, 255, 255, 100);
@@ -96,25 +106,31 @@ function fnafDraw() {
             pop();
 
 
-            for (i = 0; i < officeButtons.length; i++) {
-                push();
-                // image(drawDoor(officeButtons[i].door), 0, 0);
-                const col = officeButtons[i].col
-                if (officeButtons[i].door.doorOpen) {
-                    fill("#FF0000");
-                } else {
-                    fill("#00FF00");
-                }
-
-                rect(col.x, col.y, col.width, col.height);
-                pop();
-            }
+            
 
             break;
         case 'dead':
-            background("#000000");
+            fnafTerminal.drawTerminal();
             break;
+        case 'look_up':
+            transitionCounter++;
+            if (transitionCounter >= 3){
+                fnafChangeState("hallway");
+            }
+            image(look_up, 0, 0);
+            break;
+        case 'look_down':
+            transitionCounter++;
+            if (transitionCounter >= 3){
+                fnafChangeState("terminal");
+            }
+            image(look_down, 0, 0);
+            break;
+
+
     }
+
+    
 
 }
 
@@ -158,6 +174,16 @@ function fnafEndState() {
             break;
         case 'hallway':
             break;
+        case 'look_up':
+            transitionCounter = 0;
+            look_up.pause();
+            //look_up.reset();
+            break;
+        case 'look_down':
+            transitionCounter = 0;
+            look_down.pause();
+            //look_down.reset();
+            break;
     }
 
 }
@@ -168,6 +194,17 @@ function fnafStartState() {
             break;
         case 'hallway':
             break;
+        case 'look_up':
+            look_up.play();
+            break;
+        case 'look_down':
+            look_down.play();
+            break;
+        case 'dead':
+            fnafTerminal.reset();
+            fnafTerminal.print("You died ;-;");
+            fnafTerminal.print("Type RESET to retry");
+
     }
 
 }
@@ -182,6 +219,10 @@ function fnafChangeState(newState) {
 
 function doorButton(door) {
     door.doorOpen = !door.doorOpen;
+    if (door.isAttacked){
+        door.isAttacked = false;
+        resetAttack();
+    }
 }
 
 
@@ -199,7 +240,7 @@ let currentDoor;
 function attackTimer() {
     currentFrame += 0.0166667;
     // console.log(currentFrame);
-    if (waiting && (currentFrame >= waitTime.time)) {
+    if (waiting && (currentFrame >= waitTime.time) && fnafState === 'terminal') {
         waiting = false;
         currentFrame = 0;
         currentDoor.isAttacked = true;
@@ -223,6 +264,8 @@ function checkAttackSuccessful() {
     if (currentDoor.doorOpen) {
         console.log("you died");
         changeState('dead');
+        // currentDoor.isAttacked = false;
+        // resetAttack();
     }
     else {
         currentDoor.isAttacked = false;
@@ -232,13 +275,42 @@ function checkAttackSuccessful() {
 
 function drawDoor(door) {
     //let currentImage = mid_closed;
-    if (door.doorOpen === false) {
-        return door.images[0];
+
+
+    switch (door.id){
+        case 1:
+            if (door.doorOpen === false) {
+                return left_closed;
+            }
+            else if (door.isAttacked) {
+                return left_enemy;
+            }
+            else {
+                return left_open;
+            }
+            break;
+        case 2:
+            if (door.doorOpen === false) {
+                    return mid_closed;
+            }
+            else if (door.isAttacked) {
+                return mid_enemy;
+            }
+            else {
+                return mid_open;
+            }
+            break;
+        case 3:
+            if (door.doorOpen === false) {
+                return right_closed;
+            }
+            else if (door.isAttacked) {
+                return right_enemy;
+            }
+            else {
+                return right_open;
+            }
+            break;
     }
-    else if (door.isAttacked) {
-        return door.images[1];
-    }
-    else {
-        return door.images[3];
-    }
+    
 }

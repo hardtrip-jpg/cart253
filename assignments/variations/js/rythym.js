@@ -134,8 +134,10 @@ function drawRating(){
             // console.log(ratingOpacity)
             push();
             fill(64, 253, 144, ratingOpacity);
-            textSize(50)
-            text(ratingText, 430, 40);
+            textAlign(RIGHT);
+            textFont(terminalFont);
+            textSize(25);
+            text(ratingText, 600, 37);
             ratingOpacity -= ratingFadeSpeed;
             pop();
         }
