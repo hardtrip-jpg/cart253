@@ -78,7 +78,9 @@ function fnafDraw() {
     switch (fnafState) {
         case ('terminal'):
             attackTimer();
+            push();
             fnafTerminal.drawTerminal();
+            pop();
             push();
             fill(255, 255, 255, 100);
             const col = changeToOfficeButton.col
@@ -110,7 +112,9 @@ function fnafDraw() {
 
             break;
         case 'dead':
+            push();
             fnafTerminal.drawTerminal();
+            pop();
             break;
         case 'look_up':
             transitionCounter++;
@@ -135,6 +139,7 @@ function fnafDraw() {
 }
 
 function fnafStart() {
+    fnafChangeState('terminal');
     fnafTerminal.reset();
     fnafTerminal.print("     Welcome to the Office game ");
     fnafTerminal.print("When you feel ready, you may look up... ");
@@ -160,6 +165,9 @@ function fnafMouseCheck() {
 function fnafKeyCheck() {
     switch (fnafState) {
         case 'terminal':
+            fnafTerminal.keyCheck();
+            break;
+        case 'dead':
             fnafTerminal.keyCheck();
             break;
         case 'hallway':
@@ -201,9 +209,13 @@ function fnafStartState() {
             look_down.play();
             break;
         case 'dead':
+            console.log('test1');
             fnafTerminal.reset();
+            console.log('test2');
             fnafTerminal.print("You died ;-;");
             fnafTerminal.print("Type RESET to retry");
+            fnafTerminal.drawTerminal();
+            break;
 
     }
 
@@ -263,9 +275,8 @@ function resetAttack() {
 function checkAttackSuccessful() {
     if (currentDoor.doorOpen) {
         console.log("you died");
-        changeState('dead');
-        // currentDoor.isAttacked = false;
-        // resetAttack();
+        fnafChangeState('dead');
+        currentDoor.isAttacked = false;
     }
     else {
         currentDoor.isAttacked = false;
