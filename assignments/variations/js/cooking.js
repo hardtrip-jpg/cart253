@@ -2,6 +2,12 @@ let cookingTerminal = new Terminal(
     (commands) => {
         cookingTerminal.displayWithBuffer = false;
         currentAngle += 6;
+
+        if (pot.item_state === 'boiling'){
+            potTimer++;
+            console.log(potTimer);
+        }
+
         debugAmount++;
         console.log(debugAmount);
 
@@ -217,7 +223,10 @@ let box = new cookingItem("BOX", ["unopen", "open", "empty"],
 
 )
 
-let currentPotIngrediants = [];
+let potTimer = 0;
+let potTimeRequired = 10;
+
+let noodlesNotStuck = false;
 
 let pot = new cookingItem("POT", ["empty", "filled and dry", "wet and empty", "filled", "boiling", "done", "has_ingredients"],
     (word) => {
@@ -330,8 +339,8 @@ function cookingReset() {
     debugAmount = 0;
     currentAngle = 0;
 
-    counter.items = [box, knife, spatula,];
-    stove.items = [pot, pan, ]
+    counter.items = [box, spoon,];
+    stove.items = [pot,]
 }
 
 function placeLooks(name, place) {
