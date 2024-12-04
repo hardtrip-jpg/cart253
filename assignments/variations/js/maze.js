@@ -1,50 +1,52 @@
-let fnafMaze = [
-    [1,0,0,0,0,0,1],
-    [1,1,1,1,1,0,1],
-    [0,0,0,0,0,0,1],
-    [1,1,1,0,1,0,1],
-    [1,0,0,0,0,0,1],
-    [1,0,1,0,1,1,1],
-    [1,0,1,0,0,0,0],
+const fnafMaze = [
+    [1, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 0, 1],
+    [0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 0, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 1, 1],
+    [1, 0, 1, 0, 0, 0, 0],
 ];
 
-let fnafMazeStart = [1,0];
-let fnafMazeEnd = [1,6];
- 
-let rythymMaze = [
-    [1,0,0,0,0,1,0],
-    [1,0,1,1,0,0,0],
-    [0,0,0,0,0,1,0],
-    [0,1,0,1,0,1,0],
-    [0,1,0,0,1,1,0],
-    [0,1,1,0,0,0,1],
-    [0,0,0,0,1,0,0],
+const fnafMazeStart = [1, 0];
+const fnafMazeEnd = [1, 6];
+
+const rythymMaze = [
+    [1, 0, 0, 0, 0, 1, 0],
+    [1, 0, 1, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 1, 0, 1, 0],
+    [0, 1, 0, 0, 1, 1, 0],
+    [0, 1, 1, 0, 0, 0, 1],
+    [0, 0, 0, 0, 1, 0, 0],
 ]
 
-let rythymMazeStart = [6,0];
-let rythymMazeEnd = [6,6];
+const rythymMazeStart = [6, 0];
+const rythymMazeEnd = [6, 6];
 
 let currentMaze = fnafMaze;
 let currentMazeEnd = fnafMazeEnd;
 let playerPosition = fnafMazeStart;
 
-function mazeLook(terminal){
+function mazeLook(terminal) {
     //I could do this another way, but I ran out of time to figure out a better solution
     let north = [playerPosition[0], playerPosition[1] - 1];
     let south = [playerPosition[0], playerPosition[1] + 1];
     let west = [playerPosition[0] - 1, playerPosition[1]];
     let east = [playerPosition[0] + 1, playerPosition[1]];
 
-    terminal.print("The NORTH " + checkWall(north));
-    terminal.print("The EAST " + checkWall(east));
-    terminal.print("The SOUTH " + checkWall(south));
-    terminal.print("The WEST " + checkWall(west));
+    terminal.print("The NORTH" + checkWall(north));
+    terminal.print("The EAST" + checkWall(east));
+    terminal.print("The SOUTH" + checkWall(south));
+    terminal.print("The WEST" + checkWall(west));
 
 
 }
 
-function checkWall(location){
-    if (location === currentMazeEnd){
+function checkWall(location) {
+    console.log(location);
+
+    if (location === currentMazeEnd) {
         return " has the end!";
     }
 
@@ -52,53 +54,53 @@ function checkWall(location){
     let x_axis = currentMaze[location[1]]
     console.log(x_axis);
 
-    if (currentMaze.length > location[1]  && x_axis.length > location[0]){
-        if(currentMaze[location[1]][location[0]] === 1){
+    if (location[1] <= 6 && location[1] >= 0 && location[0] <= 6 && location[0] >= 0) {
+        if (currentMaze[location[1]][location[0]] === 1) {
             return " has a wall";
-        }else{
+        } else {
             return " has nothing";
         }
-    }else{
+    } else {
         return " is completely blocked off";
     }
 }
 
-function mazeGoTo(direction, terminal){
-    switch (direction){
+function mazeGoTo(direction, terminal) {
+    switch (direction) {
         case 'north':
-            if (playerPosition[1] - 1 >= 0 && checkWall([playerPosition[0],playerPosition[1] - 1]) === " has nothing"){
+            if (playerPosition[1] - 1 >= 0 && checkWall([playerPosition[0], playerPosition[1] - 1]) === " has nothing") {
                 playerPosition[1]--;
                 terminal.print("You move NORTH");
-            }else{
+            } else {
                 terminal.print("You can't go there");
             }
             break;
         case 'east':
-            if (playerPosition[0] + 1 <= 6 && checkWall([playerPosition[0] + 1,playerPosition[1]]) === " has nothing"){
+            if (playerPosition[0] + 1 <= 6 && checkWall([playerPosition[0] + 1, playerPosition[1]]) === " has nothing") {
                 playerPosition[0]++;
                 terminal.print("You move EAST");
-            }else{
+            } else {
                 terminal.print("You can't go there");
             }
             break;
         case 'south':
-            if (playerPosition[1] + 1 <= 6 && checkWall([playerPosition[0],playerPosition[1] + 1]) === " has nothing"){
+            if (playerPosition[1] + 1 <= 6 && checkWall([playerPosition[0], playerPosition[1] + 1]) === " has nothing") {
                 playerPosition[1]++;
                 terminal.print("You move SOUTH");
-            }else{
+            } else {
                 terminal.print("You can't go there");
             }
             break;
         case 'west':
-            if (playerPosition[0] - 1 >= 0 && checkWall([playerPosition[0] - 1,playerPosition[1]]) === " has nothing"){
+            if (playerPosition[0] - 1 >= 0 && checkWall([playerPosition[0] - 1, playerPosition[1]]) === " has nothing") {
                 playerPosition[0]--;
                 terminal.print("You move WEST");
-            }else{
+            } else {
                 terminal.print("You can't go there");
             }
             break;
     }
-    if (currentMazeEnd === playerPosition){
+    if (currentMazeEnd === playerPosition) {
         terminal.commandsCheck("end");
     }
 

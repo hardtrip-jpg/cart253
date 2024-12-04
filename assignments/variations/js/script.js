@@ -2,6 +2,7 @@
  * It's Terminal
  * Jeremy Dumont
  * 
+ * This is script that connects all other scripts to p5's main logic such as 'draw()' and 'mousePressed()'
  * 
  * Made with p5
  * https://p5js.org/
@@ -11,14 +12,22 @@
 
 let state;
 
+
+/**
+ * Here, we create a new terminal called menuTerminal. This terminal will hold the commands 'hello', 'cooking', 'rythym', and 'office'. When those commands are called, we switch the game state to match. So if the user types cooking, we load the cooking terminal.
+ */
 let menuTerminal = new Terminal(
     (commands) => {
+        //Only the first word typed is important
         let first_word = commands[0];
 
         switch (first_word) {
+
+            //This specific command just prints out a unique text
             case 'hello':
                 menuTerminal.print("Well hello there my friend!");
                 break;
+
             case 'cooking':
                 changeState('cooking');
                 break;
@@ -27,6 +36,8 @@ let menuTerminal = new Terminal(
                 break;
             case 'office':
                 changeState('fnaf')
+
+            //If the command entered doesn't exist, print out an error
             default:
                 menuTerminal.print("ERROR: " + first_word + " IS NOT VALID");
                 break;
@@ -41,7 +52,8 @@ let menuTerminal = new Terminal(
 function setup() {
     createCanvas(640, 480);
 
-    changeState('menu');
+    //Sets the current game state to title (which in turn will force a input event)
+    changeState('title');
 }
 
 /**
@@ -57,11 +69,14 @@ function draw() {
  */
 function stateMachine() {
     switch (state) {
+        //The title state just draws the text 'It's Terminal by: Jeremy Dumont' and nothing else
         case 'title':
             push();
-            background('#FFFFFF');
+            background('#000000');
             textAlign(CENTER);
             textSize(50);
+            textFont(terminalFont);
+            fill('#40FD90');
             text("It's Terminal", 320, 230);
             push();
             textSize(25);
@@ -70,19 +85,22 @@ function stateMachine() {
             pop();
             break;
 
+        //Since the menu is just a terminal, this state only calls the menuTerminal draw function
         case 'menu':
             menuTerminal.drawTerminal();
             break;
 
+        //The cooking game has a terminal and a clock element. We simply draw both here
         case 'cooking':
             cookingTerminal.drawTerminal();
             drawClock();
             break;
 
+        //These remaining 2 cases have their own individual functions
         case 'rythym':
             rythymDraw();
             break;
-
+        //This is the OFFICE gameb
         case 'fnaf':
             fnafDraw();
             break;
@@ -108,13 +126,9 @@ function changeState(newState) {
 function endState() {
     console.log("End: " + state);
     switch (state) {
-        case 'menu':
-            return;
-            break;
+        //When switching out of the rythym game, we stop the rythym song.
         case 'rythym':
-            console.log('test');
             rythymSong.stop();
-            // rythymEnd();
             break;
     }
 }
@@ -125,6 +139,7 @@ function endState() {
 function startState() {
     console.log("Start: " + state);
     switch (state) {
+        //All the states have a unique start function to keep things readable
         case 'menu':
             menuStart();
             return;
@@ -135,6 +150,7 @@ function startState() {
         case 'rythym':
             rythymReset();
             break;
+        //This is the OFFICE game
         case 'fnaf':
             fnafStart();
             break;
@@ -144,13 +160,16 @@ function startState() {
 
 
 /**
- * Calles the mouse pressed function uniquely based on which state currently in.
+ * Calls the mouse pressed function uniquely based on which state currently in.
  */
 function mousePressed() {
     switch (state) {
+        //Switch to the menu when mouse is clicked on the menu
         case 'title':
             changeState('menu');
             break;
+
+        //The OFFICE game 
         case 'fnaf':
             fnafMouseCheck();
             break;
@@ -158,6 +177,9 @@ function mousePressed() {
 
 }
 
+/**
+ * Calls the mouse pressed function uniquely based on which state currently in.
+ */
 function keyPressed() {
     switch (state) {
         case 'title':
@@ -178,6 +200,9 @@ function keyPressed() {
     }
 }
 
+/**
+ * Clears whats currently on the menu terminal and prints an introduction text when the menu is loaded
+ */
 function menuStart() {
     menuTerminal.reset();
     menuTerminal.print("   Welcome to the Menu   ");

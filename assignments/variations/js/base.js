@@ -1,13 +1,16 @@
 /**
- * Base FrogFrogFrog script
+ * Base Varitions script
  * by: Jeremy Dumont
  * 
- * This script defines the basic most reused components including collisions, buttons, and inventory. Additionaly, this script defines and preloads the assets used in the game.
+ * This is base script I've implemented in many projects. It comes with a very simple collision and button system that are easily configurable.
+ * Additionaly, I like to stick any variables that get referenced in future scripts here such as preloaded assets.
  */
 "use strict";
 
 
-// This function is a constructor for collision objects. When created, collision objects simply define a position on the screen.
+/**
+ * This function is a constructor for collision objects. When created, collision objects simply define a position on the screen.
+ */
 function collision(x, y, width, height) {
     this.x = x;
     this.y = y;
@@ -20,7 +23,6 @@ function collision(x, y, width, height) {
  * Buttons hold a collision object and a function to compare mouse position to the collision object.
  * When constructed, buttons are given a unique anonymous function that gets used when button is activated.
 */
-
 class Button {
 
     //This constructor recieves a creates a new collision object and recieves a new anonymous function that is later used.
@@ -61,7 +63,7 @@ let terminalFont;
 let rythymSong;
 
 
-
+//All of these are images for the OFFICE game
 let fnafBackground;
 
 let mid_open;
@@ -79,8 +81,13 @@ let right_enemy;
 let look_up;
 let look_down;
 
+
+/**
+ * Preloads all assets so they can immediatly be called later on.
+ */
 function preload() {
     terminalFont = loadFont("assets/fonts/_decterm.ttf");
+
     rythymSong = loadSound("assets/sounds/houseofwxloop.ogg");
     rythymSong.playMode('restart');
 

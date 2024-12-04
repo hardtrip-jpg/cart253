@@ -103,7 +103,7 @@ function fnafDraw() {
                 push();
                 image(drawDoor(officeButtons[i].door), 0, 0);
                 const col = officeButtons[i].col
-                
+
                 pop();
             }
 
@@ -114,7 +114,7 @@ function fnafDraw() {
             pop();
 
 
-            
+
 
             break;
         case 'dead':
@@ -124,14 +124,14 @@ function fnafDraw() {
             break;
         case 'look_up':
             transitionCounter++;
-            if (transitionCounter >= 3){
+            if (transitionCounter >= 3) {
                 fnafChangeState("hallway");
             }
             image(look_up, 0, 0);
             break;
         case 'look_down':
             transitionCounter++;
-            if (transitionCounter >= 3){
+            if (transitionCounter >= 3) {
                 fnafChangeState("terminal");
             }
             image(look_down, 0, 0);
@@ -140,7 +140,7 @@ function fnafDraw() {
 
     }
 
-    
+
 
 }
 
@@ -239,7 +239,7 @@ function fnafChangeState(newState) {
 
 function doorButton(door) {
     door.doorOpen = !door.doorOpen;
-    if (door.isAttacked){
+    if (door.isAttacked) {
         door.isAttacked = false;
         resetAttack();
     }
@@ -296,7 +296,7 @@ function drawDoor(door) {
     //let currentImage = mid_closed;
 
 
-    switch (door.id){
+    switch (door.id) {
         case 1:
             if (door.doorOpen === false) {
                 return left_closed;
@@ -310,7 +310,7 @@ function drawDoor(door) {
             break;
         case 2:
             if (door.doorOpen === false) {
-                    return mid_closed;
+                return mid_closed;
             }
             else if (door.isAttacked) {
                 return mid_enemy;
@@ -331,5 +331,5 @@ function drawDoor(door) {
             }
             break;
     }
-    
+
 }

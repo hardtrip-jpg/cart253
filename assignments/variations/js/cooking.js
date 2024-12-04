@@ -3,7 +3,7 @@ let cookingTerminal = new Terminal(
         cookingTerminal.displayWithBuffer = false;
         currentAngle += 6;
 
-        if (pot.item_state === 'boiling'){
+        if (pot.item_state === 'boiling') {
             potTimer++;
             console.log(potTimer);
         }
@@ -33,7 +33,7 @@ let cookingTerminal = new Terminal(
                 debugAmount--;
                 cookingTerminal.print("LOOK [where you want to look]");
                 cookingTerminal.print("USE [what you want to use]");
-                break;                
+                break;
             case 'look':
                 if (!second_word) {
                     cookingTerminal.print("There is a STOVE to cook things on");
@@ -51,48 +51,48 @@ let cookingTerminal = new Terminal(
                 cookingTerminal.print("You can't seem to find a " + second_word + " anywhere");
                 break;
             case 'use':
-                if (second_word === playerCurrentItem){
+                if (second_word === playerCurrentItem) {
                     eval(second_word + '.use(' + third_word + ')');
-                }else if(second_word === 'sink' || second_word === 'stove'){
+                } else if (second_word === 'sink' || second_word === 'stove') {
                     eval(second_word + '.use(' + third_word + ')');
-                }else{
+                } else {
                     cookingTerminal.print("You aren't holding a " + second_word.toUpperCase());
                 }
-                
+
                 break;
             case 'grab':
-                if (playerCurrentItem === ""){
-                    if (second_word === 'sink' || second_word === 'stove' || second_word === 'counter'){
+                if (playerCurrentItem === "") {
+                    if (second_word === 'sink' || second_word === 'stove' || second_word === 'counter') {
                         cookingTerminal.print("You can't pick up the " + second_word.toUpperCase());
                         return;
                     }
                     for (i = 0; i < all_words.length; i++) {
-                    if (second_word === all_words[i]) {
-                        playerCurrentItem = second_word;
-                        cookingTerminal.print("You pick up the " + second_word.toUpperCase());
-                        return;
+                        if (second_word === all_words[i]) {
+                            playerCurrentItem = second_word;
+                            cookingTerminal.print("You pick up the " + second_word.toUpperCase());
+                            return;
+                        }
                     }
-                    } 
-                }else{
+                } else {
                     cookingTerminal.print("You are currently holding a " + playerCurrentItem.toUpperCase());
                 }
-                
+
                 break;
             case 'drop':
-                    if (second_word === playerCurrentItem){
-                        playerCurrentItem = 0;
-                        cookingTerminal.print("You put back the " + second_word.toUpperCase());
-                    }
-                    cookingTerminal.print("You aren't holding a " + second_word.toUpperCase());
+                if (second_word === playerCurrentItem) {
+                    playerCurrentItem = 0;
+                    cookingTerminal.print("You put back the " + second_word.toUpperCase());
+                }
+                cookingTerminal.print("You aren't holding a " + second_word.toUpperCase());
                 break;
             case 'wait':
-                if (parseInt(second_word)){
-                    currentAngle += 6*(parseInt(second_word) - 1)
+                if (parseInt(second_word)) {
+                    currentAngle += 6 * (parseInt(second_word) - 1)
                     cookingTerminal.print("You wait " + second_word + " minutes");
-                }else{
+                } else {
                     cookingTerminal.print("ERROR: " + second_word + " IS NOT A VALID");
                 }
-                
+
                 break;
 
             default:
@@ -122,7 +122,7 @@ class cookingPlace {
         this.place_state = states[0];
     }
 
-    reset(){
+    reset() {
         this.place_state = states[0];
     }
 
@@ -137,7 +137,7 @@ class cookingItem {
         this.item_state = states[0];
     }
 
-    reset(){
+    reset() {
         this.item_state = states[0];
     }
 
@@ -150,10 +150,10 @@ let sink = new cookingPlace([], ['off', 'on'],
         placeLooks('SINK', sink);
     },
     (word) => {
-        if (sink.place_state === 'off'){
+        if (sink.place_state === 'off') {
             cookingTerminal.print("The sink begins to shoot water");
             sink.place_state = sink.states[1];
-        }else{
+        } else {
             cookingTerminal.print("The sink fizzles one last drop");
             sink.place_state = sink.states[0];
         }
@@ -166,7 +166,7 @@ let counter = new cookingPlace([], ['normal'],
         placeLooks('COUNTER', counter);
     },
     (word) => {
-        
+
     },
 
 );
@@ -176,10 +176,10 @@ let stove = new cookingPlace([], ['off', 'on'],
         placeLooks('STOVE', stove);
     },
     (word) => {
-        if (stove.place_state === 'off'){
+        if (stove.place_state === 'off') {
             cookingTerminal.print("The stove lights a red glow");
             stove.place_state = 'on';
-        }else{
+        } else {
             cookingTerminal.print("The stoves whir quites down");
             stove.place_state = 'off';
         }
@@ -199,23 +199,23 @@ let box = new cookingItem("BOX", ["unopen", "open", "empty"],
     (word) => {
         console.log(word);
 
-        if (box.item_state === "unopen"){
+        if (box.item_state === "unopen") {
             cookingTerminal.print("You open the KD box");
             box.item_state = 'open'
         }
-        else if (box.item_state === "open"){
-            if (word === pot){
+        else if (box.item_state === "open") {
+            if (word === pot) {
                 cookingTerminal.print("The empty the box into the POT. The cheese PACKAGE is set aside");
-                if (pot.item_state === 'empty'){
+                if (pot.item_state === 'empty') {
                     pot.item_state = "filled and dry";
-                }else{
+                } else {
                     pot.item_state = "filled";
                 }
                 box.item_state = 'empty'
                 return;
             }
             cookingTerminal.print("You can't empty the box here");
-        }else{
+        } else {
             cookingTerminal.print("The box is already empty");
         }
 
@@ -234,15 +234,15 @@ let pot = new cookingItem("POT", ["empty", "filled and dry", "wet and empty", "f
     },
     (word) => {
         console.log(sink.place_state);
-        if (word === sink && sink.place_state === 'on'){
-            if (pot.item_state === "filled and dry"){
+        if (word === sink && sink.place_state === 'on') {
+            if (pot.item_state === "filled and dry") {
                 pot.item_state = "filled";
-            }else{
+            } else {
                 pot.item_state = "wet and empty";
             }
             cookingTerminal.print("The POT gets filled with cold running water");
             return;
-        }else if(word === sink && sink.place_state === 'off'){
+        } else if (word === sink && sink.place_state === 'off') {
             cookingTerminal.print("The POT gets nothing since the sink is not on");
             return;
         }
@@ -255,14 +255,14 @@ let spoon = new cookingItem("SPOON", ["null"],
 
     },
     (word) => {
-        if (word === pot ){
-            if (pot.item_state === "boiling"){
+        if (word === pot) {
+            if (pot.item_state === "boiling") {
                 cookingTerminal.print("You stir the POT, seperating the noodles");
-            }else if (pot.item_state === "has_ingredients"){
+            } else if (pot.item_state === "has_ingredients") {
                 cookingTerminal.print("You WIN");
-            }else{cookingTerminal.print("You stir the POT, but it's kind of pointless right now");}  
-        }   
-        else{
+            } else { cookingTerminal.print("You stir the POT, but it's kind of pointless right now"); }
+        }
+        else {
             cookingTerminal.print("You bang the SPOON to a distinct 3/4 polyrythym");
         }
 
@@ -275,8 +275,8 @@ let package = new cookingItem("PACKAGE", ["unopen", "open", "empty"],
 
     },
     (word) => {
-        if (word === pot){
-            switch (package.item_state){
+        if (word === pot) {
+            switch (package.item_state) {
                 case 'unopen':
                     cookingTerminal.print("The PACKAGE isn't open");
                 case 'open':
@@ -286,11 +286,11 @@ let package = new cookingItem("PACKAGE", ["unopen", "open", "empty"],
                     cookingTerminal.print("The PACKAGE is already empty.");
             }
 
-            
-        }else if(word){
+
+        } else if (word) {
             cookingTerminal.print("You can't use the PACKAGE like this");
-        }else{
-            switch (package.item_state){
+        } else {
+            switch (package.item_state) {
                 case 'unopen':
                     cookingTerminal.print("You open the PACKAGE");
                     package.item_state = 'open';
@@ -299,7 +299,7 @@ let package = new cookingItem("PACKAGE", ["unopen", "open", "empty"],
                 case 'empty':
                     cookingTerminal.print("The PACKAGE is already empty.");
             }
-            
+
 
         }
 
@@ -352,13 +352,13 @@ function placeLookItems(place) {
     let printItems = "It currently has"
     if (place.items.length > 0) {
         for (i = 0; i < place.items.length; i++) {
-            if (place.items[i].name.toLowerCase() === playerCurrentItem){
-                
+            if (place.items[i].name.toLowerCase() === playerCurrentItem) {
+
             }
             else if (i === (place.items.length - 1) && place.items.length > 1) {
                 printItems += " and a " + place.items[i].name;
             }
-            
+
             else {
                 printItems += " a " + place.items[i].name + ",";
             }
@@ -370,7 +370,7 @@ function placeLookItems(place) {
     }
 }
 
-function cookingStart(){
+function cookingStart() {
     cookingTerminal.reset();
     cookingReset();
     cookingTerminal.print("       Welcome to Cooking");
