@@ -64,6 +64,10 @@ function rythymReset() {
     ratingText = "newRating";
     ratingOpacity = 0;
     showRating = false;
+
+    currentMaze = rythymMaze;
+    currentMazeEnd = rythymMazeEnd;
+    playerPosition = rythymMazeStart;
 }
 
 function rythymKeyPress() {

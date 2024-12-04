@@ -9,6 +9,12 @@ const fnafTerminal = new Terminal(
                 changeState("menu");
             case ("reset"):
                 fnafStart();
+            case ("move"):
+                mazeGoTo(second_word, fnafTerminal);
+                break;
+            case ("look"):
+                mazeLook(fnafTerminal);
+                break;
             default:
                 break;
         }
@@ -144,6 +150,10 @@ function fnafStart() {
     fnafTerminal.print("     Welcome to the Office game ");
     fnafTerminal.print("When you feel ready, you may look up... ");
     resetAttack();
+    currentMaze = fnafMaze;
+    currentMazeEnd = fnafMazeEnd;
+    playerPosition = fnafMazeStart;
+
 }
 
 function fnafMouseCheck() {
