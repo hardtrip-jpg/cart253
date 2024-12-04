@@ -22,6 +22,12 @@ let cookingTerminal = new Terminal(
             case 'menu':
                 changeState('menu');
                 break;
+            case 'help':
+                currentAngle -= 6;
+                debugAmount--;
+                cookingTerminal.print("LOOK [where you want to look]");
+                cookingTerminal.print("USE [what you want to use]");
+                break;                
             case 'look':
                 if (!second_word) {
                     cookingTerminal.print("There is a STOVE to cook things on");
@@ -38,12 +44,22 @@ let cookingTerminal = new Terminal(
                 }
                 cookingTerminal.print("You can't seem to find a " + second_word + " anywhere.");
                 break;
-            case 'help':
-                currentAngle -= 6;
-                debugAmount--;
-                cookingTerminal.print("LOOK [where you want to look]");
-                cookingTerminal.print("USE [what you want to use]");
+            case 'use':
                 break;
+            case 'grab':
+                break;
+            case 'place':
+                break;
+            case 'wait':
+                if (parseInt(second_word)){
+                    currentAngle += 6*(parseInt(second_word) - 1)
+                    cookingTerminal.print("You wait " + second_word + " minutes.")
+                }else{
+                    cookingTerminal.print("ERROR: " + second_word + " IS NOT A VALID");
+                }
+                
+                break;
+
             default:
                 cookingTerminal.print("ERROR: " + first_word + " IS NOT VALID");
                 break;
@@ -69,6 +85,10 @@ class cookingPlace {
         this.active_state = states[0];
     }
 
+    reset(){
+        this.active_state = states[0];
+    }
+
 }
 
 class cookingItem {
@@ -78,6 +98,10 @@ class cookingItem {
         this.look = look;
         this.place = place;
         this.use = use;
+        this.active_state = states[0];
+    }
+
+    reset(){
         this.active_state = states[0];
     }
 
@@ -109,7 +133,34 @@ let counter = new cookingPlace([], ['normal'],
     },
 );
 
+let stove = new cookingPlace([], ['off', 'on'],
+    () => {
+        placeLooks('COUNTER', counter);
+    },
+    (secondWord, thirdWord) => {
 
+    },
+    (word) => {
+
+    },
+);
+
+let fridge = new cookingPlace([], ['closed', 'open'],
+    () => {
+        placeLooks('COUNTER', counter);
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+);
+
+
+/**
+ * ITEMS
+ */
 let box = new cookingItem("BOX", ["unopen", "open", "empty"],
     (word) => {
 
@@ -122,6 +173,114 @@ let box = new cookingItem("BOX", ["unopen", "open", "empty"],
     },
 )
 
+let pot = new cookingItem("POT", ["empty", "filled and dry", "wet and empty", "boiling", "done", "has_ingrediants"],
+    (word) => {
+
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+)
+
+let spoon = new cookingItem("SPOON", ["out", "in"],
+    (word) => {
+
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+)
+
+let milk = new cookingItem("MILK", ["cool", "warm"],
+    (word) => {
+
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+)
+
+let butter = new cookingItem("BUTTER", ["cool", "warm"],
+    (word) => {
+
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+)
+
+let sausage = new cookingItem("SAUSAGE", ["uncooked", "cooked", "burnt"],
+    (word) => {
+
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+)
+
+let pan = new cookingItem("PAN", ["empty", "has_stuff", "cooking", "cooked", "cut"],
+    (word) => {
+
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+)
+
+let spatula = new cookingItem("SPATULA", ["null"],
+    (word) => {
+
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+)
+let knife = new cookingItem("KNIFE", ["null"],
+    (word) => {
+
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+)
+let package = new cookingItem("PACKAGE", ["unopen", "open", "empty"],
+    (word) => {
+
+    },
+    (secondWord, thirdWord) => {
+
+    },
+    (word) => {
+
+    },
+)
+/**
+ * ITEMS
+ */
 
 let debugAmount = 0;
 let currentAngle = 0;
@@ -153,7 +312,7 @@ function cookingReset() {
     debugAmount = 0;
     currentAngle = 0;
 
-    counter.items = [box, box, box, box, box, box, box, box, box, box];
+    counter.items = [box, knife, spatula,];
 }
 
 function placeLooks(name, place) {

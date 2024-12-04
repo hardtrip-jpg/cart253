@@ -67,16 +67,17 @@ function rythymReset() {
 }
 
 function rythymKeyPress() {
-    rythymTerminal.keyCheck();
 
     if(beatValue <= (beatLength + perfectBuffer) && beatValue >= (beatLength - perfectBuffer)){
         updateRating('perfect');
         comboValue++;
+        rythymTerminal.keyCheck();
     }
     else if (beatValue <= (beatLength + goodBuffer) && beatValue >= (beatLength - goodBuffer))
     {
         updateRating('good');
         comboValue++;
+        rythymTerminal.keyCheck();
     }
     else{
         updateRating('miss');

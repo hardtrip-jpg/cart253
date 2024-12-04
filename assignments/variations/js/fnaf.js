@@ -209,9 +209,7 @@ function fnafStartState() {
             look_down.play();
             break;
         case 'dead':
-            console.log('test1');
             fnafTerminal.reset();
-            console.log('test2');
             fnafTerminal.print("You died ;-;");
             fnafTerminal.print("Type RESET to retry");
             fnafTerminal.drawTerminal();
