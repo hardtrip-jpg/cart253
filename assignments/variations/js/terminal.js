@@ -159,7 +159,7 @@ class Terminal {
 
 
     /**
-     * This function
+     * This function manages displaying the Caret line. The caret will flash based on a pre-determined buffer. The caret is displayed to match a position passed to this function.
      */
     displayCaret(pos) {
         if (this.currentCaret === this.caretTime) {
@@ -178,6 +178,9 @@ class Terminal {
 
     }
 
+    /**
+     * This function is mainly called outside of the class. It draws everything related to the terminal. First, it calls the toDisplayCheck function to confirm the text it is supposed to draw. Then, it creates a variable to hold every line in the all_commands array. Every line is seperated with the string "\n". Then the actual text is drawn. First, a textbox for the allText variable. Then the current text entered by the user. Finally, the caret is drawn based on the width of the test_string textbox.
+     */
     drawTerminal() {
         push();
         background("#000000");

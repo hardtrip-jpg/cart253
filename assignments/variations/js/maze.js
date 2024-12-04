@@ -1,3 +1,4 @@
+//OFFICE
 const fnafMaze = [
     [1, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 0, 1],
@@ -8,9 +9,12 @@ const fnafMaze = [
     [1, 0, 1, 0, 0, 0, 0],
 ];
 
+//The vectors for the starting and end positions
 const fnafMazeStart = [1, 0];
 const fnafMazeEnd = [1, 6];
 
+
+//RYTHYM
 const rythymMaze = [
     [1, 0, 0, 0, 0, 1, 0],
     [1, 0, 1, 1, 0, 0, 0],
@@ -21,13 +25,20 @@ const rythymMaze = [
     [0, 0, 0, 0, 1, 0, 0],
 ]
 
+//The vectors for the starting and end positions
 const rythymMazeStart = [6, 0];
 const rythymMazeEnd = [6, 6];
 
+
+//Just using the the OFFICE maze as the starting point
 let currentMaze = fnafMaze;
 let currentMazeEnd = fnafMazeEnd;
 let playerPosition = fnafMazeStart;
 
+
+/**
+ * This function is called by terminal commands. First, it determines the vectors for every cardinal direction based on the player. Then it passes the vectors to the checkWall function to return strings which are then printed in the terminal.
+ */
 function mazeLook(terminal) {
     //I could do this another way, but I ran out of time to figure out a better solution
     let north = [playerPosition[0], playerPosition[1] - 1];
@@ -39,20 +50,17 @@ function mazeLook(terminal) {
     terminal.print("The EAST" + checkWall(east));
     terminal.print("The SOUTH" + checkWall(south));
     terminal.print("The WEST" + checkWall(west));
-
-
 }
 
+
+/**
+ * This function takes in a vector and compares it to the currentMaze matrix. Once compared to the maze, it returns a string
+ */
 function checkWall(location) {
-    console.log(location);
 
     if (location === currentMazeEnd) {
         return " has the end!";
     }
-
-    let y_axis
-    let x_axis = currentMaze[location[1]]
-    console.log(x_axis);
 
     if (location[1] <= 6 && location[1] >= 0 && location[0] <= 6 && location[0] >= 0) {
         if (currentMaze[location[1]][location[0]] === 1) {
@@ -65,6 +73,9 @@ function checkWall(location) {
     }
 }
 
+/**
+ * This function is called by terminal commands. First it compares the checks the command entered. Then it uses the checkWall function to see if the location the player wants to move to is available. If it is available, the player position is updated and the correct text is printed.
+ */
 function mazeGoTo(direction, terminal) {
     switch (direction) {
         case 'north':
@@ -101,7 +112,7 @@ function mazeGoTo(direction, terminal) {
             break;
     }
     if (currentMazeEnd === playerPosition) {
-        terminal.commandsCheck("end");
+        terminal.commandsCheck("jasd98j5234jasd");
     }
 
 }
