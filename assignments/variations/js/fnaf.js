@@ -95,9 +95,7 @@ function fnafDraw() {
             break;
         case ('hallway'):
             attackTimer();
-            background("#FFFFFF");
             image(fnafBackground, 0, 0);
-            text("woah youre office", 320, 240);
 
             for (i = 0; i < officeButtons.length; i++) {
                 push();
