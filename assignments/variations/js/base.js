@@ -86,7 +86,7 @@ let look_down;
  * Preloads all assets so they can immediatly be called later on.
  */
 function preload() {
-    terminalFont = loadFont("assets/fonts/_decterm.ttf");
+    terminalFont = loadFont("assets/fonts/_decterm.otf");
 
     rythymSong = loadSound("assets/sounds/houseofwxloop.ogg");
     rythymSong.playMode('restart');

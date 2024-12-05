@@ -1,8 +1,13 @@
+/**
+ * This is the rythym terminal. It only has 3 commands; Menu, Move, and Look.
+ * Menu: Returns you to the menu
+ * Move: Calls the mazeGoTo function. The player will move based on the direction entered
+ * Look: 
+ */
 let rythymTerminal = new Terminal(
     (commands) => {
         let first_word = commands[0];
         let second_word = commands[1];
-        let third_word = commands[2];
 
         switch (first_word) {
             case ("menu"):
