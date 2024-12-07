@@ -7,8 +7,10 @@ const fnafTerminal = new Terminal(
         switch (first_word) {
             case ("menu"):
                 changeState("menu");
+                break;
             case ("reset"):
                 fnafStart();
+                break;
             case ("move"):
                 mazeGoTo(second_word, fnafTerminal);
                 fnafTerminal.print("Looking around...");
@@ -19,6 +21,9 @@ const fnafTerminal = new Terminal(
                 break;
             case ("help"):
                 printHelp(fnafTerminal);
+                break;
+            case ("jasd98j5234jasd"):
+                fnafChangeState('win');
                 break;
             default:
                 fnafTerminal.print("ERROR: " + first_word + " IS NOT VALID");
@@ -146,6 +151,11 @@ function fnafDraw() {
             }
             image(look_down, 0, 0);
             break;
+        case 'win':
+            push();
+            fnafTerminal.drawTerminal();
+            pop();
+            break;
 
 
     }
@@ -159,7 +169,6 @@ function fnafStart() {
     fnafTerminal.reset();
     fnafTerminal.print("     Welcome to the Office game ");
     fnafTerminal.print("A monster lurks and wants to end your life...");
-    fnafTerminal.print("Complete the maze to save your life (use HELP)");
     fnafTerminal.print("...");
     fnafTerminal.print(" When you feel ready, you may look up... ");
     resetAttack();
@@ -192,6 +201,7 @@ function fnafKeyCheck() {
     switch (fnafState) {
         case 'start':
             fnafTerminal.keyCheck();
+            break;
         case 'terminal':
             fnafTerminal.keyCheck();
             break;
@@ -220,6 +230,9 @@ function fnafEndState() {
             look_down.pause();
             //look_down.reset();
             break;
+        case 'start':
+            fnafTerminal.reset();
+            fnafTerminal.print("Use the HELP command");
     }
 
 }
@@ -239,6 +252,14 @@ function fnafStartState() {
         case 'dead':
             fnafTerminal.reset();
             fnafTerminal.print("You died ;-;");
+            fnafTerminal.print("Type RESET to retry");
+            fnafTerminal.drawTerminal();
+            break;
+        case 'win':
+            fnafTerminal.reset();
+            for (i = 0; i <= 45; i++) {
+                fnafTerminal.print("You WIN!!!!!!!!");
+            }
             fnafTerminal.print("Type RESET to retry");
             fnafTerminal.drawTerminal();
             break;

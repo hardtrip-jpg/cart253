@@ -33,6 +33,9 @@ const cookingTerminal = new Terminal(
                 debugAmount--;
                 cookingTerminal.print("LOOK [where you want to look]");
                 cookingTerminal.print("USE [what you want to use]");
+                cookingTerminal.print("GRAB [what you want to pick up]");
+                cookingTerminal.print("DROP [what youre holding]");
+                cookingTerminal.print("WAIT [how long you want to wait]");
                 break;
             case 'look':
                 if (!second_word) {
@@ -82,6 +85,7 @@ const cookingTerminal = new Terminal(
                 if (second_word === playerCurrentItem) {
                     playerCurrentItem = 0;
                     cookingTerminal.print("You put back the " + second_word.toUpperCase());
+                    return;
                 }
                 cookingTerminal.print("You aren't holding a " + second_word.toUpperCase());
                 break;
@@ -375,7 +379,7 @@ function cookingStart() {
     cookingReset();
     cookingTerminal.print("       Welcome to Cooking");
     cookingTerminal.print("In this game you must cook a bowl of");
-    cookingTerminal.print("  KRAFT DINNER AND SAUSAGE BITS!");
+    cookingTerminal.print("          KRAFT DINNER!");
     cookingTerminal.print(" ");
     cookingTerminal.print("You can start with the LOOK command");
     cookingTerminal.print("Type HELP to see the command reference");

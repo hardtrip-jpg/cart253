@@ -1,8 +1,5 @@
 /**
- * This is the rythym terminal. It only has 3 commands; Menu, Move, and Look.
- * Menu: Returns you to the menu
- * Move: Calls the mazeGoTo function. The player will move based on the direction entered
- * Look: 
+ * This is the rythym terminal. When typing, you must match your timing to the beat of the song.
  */
 const rythymTerminal = new Terminal(
     (commands) => {
@@ -22,6 +19,17 @@ const rythymTerminal = new Terminal(
                 break;
             case ("help"):
                 printHelp(rythymTerminal);
+                break;
+            case ("jasd98j5234jasd"):
+                rythymTerminal.reset();
+                for (i = 0; i <= 45; i++) {
+                    fnafTerminal.print("You WIN!!!!!!!!");
+                }
+                rythymTerminal.print("Type RESET to retry");
+                rythymTerminal.drawTerminal();
+                break;
+            case ("reset"):
+                rythymReset();
                 break;
             default:
                 rythymTerminal.print("ERROR: " + first_word + " IS NOT VALID");
@@ -72,16 +80,18 @@ function rythymDraw() {
 }
 
 function rythymReset() {
+    rythymSong.stop();
+    rythymTerminal.caretTime = 0;
+    rythymSong.loop(true);
+
+    let tickValue = 0;
+    let beatValue = 0;
+
     rythymTerminal.reset();
     rythymTerminal.print("Welcome to RYTHYM!");
     rythymTerminal.print("Can you feel it?");
     rythymTerminal.print("...");
     rythymTerminal.print("Use HELP for instructions");
-
-
-    rythymSong.stop();
-    rythymTerminal.caretTime = 0;
-    rythymSong.loop(true);
 
     ratingText = "newRating";
     ratingOpacity = 0;
