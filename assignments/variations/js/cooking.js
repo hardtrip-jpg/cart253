@@ -1,4 +1,4 @@
-let cookingTerminal = new Terminal(
+const cookingTerminal = new Terminal(
     (commands) => {
         cookingTerminal.displayWithBuffer = false;
         currentAngle += 6;

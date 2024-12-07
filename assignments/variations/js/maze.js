@@ -116,3 +116,13 @@ function mazeGoTo(direction, terminal) {
     }
 
 }
+
+function printHelp(terminal) {
+    terminal.print("You are in a maze. You must escape.");
+    terminal.print("...");
+    terminal.print("LOOK - Will tell you surroundings");
+    terminal.print("MOVE [direction] - Will move you into the space indicated");
+    terminal.print("...");
+    terminal.print("Additional Info: The maze is a 7 by 7 square");
+    terminal.print("You never rotate, so North will always be North, and etc");
+}

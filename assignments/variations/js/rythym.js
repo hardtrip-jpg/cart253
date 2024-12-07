@@ -4,7 +4,7 @@
  * Move: Calls the mazeGoTo function. The player will move based on the direction entered
  * Look: 
  */
-let rythymTerminal = new Terminal(
+const rythymTerminal = new Terminal(
     (commands) => {
         let first_word = commands[0];
         let second_word = commands[1];
@@ -14,11 +14,17 @@ let rythymTerminal = new Terminal(
                 changeState("menu");
             case ("move"):
                 mazeGoTo(second_word, rythymTerminal);
+                rythymTerminal.print("Looking around...");
+                rythymTerminal.commandsCheck(["look"]);
                 break;
             case ("look"):
                 mazeLook(rythymTerminal);
                 break;
+            case ("help"):
+                printHelp(rythymTerminal);
+                break;
             default:
+                rythymTerminal.print("ERROR: " + first_word + " IS NOT VALID");
                 break;
         }
     }
@@ -67,6 +73,12 @@ function rythymDraw() {
 
 function rythymReset() {
     rythymTerminal.reset();
+    rythymTerminal.print("Welcome to RYTHYM!");
+    rythymTerminal.print("Can you feel it?");
+    rythymTerminal.print("...");
+    rythymTerminal.print("Use HELP for instructions");
+
+
     rythymSong.stop();
     rythymTerminal.caretTime = 0;
     rythymSong.loop(true);
@@ -78,23 +90,22 @@ function rythymReset() {
     currentMaze = rythymMaze;
     currentMazeEnd = rythymMazeEnd;
     playerPosition = rythymMazeStart;
+
+
 }
 
 function rythymKeyPress() {
 
     if (beatValue <= (beatLength + perfectBuffer) && beatValue >= (beatLength - perfectBuffer)) {
         updateRating('perfect');
-        comboValue++;
         rythymTerminal.keyCheck();
     }
     else if (beatValue <= (beatLength + goodBuffer) && beatValue >= (beatLength - goodBuffer)) {
         updateRating('good');
-        comboValue++;
         rythymTerminal.keyCheck();
     }
     else {
         updateRating('miss');
-        comboValue = 0;
     }
 
 

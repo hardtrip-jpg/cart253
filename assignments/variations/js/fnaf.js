@@ -11,17 +11,23 @@ const fnafTerminal = new Terminal(
                 fnafStart();
             case ("move"):
                 mazeGoTo(second_word, fnafTerminal);
+                fnafTerminal.print("Looking around...");
+                fnafTerminal.commandsCheck(["look"]);
                 break;
             case ("look"):
                 mazeLook(fnafTerminal);
                 break;
+            case ("help"):
+                printHelp(fnafTerminal);
+                break;
             default:
+                fnafTerminal.print("ERROR: " + first_word + " IS NOT VALID");
                 break;
         }
     }
 )
 
-let fnafState = 'terminal'
+let fnafState = 'start'
 
 let door1 = {
     doorOpen: true,
@@ -79,8 +85,6 @@ const changeToTerminalButton = new Button(180, 400, 300, 60,
 let transitionCounter = 0;
 
 function fnafDraw() {
-
-
     switch (fnafState) {
         case ('terminal'):
             attackTimer();
@@ -112,12 +116,20 @@ function fnafDraw() {
             pop();
 
 
-
-
             break;
         case 'dead':
             push();
             fnafTerminal.drawTerminal();
+            pop();
+            break;
+        case 'start':
+            push();
+            fnafTerminal.drawTerminal();
+            pop();
+            push();
+            fill(255, 255, 255, 100);
+            const coli = changeToOfficeButton.col
+            rect(coli.x, coli.y, coli.width, coli.height);
             pop();
             break;
         case 'look_up':
@@ -143,10 +155,13 @@ function fnafDraw() {
 }
 
 function fnafStart() {
-    fnafChangeState('terminal');
+    fnafChangeState('start');
     fnafTerminal.reset();
     fnafTerminal.print("     Welcome to the Office game ");
-    fnafTerminal.print("When you feel ready, you may look up... ");
+    fnafTerminal.print("A monster lurks and wants to end your life...");
+    fnafTerminal.print("Complete the maze to save your life (use HELP)");
+    fnafTerminal.print("...");
+    fnafTerminal.print(" When you feel ready, you may look up... ");
     resetAttack();
     currentMaze = fnafMaze;
     currentMazeEnd = fnafMazeEnd;
@@ -157,6 +172,9 @@ function fnafStart() {
 function fnafMouseCheck() {
 
     switch (fnafState) {
+        case 'start':
+
+            changeToOfficeButton.checkMouseCollision();
         case 'terminal':
             changeToOfficeButton.checkMouseCollision();
             break;
@@ -172,6 +190,8 @@ function fnafMouseCheck() {
 
 function fnafKeyCheck() {
     switch (fnafState) {
+        case 'start':
+            fnafTerminal.keyCheck();
         case 'terminal':
             fnafTerminal.keyCheck();
             break;
@@ -229,6 +249,8 @@ function fnafStartState() {
 
 function fnafChangeState(newState) {
     if (newState != fnafState) {
+        console.log("End FNAF State: " + fnafState);
+        console.log("Start FNAF State: " + newState);
         fnafEndState();
         fnafState = newState;
         fnafStartState();
