@@ -1,5 +1,5 @@
 /**
- * Terminal Varitions script
+ * BASE TERMINAL SCRIPT
  * by: Jeremy Dumont
  * 
  * This script defines the base Terminal class. The Terminal can take text inputs and compare those inputs to a list of possible commands. Those commands are defined when a terminal is created. Terminals display a caret, text with a buffer, and will split strings that needs to be printed into seperate strings to fit the Terminal display size.

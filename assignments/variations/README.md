@@ -5,21 +5,20 @@ by: hardtrip
 
 ## Description
 
-A cookie clicker inspired game about a frog collecting flies. Flies equal money, and money can be spent in the shop for upgrades.
+A fake terminal emulator with some strange games.
+
+##### COOKING:
+Use a variety of commands to cook a bowl of Kraft Dinner before the hour runs out. Everything you do takes a minute though! So be quick!
+
+##### RYTHYM:
+Use must escape a maze, but the rythym is too strong. Type to the beat or suffer the consequences.
+
+##### OFFICE:
+Stuck in a deep down bunker, your only chance of escape is completing some weird maze game on some old terminal. Keep the doors shut or else the monster might get you.
 
 ## Credits
 
 This project uses [p5.js](https://p5js.org).
 
 ## Attribution
-~ NONE OF THE IMAGES USED ARE MY OWN ~
-
-Images Used:
-    https://www.freepnglogos.com/images/fly-35367.html
-    https://pngimg.com/image/35729
-    https://wallpaperaccess.com/swamp
-    https://www.iconfinder.com/icons/61809/buy_cart_checkout_ecommerce_shopping_store_webshop_icon
-    https://www.iconfinder.com/icons/73437/x_icon
-    https://www.vecteezy.com/png/10135327-wooden-sign-board-isolated
-
-    Some image attribution might be missing or depracicated.
+~ The OFFICE assets and RYTHYM song were made by me~

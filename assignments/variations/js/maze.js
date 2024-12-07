@@ -1,5 +1,6 @@
 /**
  * MAZE LOGIC SCRIPT
+ * by: Jeremy Dumont
  * 
  * This script holds all data related to maze logic and data. 
  * 
@@ -70,7 +71,9 @@ function checkWall(location) {
         return " has the end!";
     }
 
+    //First it checks if the position being checked is within the limits of the maze
     if (location[1] <= 6 && location[1] >= 0 && location[0] <= 6 && location[0] >= 0) {
+        //Then it checks if there's a wall or not
         if (currentMaze[location[1]][location[0]] === 1) {
             return " has a wall";
         } else {
@@ -87,9 +90,6 @@ function checkWall(location) {
 function mazeGoTo(direction, terminal) {
     switch (direction) {
 
-        /**
-         * 
-         */
         case 'north':
             if (playerPosition[1] - 1 >= 0 && checkWall([playerPosition[0], playerPosition[1] - 1]) === " has nothing") {
                 playerPosition[1]--;
