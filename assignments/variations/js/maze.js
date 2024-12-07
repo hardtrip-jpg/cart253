@@ -1,3 +1,11 @@
+/**
+ * MAZE LOGIC SCRIPT
+ * 
+ * This script holds all data related to maze logic and data. 
+ * 
+ * Mazes are held in 7x7 matrices. (0) reperesent empty space and (1) represent walls. Players can move around the maze using predefined functions. The functions compare or change the player vector accordingly.
+ */
+
 //OFFICE
 const fnafMaze = [
     [1, 0, 0, 0, 0, 0, 1],
@@ -78,6 +86,10 @@ function checkWall(location) {
  */
 function mazeGoTo(direction, terminal) {
     switch (direction) {
+
+        /**
+         * 
+         */
         case 'north':
             if (playerPosition[1] - 1 >= 0 && checkWall([playerPosition[0], playerPosition[1] - 1]) === " has nothing") {
                 playerPosition[1]--;
@@ -86,6 +98,7 @@ function mazeGoTo(direction, terminal) {
                 terminal.print("You can't go there");
             }
             break;
+
         case 'east':
             if (playerPosition[0] + 1 <= 6 && checkWall([playerPosition[0] + 1, playerPosition[1]]) === " has nothing") {
                 playerPosition[0]++;
@@ -94,6 +107,7 @@ function mazeGoTo(direction, terminal) {
                 terminal.print("You can't go there");
             }
             break;
+
         case 'south':
             if (playerPosition[1] + 1 <= 6 && checkWall([playerPosition[0], playerPosition[1] + 1]) === " has nothing") {
                 playerPosition[1]++;
@@ -102,6 +116,7 @@ function mazeGoTo(direction, terminal) {
                 terminal.print("You can't go there");
             }
             break;
+
         case 'west':
             if (playerPosition[0] - 1 >= 0 && checkWall([playerPosition[0] - 1, playerPosition[1]]) === " has nothing") {
                 playerPosition[0]--;
@@ -117,6 +132,9 @@ function mazeGoTo(direction, terminal) {
 
 }
 
+/**
+ * Prints helpful information about the Maze game in the required terminals.
+ */
 function printHelp(terminal) {
     terminal.print("You are in a maze. You must escape.");
     terminal.print("...");

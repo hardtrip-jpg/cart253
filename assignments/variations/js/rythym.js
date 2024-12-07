@@ -23,7 +23,7 @@ const rythymTerminal = new Terminal(
             case ("jasd98j5234jasd"):
                 rythymTerminal.reset();
                 for (i = 0; i <= 45; i++) {
-                    fnafTerminal.print("You WIN!!!!!!!!");
+                    rythymTerminal.print("You WIN!!!!!!!!");
                 }
                 rythymTerminal.print("Type RESET to retry");
                 rythymTerminal.drawTerminal();

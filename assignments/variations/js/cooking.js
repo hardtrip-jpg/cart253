@@ -1,3 +1,9 @@
+/**
+ * COOKING GAME
+ * 
+ * This is the most glued together code. I realized halfway through writing it that I went at it completely the wrong way but did not have the time to refactor. So now, we have tons of spagehtti code thats near impossible to get through!
+ */
+
 const cookingTerminal = new Terminal(
     (commands) => {
         cookingTerminal.displayWithBuffer = false;
@@ -29,74 +35,22 @@ const cookingTerminal = new Terminal(
                 changeState('menu');
                 break;
             case 'help':
-                currentAngle -= 6;
-                debugAmount--;
-                cookingTerminal.print("LOOK [where you want to look]");
-                cookingTerminal.print("USE [what you want to use]");
-                cookingTerminal.print("GRAB [what you want to pick up]");
-                cookingTerminal.print("DROP [what youre holding]");
-                cookingTerminal.print("WAIT [how long you want to wait]");
+                cookingHelp();
                 break;
             case 'look':
-                if (!second_word) {
-                    cookingTerminal.print("There is a STOVE to cook things on");
-                    cookingTerminal.print("There is a FRIDGE that stores food");
-                    cookingTerminal.print("There is a SINK with access to water");
-                    cookingTerminal.print("There is a COUNTER with available utilities");
-                    return;
-                }
-                for (i = 0; i < all_words.length; i++) {
-                    if (second_word === all_words[i]) {
-                        eval(second_word + '.look()');
-                        return;
-                    }
-                }
-                cookingTerminal.print("You can't seem to find a " + second_word + " anywhere");
+                cookingLook(second_word);
                 break;
             case 'use':
-                if (second_word === playerCurrentItem) {
-                    eval(second_word + '.use(' + third_word + ')');
-                } else if (second_word === 'sink' || second_word === 'stove') {
-                    eval(second_word + '.use(' + third_word + ')');
-                } else {
-                    cookingTerminal.print("You aren't holding a " + second_word.toUpperCase());
-                }
-
+                cookingUse(second_word, third_word);
                 break;
             case 'grab':
-                if (playerCurrentItem === "") {
-                    if (second_word === 'sink' || second_word === 'stove' || second_word === 'counter') {
-                        cookingTerminal.print("You can't pick up the " + second_word.toUpperCase());
-                        return;
-                    }
-                    for (i = 0; i < all_words.length; i++) {
-                        if (second_word === all_words[i]) {
-                            playerCurrentItem = second_word;
-                            cookingTerminal.print("You pick up the " + second_word.toUpperCase());
-                            return;
-                        }
-                    }
-                } else {
-                    cookingTerminal.print("You are currently holding a " + playerCurrentItem.toUpperCase());
-                }
-
+                cookingGrab(second_word);
                 break;
             case 'drop':
-                if (second_word === playerCurrentItem) {
-                    playerCurrentItem = 0;
-                    cookingTerminal.print("You put back the " + second_word.toUpperCase());
-                    return;
-                }
-                cookingTerminal.print("You aren't holding a " + second_word.toUpperCase());
+                cookingDrop(second_word);
                 break;
             case 'wait':
-                if (parseInt(second_word)) {
-                    currentAngle += 6 * (parseInt(second_word) - 1)
-                    cookingTerminal.print("You wait " + second_word + " minutes");
-                } else {
-                    cookingTerminal.print("ERROR: " + second_word + " IS NOT A VALID");
-                }
-
+                cookingWait(second_word);
                 break;
 
             default:
@@ -183,7 +137,13 @@ let stove = new cookingPlace([], ['off', 'on'],
         if (stove.place_state === 'off') {
             cookingTerminal.print("The stove lights a red glow");
             stove.place_state = 'on';
+            if (playerCurrentItem === '' && pot.item_state === 'filled') {
+                pot.item_state = 'boiling';
+            }
         } else {
+            if (pot.item_state === 'boiling') {
+                pot.item_state = 'done'
+            }
             cookingTerminal.print("The stoves whir quites down");
             stove.place_state = 'off';
         }
@@ -198,7 +158,7 @@ let stove = new cookingPlace([], ['off', 'on'],
  */
 let box = new cookingItem("BOX", ["unopen", "open", "empty"],
     (word) => {
-
+        itemLooks(box);
     },
     (word) => {
         console.log(word);
@@ -228,13 +188,13 @@ let box = new cookingItem("BOX", ["unopen", "open", "empty"],
 )
 
 let potTimer = 0;
-let potTimeRequired = 10;
+let potTimeRequired = 13;
 
 let noodlesNotStuck = false;
 
 let pot = new cookingItem("POT", ["empty", "filled and dry", "wet and empty", "filled", "boiling", "done", "has_ingredients"],
     (word) => {
-
+        itemLooks(pot);
     },
     (word) => {
         console.log(sink.place_state);
@@ -256,14 +216,14 @@ let pot = new cookingItem("POT", ["empty", "filled and dry", "wet and empty", "f
 
 let spoon = new cookingItem("SPOON", ["null"],
     (word) => {
-
+        itemLooks(spoon);
     },
     (word) => {
         if (word === pot) {
             if (pot.item_state === "boiling") {
                 cookingTerminal.print("You stir the POT, seperating the noodles");
             } else if (pot.item_state === "has_ingredients") {
-                cookingTerminal.print("You WIN");
+                cookingCheckWin();
             } else { cookingTerminal.print("You stir the POT, but it's kind of pointless right now"); }
         }
         else {
@@ -276,18 +236,27 @@ let spoon = new cookingItem("SPOON", ["null"],
 
 let package = new cookingItem("PACKAGE", ["unopen", "open", "empty"],
     (word) => {
-
+        itemLooks(package);
     },
     (word) => {
         if (word === pot) {
             switch (package.item_state) {
                 case 'unopen':
                     cookingTerminal.print("The PACKAGE isn't open");
+                    break;
                 case 'open':
-                    cookingTerminal.print("You pour the PACKAGE into the POT");
-                    package.item_state = 'empty';
+                    if (pot.item_state === 'done') {
+                        cookingTerminal.print("You pour the PACKAGE into the POT");
+                        package.item_state = 'empty';
+                        pot.item_state = 'has_ingredients';
+                    }
+                    else {
+                        cookingTerminal.print("The POT isn't ready for the PACKAGE");
+                    }
+                    break;
                 case 'empty':
                     cookingTerminal.print("The PACKAGE is already empty.");
+                    break;
             }
 
 
@@ -298,10 +267,13 @@ let package = new cookingItem("PACKAGE", ["unopen", "open", "empty"],
                 case 'unopen':
                     cookingTerminal.print("You open the PACKAGE");
                     package.item_state = 'open';
+                    break;
                 case 'open':
                     cookingTerminal.print("The PACKAGE is already open. It might be used in something else now");
+                    break;
                 case 'empty':
                     cookingTerminal.print("The PACKAGE is already empty.");
+                    break;
             }
 
 
@@ -310,7 +282,7 @@ let package = new cookingItem("PACKAGE", ["unopen", "open", "empty"],
     },
 )
 /**
- * ITEMS
+ * FUNCTIONS
  */
 
 let debugAmount = 0;
@@ -374,6 +346,10 @@ function placeLookItems(place) {
     }
 }
 
+function itemLooks(item) {
+    cookingTerminal.print("The " + item.name + " is " + item.item_state);
+}
+
 function cookingStart() {
     cookingTerminal.reset();
     cookingReset();
@@ -384,3 +360,98 @@ function cookingStart() {
     cookingTerminal.print("You can start with the LOOK command");
     cookingTerminal.print("Type HELP to see the command reference");
 }
+
+function cookingCheckWin() {
+    if (pot.item_state === 'has_ingredients') {
+        cookingTerminal.reset();
+        for (i = 0; i <= 45; i++) {
+            rythymTerminal.print("You WIN!!!!!!!!");
+        }
+        cookingTerminal.print("Might not be the best, but good enough!");
+    }
+
+}
+
+
+/**
+ * ALL FUNCTIONS USED FOR THE COMMANDS
+ */
+function cookingHelp() {
+    currentAngle -= 6;
+    debugAmount--;
+    cookingTerminal.print("LOOK [where you want to look]");
+    cookingTerminal.print("USE [what you want to use]");
+    cookingTerminal.print("GRAB [what you want to pick up]");
+    cookingTerminal.print("DROP [what youre holding]");
+    cookingTerminal.print("WAIT [how long you want to wait]");
+};
+
+function cookingLook(second_word) {
+    if (!second_word) {
+        cookingTerminal.print("There is a STOVE to cook things on");
+        cookingTerminal.print("There is a FRIDGE that stores food");
+        cookingTerminal.print("There is a SINK with access to water");
+        cookingTerminal.print("There is a COUNTER with available utilities");
+        return;
+    }
+    for (i = 0; i < all_words.length; i++) {
+        if (second_word === all_words[i]) {
+            eval(second_word + '.look()');
+            return;
+        }
+    }
+    cookingTerminal.print("You can't seem to find a " + second_word + " anywhere");
+};
+
+function cookingUse(second_word, third_word) {
+    if (second_word === playerCurrentItem) {
+        eval(second_word + '.use(' + third_word + ')');
+    } else if (second_word === 'sink' || second_word === 'stove') {
+        eval(second_word + '.use(' + third_word + ')');
+    } else {
+        cookingTerminal.print("You aren't holding a " + second_word.toUpperCase());
+    }
+};
+
+function cookingGrab(second_word) {
+    if (playerCurrentItem === "") {
+        if (second_word === 'sink' || second_word === 'stove' || second_word === 'counter') {
+            cookingTerminal.print("You can't pick up the " + second_word.toUpperCase());
+            return;
+        }
+        for (i = 0; i < all_words.length; i++) {
+            if (second_word === all_words[i]) {
+                playerCurrentItem = second_word;
+                cookingTerminal.print("You pick up the " + second_word.toUpperCase());
+                return;
+            }
+        }
+    } else {
+        cookingTerminal.print("You are currently holding a " + playerCurrentItem.toUpperCase());
+    }
+};
+
+function cookingDrop(second_word) {
+    if (second_word === playerCurrentItem) {
+        if (second_word === 'pot' && stove.place_state === 'on' && pot.item_state === 'filled') {
+            pot.item_state = 'boiling';
+
+        }
+
+        playerCurrentItem = "";
+        cookingTerminal.print("You put back the " + second_word.toUpperCase());
+
+
+        return;
+    }
+    cookingTerminal.print("You aren't holding a " + second_word.toUpperCase());
+};
+
+function cookingWait(second_word) {
+    if (parseInt(second_word)) {
+        currentAngle += 6 * (parseInt(second_word) - 1)
+        cookingTerminal.print("You wait " + second_word + " minutes");
+    } else {
+        cookingTerminal.print("ERROR: " + second_word + " IS NOT A VALID");
+    }
+};
