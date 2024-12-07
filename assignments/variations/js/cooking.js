@@ -1,7 +1,10 @@
 /**
- * COOKING GAME
+ * COOKING GAME SCRIPT
+ * by: Jeremy Dumont
  * 
- * This is the most glued together code. I realized halfway through writing it that I went at it completely the wrong way but did not have the time to refactor. So now, we have tons of spagehtti code thats near impossible to get through!
+ * Absolutly cursed code. Fair warning before going ahead...
+ * 
+ * 
  */
 
 const cookingTerminal = new Terminal(

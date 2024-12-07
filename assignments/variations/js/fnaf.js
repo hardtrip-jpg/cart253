@@ -1,3 +1,21 @@
+/**
+ * OFFICE GAME SCRIPT
+ * by: Jeremy Dumont
+ * 
+ * Absolutly cursed code. Fair warning before going ahead...
+ * 
+ * This is an extension to the MAZE game. Players are tasked to complete the maze before a monster kills them. Players can look up and see 3 doors which can be shut by pressing 3 buttons. 
+ * 
+ * There is currently no fail state if players keep the doors shut.
+ * 
+ * Ever random amount of seconds, the monster AI will pick one of the three doors to spawn at. Then, if (or once) players look at the terminal, the monster will spawn as the chosen door. Then players have 5 seconds to shut door in the monsters face.
+ * 
+ * PS:The game was originally just called FNAF so all variable naming is based on that naming convention
+ */
+
+/**
+ * This terminal holds a minimal amount of commands all connected to the maze logic script. You can go back to the menu or reset. Theres also a secret 'win' command if you complete the maze.
+ */
 const fnafTerminal = new Terminal(
     (commands) => {
         let first_word = commands[0];
@@ -32,36 +50,53 @@ const fnafTerminal = new Terminal(
     }
 )
 
-let fnafState = 'start'
+/**VARIABLES */
 
+//Main Variables for the Monster AI
+let waitTime = {
+    low: 5,
+    high: 10,
+    time: 5
+};
+let waiting = true;
+let currentFrame = 0;
+let attackTime = 5;
+let currentDoor;
+
+//Main variable to manage transition time when looking up or down
+let transitionCounter = 0;
+
+//Office game state holder
+let fnafState = 'start';
+
+
+//Main door variables
 let door1 = {
     doorOpen: true,
     isAttacked: false,
     id: 1,
-}
+};
 let door2 = {
     doorOpen: true,
     isAttacked: false,
     id: 2,
-}
+};
 let door3 = {
     doorOpen: true,
     isAttacked: false,
     id: 3,
-}
-
+};
 const doorsHolder = [door1, door2, door3];
 
-
+/**
+ * DoorButton is an extension of the Button class but it requires a button object when created
+ */
 class DoorButton extends Button {
-
     constructor(x, y, width, length, door) {
         super(x, y, width, length);
         this.door = door;
         this.notify = () => { doorButton(this.door) };
     }
-
-
 }
 
 const officeButtons = [
@@ -71,62 +106,85 @@ const officeButtons = [
 ];
 
 
+//Buttons for when switching from Hallway to Terminal view
 const changeToOfficeButton = new Button(180, 10, 300, 60,
     () => {
         fnafChangeState("look_up");
     }
 );
-
 const changeToTerminalButton = new Button(180, 400, 300, 60,
     () => {
         fnafChangeState("look_down");
     }
 );
 
+/**MAIN LOGIC*/
 
-
-
-
-let transitionCounter = 0;
-
+/**
+ * This looks like a big function, but its pretty simple. Draw according to the state the game is currently in.
+ */
 function fnafDraw() {
     switch (fnafState) {
+
+        //TERMINAL
         case ('terminal'):
+
+            //Call the attackTimer logic controller
             attackTimer();
+
+            //Draw the terminal
             push();
             fnafTerminal.drawTerminal();
             pop();
+
+            //Draw the change perspective button
             push();
             fill(255, 255, 255, 100);
             const col = changeToOfficeButton.col
             rect(col.x, col.y, col.width, col.height);
             pop();
+
             break;
+
+        //HALLWAY/OFFICE
         case ('hallway'):
+
+            //Call the attackTimer logic controller
             attackTimer();
+
+            //Draw a background to hide seams
             image(fnafBackground, 0, 0);
 
+            //Loop through the doors and draw their corresponding images
             for (i = 0; i < officeButtons.length; i++) {
                 push();
                 image(drawDoor(officeButtons[i].door), 0, 0);
-                const col = officeButtons[i].col
-
                 pop();
             }
 
+            //Draw the change perspective button
             push();
             fill(255, 255, 255, 100);
             const col2 = changeToTerminalButton.col
             rect(col2.x, col2.y, col2.width, col2.height);
             pop();
 
-
             break;
+
+        //DEAD/WIN - Draw the terminal with no logic.
         case 'dead':
             push();
             fnafTerminal.drawTerminal();
             pop();
             break;
+
+        case 'win':
+            push();
+            fnafTerminal.drawTerminal();
+            pop();
+            break;
+
+        //START - Draw the terminal with no logic. Draw the change perspective button.
         case 'start':
             push();
             fnafTerminal.drawTerminal();
@@ -137,6 +195,8 @@ function fnafDraw() {
             rect(coli.x, coli.y, coli.width, coli.height);
             pop();
             break;
+
+        //LOOK UP/DOWN - Check if still transitioning, if so keep transitioning. If not, change state
         case 'look_up':
             transitionCounter++;
             if (transitionCounter >= 3) {
@@ -144,6 +204,7 @@ function fnafDraw() {
             }
             image(look_up, 0, 0);
             break;
+
         case 'look_down':
             transitionCounter++;
             if (transitionCounter >= 3) {
@@ -151,19 +212,12 @@ function fnafDraw() {
             }
             image(look_down, 0, 0);
             break;
-        case 'win':
-            push();
-            fnafTerminal.drawTerminal();
-            pop();
-            break;
-
-
     }
-
-
-
 }
 
+/**
+ * This function resets the OFFICE game. First sets the state to start. Then prints a starting message. Then resets monster AI. Then resets the maze logic to match OFFICE game.
+ */
 function fnafStart() {
     fnafChangeState('start');
     fnafTerminal.reset();
@@ -178,15 +232,19 @@ function fnafStart() {
 
 }
 
+/**
+ * When Mouse clicked, check what state currently in. Then check if any of the buttons currently active in that sate have been clicked.
+ */
 function fnafMouseCheck() {
-
     switch (fnafState) {
         case 'start':
-
             changeToOfficeButton.checkMouseCollision();
+            break;
+
         case 'terminal':
             changeToOfficeButton.checkMouseCollision();
             break;
+
         case 'hallway':
             changeToTerminalButton.checkMouseCollision();
             for (i = 0; i < officeButtons.length; i++) {
@@ -194,9 +252,11 @@ function fnafMouseCheck() {
             }
             break;
     }
-
 }
 
+/**
+ * When is pressed, pass it on to the terminal if the correct state
+ */
 function fnafKeyCheck() {
     switch (fnafState) {
         case 'start':
@@ -214,47 +274,66 @@ function fnafKeyCheck() {
 
 }
 
+/**
+ * This function is called when ever the OFFICE game state needs to change. 
+ * This makes sure the state is change correctly and start and end state functions can be called.
+ */
+function fnafChangeState(newState) {
+    if (newState != fnafState) {
+        fnafEndState();
+        fnafState = newState;
+        fnafStartState();
+    }
+}
+
+/**
+ * Calls end state functions for corresponding states
+ */
 function fnafEndState() {
     switch (fnafState) {
-        case 'terminal':
-            break;
-        case 'hallway':
-            break;
+
+        //Reset transition timer and stop current transition gif
         case 'look_up':
             transitionCounter = 0;
             look_up.pause();
-            //look_up.reset();
             break;
         case 'look_down':
             transitionCounter = 0;
             look_down.pause();
-            //look_down.reset();
             break;
+
+        //Clear the terminal and print helpful command
         case 'start':
             fnafTerminal.reset();
             fnafTerminal.print("Use the HELP command");
+            break;
     }
 
 }
 
+/**
+ * Calls start state functions for corresponding states
+ */
 function fnafStartState() {
     switch (fnafState) {
-        case 'terminal':
-            break;
-        case 'hallway':
-            break;
+
+        //Start transition gifs
         case 'look_up':
             look_up.play();
             break;
         case 'look_down':
             look_down.play();
             break;
+
+        //Clear terminal and write death message
         case 'dead':
             fnafTerminal.reset();
             fnafTerminal.print("You died ;-;");
             fnafTerminal.print("Type RESET to retry");
             fnafTerminal.drawTerminal();
             break;
+
+        //Clear terminal and write win message
         case 'win':
             fnafTerminal.reset();
             for (i = 0; i <= 45; i++) {
@@ -268,16 +347,12 @@ function fnafStartState() {
 
 }
 
-function fnafChangeState(newState) {
-    if (newState != fnafState) {
-        console.log("End FNAF State: " + fnafState);
-        console.log("Start FNAF State: " + newState);
-        fnafEndState();
-        fnafState = newState;
-        fnafStartState();
-    }
-}
 
+/**INTERACTION / AI LOGIC*/
+
+/**
+ * When door button is pressed, change the door to its opposite state. If the door was getting attacked, reset the attack.
+ */
 function doorButton(door) {
     door.doorOpen = !door.doorOpen;
     if (door.isAttacked) {
@@ -286,33 +361,9 @@ function doorButton(door) {
     }
 }
 
-
-
-let waitTime = {
-    low: 5,
-    high: 10,
-    time: 5
-};
-let waiting = true;
-let currentFrame = 0;
-let attackTime = 5;
-let currentDoor;
-
-function attackTimer() {
-    currentFrame += 0.0166667;
-    // console.log(currentFrame);
-    if (waiting && (currentFrame >= waitTime.time) && fnafState === 'terminal') {
-        waiting = false;
-        currentFrame = 0;
-        currentDoor.isAttacked = true;
-        console.log(currentDoor);
-    }
-    else if (!waiting && currentFrame >= attackTime) {
-        checkAttackSuccessful();
-    }
-
-}
-
+/**
+ * Pick a door to attack. Then, determine how long to wait before attacking. Reset the timer and begin waiting.
+ */
 function resetAttack() {
     const randomElement = doorsHolder[Math.floor(Math.random() * doorsHolder.length)];
     currentDoor = randomElement;
@@ -321,6 +372,32 @@ function resetAttack() {
     waiting = true;
 }
 
+/**
+ * Increase timer. 
+ * 
+ * Then see if the monster is waiting. If it is and the current timer is longer then the wait time, attack the door that the monster had selected.
+ * 
+ * If the monster is already at a door and has been attacking for too long, check if the monster has succesfully killed the player.
+ *
+ */
+function attackTimer() {
+    currentFrame += 0.0166667;
+    if (waiting && (currentFrame >= waitTime.time) && fnafState === 'terminal') {
+        waiting = false;
+        currentFrame = 0;
+        currentDoor.isAttacked = true;
+        console.log(currentDoor.id);
+    }
+    else if (!waiting && currentFrame >= attackTime) {
+        checkAttackSuccessful();
+    }
+
+}
+
+
+/**
+ * If the door currently being attacked is open, kill the player. Else, reset the attack.
+ */
 function checkAttackSuccessful() {
     if (currentDoor.doorOpen) {
         console.log("you died");
@@ -333,10 +410,11 @@ function checkAttackSuccessful() {
     }
 }
 
+
+/**
+ * Based on the door location and state, return the image corresponding.
+ */
 function drawDoor(door) {
-    //let currentImage = mid_closed;
-
-
     switch (door.id) {
         case 1:
             if (door.doorOpen === false) {
@@ -372,5 +450,4 @@ function drawDoor(door) {
             }
             break;
     }
-
 }

@@ -124,7 +124,6 @@ function changeState(newState) {
  * Calls end state functions for corresponding states.
  */
 function endState() {
-    console.log("End: " + state);
     switch (state) {
         //When switching out of the rythym game, we stop the rythym song.
         case 'rythym':
@@ -137,7 +136,6 @@ function endState() {
  * Calls start state functions for corresponding states.
  */
 function startState() {
-    console.log("Start: " + state);
     switch (state) {
         //All the states have a unique start function to keep things readable
         case 'menu':

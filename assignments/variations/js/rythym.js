@@ -1,13 +1,11 @@
 /**
- * RYTHYM GAME TERMINAL
+ * RYTHYM GAME SCRIPT
  * by: Jeremy Dumont
  * 
  * This is an extension of the MAZE game. When typing, you must match your timing to the beat of the song. If the beat is missed, the key won't register.
  */
 
 /**
- * Main Rythym Terminal Object:
- * 
  * This terminal holds a minimal amount of commands all connected to the maze logic script. You can go back to the menu or reset. Theres also a secret 'win' command if you complete the maze.
  */
 const rythymTerminal = new Terminal(
